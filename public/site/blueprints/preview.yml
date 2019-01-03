@@ -1,0 +1,24 @@
+title: Preview
+pages:
+  template: item
+  hide: true
+files: false
+
+fields:
+  title:
+    label: Title
+    type:  text
+  text:
+    label: Text
+    type:  textarea
+  sortable:
+    label: Videos
+    type: variants
+    sortable: true
+    layout: base
+    variant: true
+    limit: false
+    parent: null
+    prefix: null
+    options:
+      limit: false
