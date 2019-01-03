@@ -17,7 +17,6 @@ var views = {
 }
 
 ov(data.children).map(function (page) {
-  console.log(page)
   app.route('/' + page.id, (state, emit) => views[page.intendedTemplate](state, emit))
 })
 
