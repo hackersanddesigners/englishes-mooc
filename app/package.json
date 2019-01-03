@@ -1,0 +1,45 @@
+{
+  "name": "englishes-mooc",
+  "version": "1.0.0",
+  "description": "temporary landing page",
+  "main": "index.js",
+  "scripts": {
+    "start": "watchify index.js -o ../public/assets/js/bundle.js --debug --verbose -t sheetify -p [ css-extract -o ../public/assets/css/bundle.css ] index.js",
+    "build": "browserify index.js -o ../public/assets/js/bundle.js -t yo-yoify -t  [ sheetify -u sheetify-cssnext ] -g es2040 -p [ css-extract -o ../public/assets/css/bundle.css ] -p tinyify"
+  },
+  "author": "André Fincato",
+  "license": "ISC",
+  "browserify": {
+    "transform": [
+      "./node_modules/hypha/transform.js"
+    ]
+  },
+  "sheetify": {
+    "transform": [
+      [
+        "sheetify-cssnext",
+        {
+          "sourcemap": false
+        }
+      ]
+    ]
+  },
+  "devDependencies": {
+    "bankai": "^9.11.1",
+    "browserify": "^16.2.3",
+    "choo-devtools": "^2.5.1",
+    "css-extract": "^1.3.0",
+    "es2040": "^1.2.6",
+    "sheetify": "^7.3.3",
+    "sheetify-cssnext": "^2.0.0",
+    "tinyify": "^2.5.0",
+    "watchify": "^3.11.0",
+    "yo-yoify": "^4.3.0"
+  },
+  "dependencies": {
+    "choo": "^6.13.1",
+    "markdown-it": "^8.4.2",
+    "object-keys": "^1.0.12",
+    "object-values": "^2.0.0"
+  }
+}
