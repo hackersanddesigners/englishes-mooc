@@ -11,7 +11,7 @@ app.use(devtools())
 app.use(require('./stores/click'))
 
 var views = {
-  about: require("./views/about"),
+  home: require("./views/main"),
   error: require("./views/notfound")
 }
 

@@ -9,11 +9,6 @@
   },
   "author": "André Fincato",
   "license": "ISC",
-  "browserify": {
-    "transform": [
-      "./node_modules/hypha/transform.js"
-    ]
-  },
   "sheetify": {
     "transform": [
       [
@@ -38,8 +33,10 @@
   },
   "dependencies": {
     "choo": "^6.13.1",
+    "gr8": "^3.1.5",
     "markdown-it": "^8.4.2",
     "object-keys": "^1.0.12",
-    "object-values": "^2.0.0"
+    "object-values": "^2.0.0",
+    "recsst": "^1.1.2"
   }
 }
