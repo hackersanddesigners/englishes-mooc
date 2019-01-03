@@ -17,9 +17,7 @@ function view (state, emit) {
 
       <div class="pn ${state.toggle ? "dn" : "db mr0-5 ml0-5 sh-a"} mhv-bx os psf t0 mt2 r0 md-mr2 z1 p1 bgc-wh sm-w60 md-w40">
         <h1 class="ft-bd fs1">${data.content.title}</h1>
-        <h2 class="ft-bd fs1 ft-mn">${raw(md.render(page[0].content.author))}</h2>
         <div class="copy-w pb1">${raw(md.render(page[0].content.text))}</div>
-        ${raw(md.render(page[0].content.info))}
       </div>
     </body>
   `
