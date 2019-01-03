@@ -10,7 +10,13 @@ fields:
     type:  text
   text:
     label: Text
-    type:  textarea
+    type:  simplemde
+    buttons:
+      - h2
+      - italic
+      - bold
+      - link
+      - quote
   sortable:
     label: Videos
     type: variants

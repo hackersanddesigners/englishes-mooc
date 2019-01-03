@@ -6,12 +6,6 @@ fields:
   title:
     label: Title
     type:  text
-  author:
-    label: Intro
-    type:  textarea
   text:
     label: Text
-    type:  textarea
-  info:
-    label: Info
-    type: textarea
+    type:  simplemde

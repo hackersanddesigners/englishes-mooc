@@ -10,4 +10,4 @@ fields:
     type: url
   text:
     label: Text
-    type: textarea
+    type:  simplemde 
