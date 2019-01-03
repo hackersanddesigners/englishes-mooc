@@ -6,11 +6,12 @@ fields:
   title:
     label: Title
     type:  text
-
-  intro:
+  author:
     label: Intro
-    type:  textarea
-
+    type:  text
   text:
     label: Text
     type:  textarea
+  info:
+    label: Info
+    type: textarea

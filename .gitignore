@@ -1,37 +1,20 @@
-# System files
-# ------------
-
 Icon
 .DS_Store
 
-# Temporary files
-# ---------------
+public/thumbs/*
+public!/thumbs/index.html
 
-/thumbs/*
-!/thumbs/index.html
+public/site/cache/*
+public!/site/cache/index.html
 
-/site/cache/*
-!/site/cache/index.html
+public/site/accounts/*
+public!/site/accounts/index.html
 
-# -------------SECURITY-------------
-# NEVER publish these files via Git!
-# -------------SECURITY-------------
+public/content
 
-# Kirby accounts
-# ---------------
-
-/site/accounts/*
-!/site/accounts/index.html
-
-# Avatars
-# ---------------
-
-/assets/avatars/*
-!/assets/avatars/index.html
-
-/assets/fonts/
-/assets/css/
-/assets/js/
+public/assets/fonts/
+public/assets/css/
+public/assets/js/
 
 #---
 /app/node_modules
