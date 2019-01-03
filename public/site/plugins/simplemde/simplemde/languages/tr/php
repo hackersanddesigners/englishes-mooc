@@ -1,0 +1,21 @@
+<?php
+return [
+  // Toolbar buttons
+  'button.h1'              => 'Başlık 1',
+  'button.h2'              => 'Başlık 2',
+  'button.h3'              => 'Başlık 3',
+  'button.bold'            => 'Kalın',
+  'button.italic'          => 'Eğik',
+  'button.unordered-list'  => 'Liste',
+  'button.ordered-list'    => 'Sıralı liste',
+  'button.quote'           => 'Alıntı',
+  'button.horizontal-rule' => 'Ayrım çizgisi',
+  'button.link'            => 'Bağlantı',
+  'button.page'            => 'Sayfa',
+  'button.email'           => 'E-posta',
+  
+  // Pagelink
+  'pagelink.placeholder'   => 'Sayfayı ara',
+  'pagelink.no-results'   => 'Sayfa bulunamadı',
+  
+];
