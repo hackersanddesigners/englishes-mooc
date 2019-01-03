@@ -1,6 +1,6 @@
 title: Home
-
 pages: false
+files: false
 
 fields:
   title:
@@ -8,7 +8,7 @@ fields:
     type:  text
   author:
     label: Intro
-    type:  text
+    type:  textarea
   text:
     label: Text
     type:  textarea
