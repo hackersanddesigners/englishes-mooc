@@ -2,15 +2,15 @@ Icon
 .DS_Store
 
 public/thumbs/*
-public!/thumbs/index.html
+public/thumbs/index.html
 
 public/site/cache/*
-public!/site/cache/index.html
+public/site/cache/index.html
 
 public/site/accounts/*
-public!/site/accounts/index.html
+public/site/accounts/index.html
 
-public/content
+public/content/
 
 public/assets/fonts/
 public/assets/css/
