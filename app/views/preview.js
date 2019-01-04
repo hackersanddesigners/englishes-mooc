@@ -13,12 +13,12 @@ function view (state, emit) {
 
   return html`
     <body>
-      <div class="w100 vh100 x xdc bg-xdr xjb copy copy-tdbk bl-gr br-bl bg-bl-n bg-br-n">
-        <section class="w100 pt2 pb2 pr2 pl2 bg-bb-n bg-bl-gr bg-br-rd">
+      <div class="w100 bg-oh x xdc bg-xdr xjb copy copy-tdbk bl-gr br-bl bg-bl-n bg-br-n">
+        <section class="w100 bg-vh100 bg-os pt2 pb2 pr2 pl2 bg-bb-n bg-bl-gr bg-br-rd">
           <h1 class="fs1-3 fw-r ft-mn pt1 pb2 pl1">${ page[0].content.title }</h1>
-          <div class="copy">${ raw(md.render(page[0].content.text)) }</div>
+          <div class="copy pb2">${ raw(md.render(page[0].content.text)) }</div>
         </section>
-        <section class="w100 pt2 pb2 os bg-bt-n bg-bl-rd bg-br-bl">
+        <section class="w100 bg-vh100 bg-os pt2 pb2 bg-bt-n bg-bl-rd bg-br-bl">
           ${ items() }
         </section>
       </div>

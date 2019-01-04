@@ -14,7 +14,6 @@ var basic = gr8({
     lg: 1024
   },
   breakpointSelector: 'class',
-  exclude: ['spacing', 'size', 'textColumn']
 })
 
 var size = {
@@ -22,7 +21,7 @@ var size = {
     { w: 'width' }
   ],
   vals: [50, 90, 100],
-  unit: '%'
+  unit: ['%', 'vw', 'vh']
 }
 
 var border = {
