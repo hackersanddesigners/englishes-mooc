@@ -1,0 +1,11 @@
+title: Item
+
+fields:
+  video_url:
+    label: Video URL
+    type: url
+    width: 1/2
+  text:
+    label: Text
+    type: textarea 
+    width: 1/2

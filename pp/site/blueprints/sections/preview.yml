@@ -1,0 +1,7 @@
+type: pages
+headline: Preview
+parent: site.find("hkw")
+info: "{{ page.title }}"
+template: item
+empty: No items yet
+sortBy: title desc

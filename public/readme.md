@@ -1,4 +1,4 @@
-# Kirby
+# Kirby Starterkit
 
 Kirby is a file-based CMS.
 Easy to setup. Easy to use. Flexible as hell.
@@ -23,9 +23,6 @@ Kirby's Starterkit comes with a small demo website and a fully
 configured panel. Feel free to modify it and play with it as
 much as you like.
 
-There's also the [Langkit](https://github.com/getkirby/langkit.git)
-in case you need a multi-language installation.
-
 ## The Panel
 
 You can find the login for Kirby's admin interface at
@@ -44,7 +41,7 @@ copied to your server correctly**
 
 ### Requirements
 
-Kirby runs on PHP 5.4+, Apache or Nginx.
+Kirby runs on PHP 7.1+, Apache or Nginx.
 
 ### Download
 
@@ -62,17 +59,18 @@ Starterkit repository from Github.
 
 <https://getkirby.com/docs>
 
-## Issues and feedback
+## Issues
 
 If you have a Github account, please report issues
-directly on Github:
-
-- <https://github.com/getkirby/kirby/issues>
-- <https://github.com/getkirby/panel/issues>
-- <https://github.com/getkirby/starterkit/issues>
+directly on Github: <https://github.com/getkirby/kirby/issues>
 
 Otherwise you can use Kirby's forum: https://forum.getkirby.com
 or send us an email: <support@getkirby.com>
+
+## Ideas & Feature Requests
+
+If you have ideas for new features, please submit a ticket in our ideas repository:
+<https://github.com/getkirby/kirby/ideas>
 
 ## Support
 
@@ -80,5 +78,5 @@ or send us an email: <support@getkirby.com>
 
 ## Copyright
 
-© 2009-2016 Bastian Allgeier (Bastian Allgeier GmbH)
-<http://getkirby.com>
+© 2009-2019 Bastian Allgeier (Bastian Allgeier GmbH)
+<https://getkirby.com>

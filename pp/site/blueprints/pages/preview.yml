@@ -1,0 +1,21 @@
+title: Preview
+
+columns:
+  - width: 1/2
+    sections:
+      drafts:
+        extends: sections/preview
+        headline: Drafts
+        status: draft
+  - width: 1/2
+    sections:
+      listed:
+        extends: sections/preview
+        headline: Published
+        status: listed
+
+  - width: 1/1
+    fields:
+      text:
+        label: Text
+        type:  textarea

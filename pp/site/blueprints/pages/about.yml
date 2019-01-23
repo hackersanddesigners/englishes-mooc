@@ -1,0 +1,11 @@
+title: About
+
+fields:
+  text:
+    label: Text
+    type:  textarea
+    width: 2/3
+  image:
+    label: Image
+    type: files
+    width: 1/3

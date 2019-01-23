@@ -9,7 +9,9 @@ module.exports = view
 function view (state, emit) {
   emit(state.events.DOMTITLECHANGE, state.title)
 
-  const page = data.children.filter(page => page.intendedTemplate === 'home')
+  console.log(data.children)
+
+  const page = data.children.filter(page => page.template === 'home')
 
   return html`
     <body style="background: url(${page[0].files[0].url}); background-size: cover" class="vh100 bgpc bgrn">
