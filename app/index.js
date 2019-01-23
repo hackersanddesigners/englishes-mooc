@@ -4,6 +4,7 @@ var devtools = require('choo-devtools')
 var ov = require('object-values')
 var css = require('sheetify')
 css('./design/index.js')
+css('./design/design.css')
 
 var app = choo()
 app.use(devtools())
@@ -13,6 +14,7 @@ app.use(require('./stores/click'))
 var views = {
   about: require("./views/main"),
   hkw: require("./views/preview"),
+  signup: require("./views/signup"),
   error: require("./views/notfound")
 }
 

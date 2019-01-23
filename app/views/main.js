@@ -10,7 +10,6 @@ function view (state, emit) {
   emit(state.events.DOMTITLECHANGE, state.title)
 
   const page = ov(data.children).filter(page => page.uid === 'about')
-  console.log(page)
 
   return html`
     <body style="background: url(${ov(page[0].files)[0].url}); background-size: cover" class="vh100 bgpc bgrn">

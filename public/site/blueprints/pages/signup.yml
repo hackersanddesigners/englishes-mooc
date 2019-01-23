@@ -1,0 +1,31 @@
+title: Sign Up
+
+columns:
+  - width: 1/2
+    fields:
+      text:
+        label: Text
+        type: textarea
+      name:
+        label: Name
+        type: text
+      email:
+        label: Email
+        type: text
+      email2t:
+        label: Email (confirm)
+        type: text
+      info:
+        label: Info
+        type: text
+
+  - width: 1/2
+    sections:
+      images:
+        type: files
+        layout: cards
+        template: image
+        image:
+          cover: true
+        min: 1
+        size: small

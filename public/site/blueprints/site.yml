@@ -8,9 +8,8 @@ columns:
     sections:
       pages:
         type: pages
-        create: default
-        status: published
         templates:
           - about
           - error
           - preview
+          - signup
