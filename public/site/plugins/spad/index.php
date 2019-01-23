@@ -10,6 +10,10 @@ $spad = function () {
       return $page;
     });
 
+    // missing:
+    // - status
+    // - template
+
     $tree = [];
     if ($parent->id()) {
       $tree = array_merge($tree, $parent->toArray());
