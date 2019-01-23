@@ -9,12 +9,11 @@ module.exports = view
 function view (state, emit) {
   emit(state.events.DOMTITLECHANGE, state.title)
 
-  console.log(data.children)
-
-  const page = data.children.filter(page => page.template === 'home')
+  const page = ov(data.children).filter(page => page.uid === 'about')
+  console.log(page)
 
   return html`
-    <body style="background: url(${page[0].files[0].url}); background-size: cover" class="vh100 bgpc bgrn">
+    <body style="background: url(${ov(page[0].files)[0].url}); background-size: cover" class="vh100 bgpc bgrn">
       <button class="psf mt2 ${state.toggle ? "mw-bt t0 l50 ttxc md-ttx0 md-r0 md-mgr2 md-la sh-a" : "t0 r0 mr1 md-mr2"} z2 ft-mn py0-25 px0-5 bgc-wh curp" onclick=${toggle}>${state.toggle ? "About Englishes MOOC" : "x"}</button>
 
       <div class="pn ${state.toggle ? "dn" : "db mr0-5 ml0-5 sh-a"} mhv-bx os psf t0 mt2 r0 md-mr2 z1 p1 bgc-wh sm-w60 md-w40">

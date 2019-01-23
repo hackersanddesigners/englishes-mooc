@@ -4,8 +4,8 @@
   "description": "temporary landing page",
   "main": "index.js",
   "scripts": {
-    "start": "watchify index.js -o ../pp/assets/js/bundle.js --debug --verbose -t sheetify -p [ css-extract -o ../pp/assets/css/bundle.css ] index.js",
-    "build": "browserify index.js -o ../pp/assets/js/bundle.js -t yo-yoify -t  [ sheetify -u sheetify-cssnext ] -g es2040 -p [ css-extract -o ../pp/assets/css/bundle.css ] -p tinyify"
+    "start": "watchify index.js -o ../public/assets/js/bundle.js --debug --verbose -t sheetify -p [ css-extract -o ../public/assets/css/bundle.css ] index.js",
+    "build": "browserify index.js -o ../public/assets/js/bundle.js -t yo-yoify -t  [ sheetify -u sheetify-cssnext ] -g es2040 -p [ css-extract -o ../public/assets/css/bundle.css ] -p tinyify"
   },
   "author": "André Fincato",
   "license": "ISC",

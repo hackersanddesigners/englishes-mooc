@@ -9,7 +9,7 @@ module.exports = view
 function view (state, emit) {
   emit(state.events.DOMTITLECHANGE, state.title)
 
-  const page = data.children.filter(page => page.intendedTemplate === 'preview')
+  const page = ov(data.children).filter(page => page.uid === 'hkw')
 
   return html`
     <body>
@@ -26,7 +26,7 @@ function view (state, emit) {
   `
 
   function items () {
-    return page[0].children.map(function (item) {
+    return ov(page[0].children).map(function (item) {
 
       // prepare correct vimeo url embed
       // from simple vimeo url like https://vimeo.com/308769495
@@ -53,9 +53,10 @@ function view (state, emit) {
       `
 
       function attachment () {
-        if (item.files[0] !== undefined) {
+        const files = ov(item.files)
+        if (files[0] !== undefined) {
           return html`
-            <a href="${ item.files[0].url }">Read as text</a>
+            <a href="${ files[0].url }">Read as text</a>
           `
         }
       }

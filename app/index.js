@@ -11,13 +11,13 @@ app.use(devtools())
 app.use(require('./stores/click'))
 
 var views = {
-  home: require("./views/main"),
-  preview: require("./views/preview"),
+  about: require("./views/main"),
+  hkw: require("./views/preview"),
   error: require("./views/notfound")
 }
 
 ov(data.children).map(function (page) {
-  app.route('/' + page.id, (state, emit) => views[page.intendedTemplate](state, emit))
+  app.route('/' + page.id, (state, emit) => views[page.uid](state, emit))
 })
 
 app.route('/', require('./views/main'))
