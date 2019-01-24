@@ -7,7 +7,7 @@ var md = new Markdown()
 module.exports = view
 
 function view (state, emit) {
-  emit(state.events.DOMTITLECHANGE, state.title)
+  emit(state.events.DOMTITLECHANGE, data.content.title)
 
   const page = ov(data.children).filter(page => page.uid === 'about')
 

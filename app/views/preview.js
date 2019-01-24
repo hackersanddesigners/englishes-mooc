@@ -7,13 +7,14 @@ var md = new Markdown()
 module.exports = view
 
 function view (state, emit) {
-  emit(state.events.DOMTITLECHANGE, state.title)
-
   const page = ov(data.children).filter(page => page.uid === 'hkw')
+  const title = data.content.title + ' / ' + page[0].content.title 
+
+  emit(state.events.DOMTITLECHANGE, title)
 
   return html`
     <body>
-      <div class="w100 bg-oh x xdc bg-xdr xjb copy copy-tdbk bl-gr br-bldb bg-bl-n bg-br-n">
+      <main class="w100 bg-oh x xdc bg-xdr xjb copy copy-tdbk bl-gr br-bldb bg-bl-n bg-br-n">
         <section class="w100 bg-vh100 bg-os pt2 pb2 pr2 pl2 bg-bb-n bg-bl-gr bg-br-rd">
           <h1 class="fs1-3 fw-r ft-mn pt1 pb2 pl1">${ page[0].content.title }</h1>
           <div class="copy pb2">${ raw(md.render(page[0].content.text)) }</div>
@@ -21,7 +22,7 @@ function view (state, emit) {
         <section class="w100 bg-vh100 bg-os pt2 pb2 bg-bt-n bg-bl-rd bg-br-bldb">
           ${ items() }
         </section>
-      </div>
+      </main>
     </body>
   `
 

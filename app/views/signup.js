@@ -78,6 +78,11 @@ function view (state, emit) {
         uri: '/apisignup',
         headers: {
           "Content-Type": "application/json"
+        },
+        beforeSend: function(xhrObject){
+          xhrObject.onprogress = function(){
+            console.log('sending')
+          }
         }
       }, function (err, resp, body) {
         if (err) throw err
