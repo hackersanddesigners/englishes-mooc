@@ -31,7 +31,8 @@ var border = {
   prop: ['border', 'border-top', 'border-right', 'border-bottom', 'border-left'],
   vals: [
     {n: 'none'},
-    {gr: '6px solid #0D8F5C'},
+    {gr: '3px solid #0D8F5C'},
+    {grdb: '6px solid #0D8F5C'},
     {rd: '3px solid #D8252A'},
     {bl: '3px solid #3865A1'},
     {bldb: '6px solid #3865A1'}

@@ -8,14 +8,15 @@ var xhr = require('xhr')
 module.exports = view
 
 function view (state, emit) {
-  emit(state.events.DOMTITLECHANGE, state.title)
-
   const page = ov(data.children).filter(page => page.uid === 'signup')
+  const title = data.content.title + ' / ' + page[0].content.title 
+
+  emit(state.events.DOMTITLECHANGE, title)
 
   return html`
     <body class="vh100">
-      <main class="x xdc bg-xdr">
-        <section class="pt2 pb2 pr2 pl2 w-100 bg-w-50">
+      <main class="x xdc bg-xdr bl-grdb br-bldb bg-bl-n bg-br-n">
+        <section class="w-100 bg-w-50 bg-vh100 bg-os pt2 pb2 pr2 pl2 bg-bb-n bg-bl-grdb bg-br-rd">
           <h1 class="ft-bd fs1-3">${ page[0].content.title }</h1>
           <div class="fs1-3">${ raw(md.render(page[0].content.text)) }</div>
 
@@ -51,7 +52,7 @@ function view (state, emit) {
             </div>
           </form>
         </section>
-        <section style="background: url(${ov(page[0].files)[0].url}); background-size: cover" class="w-100 bg-w-50 vh50 bg-vh100 bgpc bgrn"></section>
+        <section style="background: url(${ov(page[0].files)[0].url}); background-size: cover" class="w-100 bg-w-50 vh50 bg-vh100 bgpc bgrn bg-bt-n bg-bl-rd bg-br-bldb"></section>
     </body>
   `
 
