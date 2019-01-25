@@ -51,6 +51,10 @@ function view (state, emit) {
 
             <input type="submit" value="Send" class="send fs1-3 bb-rd curp">
 
+            <div class="dn error-box pt2">
+              <p></p>
+            </div>
+
             <div class="psf t0 l999">
               <label for="message">If you are not a bot, leave this field empty</label>
               <input type="website" name="website" id="website" placeholder ="http://example.com" value="">
@@ -76,21 +80,18 @@ function view (state, emit) {
     var body = {}
     for (var pair of data.entries()) body[pair[0]] = pair[1]
 
-    console.log(body)
+    const email = body.email
 
     if (body.website !== '') {
       bot.classList.remove('dn')
     } else if (body.email === '') {
       form.childNodes[0].childNodes[0].value="Type email adddress"
     } else {
-      body = JSON.stringify(body)
       xhr({
         method: "post",
         body: body,
         uri: '/apisignup',
-        headers: {
-          "Content-Type": "application/json"
-        },
+        json: true,
         beforeSend: function(xhrObject){
           xhrObject.onprogress = function(){
             send.value = '...'
@@ -99,7 +100,15 @@ function view (state, emit) {
       }, function (err, resp, body) {
         if (err) throw err
         console.log('request ok!', body)
-        send.value = 'Sent!'
+        if (body.title === "Member Exists") {
+          const box = form.querySelector('.error-box')
+          box.classList.remove('dn')
+
+          const msg = 'The address ' + email + ' is already in use. Please contact us.'
+          box.firstChild.innerHTML = msg
+        } else {
+          send.value = 'Sent!'
+        }
       })
     }
 
