@@ -120,8 +120,17 @@ button {
 :-webkit-autofill,
 :-webkit-autofill:hover, 
 :-webkit-autofill:focus {
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: black;
   transition: background-color 5000s ease-in-out 0s;
+}
+
+input[type=checkbox] {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -o-appearance: none;
+  outline: 1px solid var(--c-bk);
+  width: 0.75rem;
+  height: 0.75rem;
 }
 
 .copy-w {
