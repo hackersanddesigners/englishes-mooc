@@ -49,7 +49,7 @@ function view (state, emit) {
               </div>
             </div>
 
-            <input type="submit" value="Send" class="fs1-3 bb-rd curp">
+            <input type="submit" value="Send" class="send fs1-3 bb-rd curp">
 
             <div class="psf t0 l999">
               <label for="message">If you are not a bot, leave this field empty</label>
@@ -70,6 +70,7 @@ function view (state, emit) {
     var form = e.currentTarget
     var data = new FormData(form)
     var bot = document.querySelector('.bot')
+    var send = form.querySelector('.send')
 
     var headers = new Headers({ 'Content-Type': 'application/json' })
     var body = {}
@@ -92,12 +93,13 @@ function view (state, emit) {
         },
         beforeSend: function(xhrObject){
           xhrObject.onprogress = function(){
-            console.log('sending')
+            send.value = '...'
           }
         }
       }, function (err, resp, body) {
         if (err) throw err
         console.log('request ok!', body)
+        send.value = 'Sent!'
       })
     }
 
