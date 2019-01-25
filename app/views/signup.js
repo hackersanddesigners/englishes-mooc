@@ -10,17 +10,18 @@ module.exports = view
 function view (state, emit) {
   const page = ov(data.children).filter(page => page.uid === 'signup')
   const title = data.content.title + ' / ' + page[0].content.title 
+  const bgimg = ov(page[0].files).filter(file => file.type === 'image')
 
   emit(state.events.DOMTITLECHANGE, title)
 
   return html`
-    <body class="vh100">
-      <main class="x xdc bg-xdr bl-grdb br-bldb bg-bl-n bg-br-n">
-        <section class="w-100 bg-w-50 bg-vh100 bg-os pt2 pb2 pr2 pl2 bg-bb-n bg-bl-grdb bg-br-rd">
+    <body class="bg-oh">
+      <main class="w100 x xdc bg-xdr bl-grdb br-bldb bg-bl-n bg-br-n">
+        <section class="w100 bg-w-50 bg-vh100 bg-os pt2 pb2 pr2 pl2 bg-bb-n bg-bl-grdb bg-br-rd">
           <h1 class="ft-bd fs1-3">${ page[0].content.title }</h1>
           <div class="fs1-3">${ raw(md.render(page[0].content.text)) }</div>
 
-          <form id="signup" onsubmit=${ onsubmit } method="post">
+          <form id="signup" onsubmit=${ onsubmit } method="post" class="pb2">
             <div class="fw-r fs1 lh1 pt2 pb2">
               <div class="pb0-5">
                 <label class="dib w-50 ft-mn">${ page[0].content.name }*</label>
@@ -37,8 +38,15 @@ function view (state, emit) {
                 <input id="email2t" name="email2t" type="email" class="dib w-50 bb-bl" required>
               </div>
 
-              <label class="dib w-50 ft-mn">${ page[0].content.info }</label>
-              <input id="info" name="info" type="text" class="dib w-50 bb-bl">
+              <div class="pb1">
+                <label class="dib w-50 ft-mn">${ page[0].content.info }</label>
+                <input id="info" name="info" type="text" class="dib w-50 bb-bl">
+              </div>
+
+              <div class="pb1">
+                <label class="dib w-50 ft-mn">${ page[0].content.pilot }</label>
+                <input id="pilot" value="1" name="pilot" type="checkbox">
+              </div>
             </div>
 
             <input type="submit" value="Send" class="fs1-3 bb-rd curp">
@@ -52,7 +60,8 @@ function view (state, emit) {
             </div>
           </form>
         </section>
-        <section style="background: url(${ov(page[0].files)[0].url}); background-size: cover" class="w-100 bg-w-50 vh50 bg-vh100 bgpc bgrn bg-bt-n bg-bl-rd bg-br-bldb"></section>
+        <section style="background: url(${bgimg[0].url}); background-size: cover" class="w100 bg-w-50 vh50 bg-vh100 bg-oh bgpc bgrn bg-bt-n bg-bl-rd bg-br-bldb"></section>
+      </main>
     </body>
   `
 
@@ -65,6 +74,8 @@ function view (state, emit) {
     var headers = new Headers({ 'Content-Type': 'application/json' })
     var body = {}
     for (var pair of data.entries()) body[pair[0]] = pair[1]
+
+    console.log(body)
 
     if (body.website !== '') {
       bot.classList.remove('dn')

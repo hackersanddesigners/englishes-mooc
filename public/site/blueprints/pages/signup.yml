@@ -1,31 +1,51 @@
 title: Sign Up
 
-columns:
-  - width: 1/2
-    fields:
-      text:
-        label: Text
-        type: textarea
-      name:
-        label: Name
-        type: text
-      email:
-        label: Email
-        type: text
-      email2t:
-        label: Email (confirm)
-        type: text
-      info:
-        label: Info
-        type: text
+tabs:
+  form:
+    label: Form
+    icon: ✉️
+    columns:
+      - width: 2/3
+        fields:
+          text:
+            label: Text
+            type: textarea
+          name:
+            label: Name
+            type: text
+          email:
+            label: Email
+            type: text
+          email2t:
+            label: Email (confirm)
+            type: text
+          info:
+            label: Info
+            type: text
+          pilot:
+            label: Pilot Box
+            type: text
+    
+      - width: 1/3
+        sections:
+          attachment:
+            type: files
+            multiple: false
+            layout: list
+          images:
+            type: files
+            layout: cards
+            template: image
+            image:
+              cover: true
 
-  - width: 1/2
-    sections:
-      images:
-        type: files
-        layout: cards
-        template: image
-        image:
-          cover: true
-        min: 1
-        size: small
+  api:
+    label: Mailchimp API keys
+    icon: 🔑
+    fields:
+      apikey:
+        label: API key
+        type: text
+      listid:
+        label: List ID
+        type: text

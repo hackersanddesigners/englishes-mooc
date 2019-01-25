@@ -1,5 +1,8 @@
 <?php
 
+use \DrewM\MailChimp\MailChimp;
+require('vendor/autoload.php');
+
 Kirby::plugin('mooc/signup', [
   'routes' => [
     [
@@ -7,22 +10,34 @@ Kirby::plugin('mooc/signup', [
       'pattern' => 'apisignup',
       'action' => function () {
         if(r::is('POST')) {
-          $data = r::data();
+          $mc_data = r::data();
 
-          $kirby = kirby();
+          // mailchimp api
+          $mc_apikey = page('signup')->apikey();
+          $mc_listid = page('signup')->listid();
 
-          try {
-            $kirby->email([
-              'from' => 'info@englishes-mooc.org',
-              'to' => $data['email'],
-              'subject' => 'Welcome!',
-              'body'=> 'It\'s great to have you with us',
-            ]);
-          } catch (Exception $error) {
-            echo $error;
-          }
+          $mc = new MailChimp($mc_apikey); 
 
-          return response::json($data);
+          $mc_fields = [ 'MMERGE1' => $mc_data['name'], 'MMERGE3' => $mc_data['info']];
+
+          if (isset($mc_data['pilot'])) {
+            $interest = ['9dac282576' => true];
+          } else {
+            $interest = ['9dac282576' => false];
+          };
+
+          // mc subscribe new user
+          $response = $mc->post('lists/' . $mc_listid . '/members', [
+            'email_address' => $mc_data['email'],
+            'merge_fields' => (object) $mc_fields,
+            'interests' => $interest,
+            'status' => 'pending',
+            'double_optin' => false,
+            'update_existing' => true,
+            'send_welcome' => false
+          ]);
+
+          return response::json($response);
         }
       }
     ]
