@@ -1,6 +1,6 @@
 type: pages
 headline: Preview
-parent: site.find("hkw")
+parent: site.index.findBy('intendedTemplate', 'preview')
 info: "{{ page.title }}"
 template: item
 empty: No items yet
