@@ -9,12 +9,28 @@ var basic = gr8({
   lineHeight: [1],
   zIndex: [1, 2],
   breakpoints: {
-    md: 540,
+    md: 600,
     bg: 800,
     lg: 1024
   },
   breakpointSelector: 'class',
 })
+
+var color = {
+  prop: {
+    bgc: 'background-color',
+    fc: 'color'
+  },
+  vals: [
+    { wh: 'var(--c-wh)' },
+    { gy: 'var(--c-gy)' },
+    { bk: '#1a1a1a' },
+    { gr: 'var(--c-gr)' },
+    { bl: 'var(--c-bl)' },
+    { rd: 'var(--c-rd)' }
+  ],
+  join: '-'
+}
 
 var size = {
   prop: [
@@ -41,7 +57,7 @@ var border = {
 }
 
 var utils = gr8({
-  utils: [size, border],
+  utils: [color, size, border],
   breakpoints: {
     md: 540,
     bg: 800,
