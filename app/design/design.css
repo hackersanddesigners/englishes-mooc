@@ -128,9 +128,14 @@ input[type=checkbox] {
   -moz-appearance: none;
   -webkit-appearance: none;
   -o-appearance: none;
+  cursor: pointer;
   outline: 1px solid var(--c-bk);
   width: 0.75rem;
   height: 0.75rem;
+}
+
+input[type=checkbox]:checked {
+  background: var(--c-bk);
 }
 
 .copy-w {
