@@ -49,10 +49,16 @@ function view (state, emit) {
               </div>
             </div>
 
-            <input type="submit" value="Send" class="send fs1-3 bb-rd curp">
+            <div class="x xafs">
+              <input type="submit" value="Send" class="send fs1-3 bb-rd curp">
 
-            <div class="dn error-box pt2">
-              <p></p>
+              <div class="dn success-box pl1">
+                <p class="dib pb0"></p>
+              </div>
+
+              <div class="dn error-box pl1">
+                <p class="dib pb0"></p>
+              </div>
             </div>
 
             <div class="psf t0 l999">
@@ -100,13 +106,25 @@ function view (state, emit) {
       }, function (err, resp, body) {
         if (err) throw err
         console.log('request ok!', body)
+
         if (body.title === "Member Exists") {
           const box = form.querySelector('.error-box')
           box.classList.remove('dn')
+          box.classList.add('dib')
 
           const msg = 'The address ' + email + ' is already in use. Please contact us.'
           box.firstChild.innerHTML = msg
-        } else {
+
+          send.value = 'Error!'
+
+        } else if (body.title === null || body.title === undefined) {
+          const box = form.querySelector('.success-box')
+          box.classList.remove('dn')
+          box.classList.add('dib')
+
+          const msg = 'Thank you, your registration has been sent.'
+          box.firstChild.innerHTML = msg
+
           send.value = 'Sent!'
         }
       })
