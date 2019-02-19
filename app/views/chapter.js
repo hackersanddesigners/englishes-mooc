@@ -10,14 +10,14 @@ module.exports = view
 function view (state, emit) {
   emit(state.events.DOMTITLECHANGE, data.content.title)
 
-  const page = ov(data.children).filter(page => page.uid === 'about')
+  const page = ov(data.children).filter(page => page.uid === 'course')
+  console.log(page[0])
 
   return html`
-    <body class="xvh100">
+    <body>
       ${ nav(state, emit) }
       <main>
-        <h1 class="ft-bd fs1">${data.content.title}</h1>
-        <div class="copy-w pb1">${raw(md.render(page[0].content.text))}</div>
+        <h1>${ raw(md.render(page[0].content.title)) }</h1>
       </main>
     </body>
   `

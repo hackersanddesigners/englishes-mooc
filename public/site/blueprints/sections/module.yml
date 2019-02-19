@@ -1,0 +1,6 @@
+type: pages
+headline: Chapter
+info: "{{ page.title }}"
+template: chapter
+empty: No chapter yet
+sortBy: title asc

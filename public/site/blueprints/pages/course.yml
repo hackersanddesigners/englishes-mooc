@@ -1,0 +1,15 @@
+title: Course
+
+columns:
+  - width: 1/2
+    sections:
+      drafts:
+        extends: sections/course
+        headline: Drafts
+        status: draft
+  - width: 1/2
+    sections:
+      listed:
+        extends: sections/course
+        headline: Published
+        status: listed
