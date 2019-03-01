@@ -12,19 +12,7 @@ app.use(devtools())
 
 app.use(require('./stores/click'))
 
-var views = {
-  about: require("./views/about"),
-  course: require("./views/course"),
-  module: require("./views/module"),
-  chapter: require("./views/chapter"),
-  hkw: require("./views/preview"),
-  signup: require("./views/signup"),
-  error: require("./views/notfound")
-}
-
-ov(data.children).map(function (page) {
-  app.route('/' + page.id, (state, emit) => views[page.template](state, emit))
-})
+app.use(require('./stores/router')(data.children))
 
 app.route('/', require('./views/main'))
 app.route('*', require('./views/notfound'))
