@@ -7,14 +7,20 @@ function nav (state, emit) {
   const pages = data.children
 
   return html`
-    <nav class="w100 x xdr xjb">${ list() }</nav>
+    <nav class="c3 x xdc bl-rd pt4-7 pb1 pr1 pl1 tac">${ list() }</nav>
   `
 
   function list () {
     return ov(pages).map(function (item) {
       return html`
-        <a href="${ item.url }">${ item.content.title }</a>
+        <button class="fs1-5 fc-bk tdn pb1 curp" onclick=${ oo(item, emit) }>${ item.content.title }</button>
       `
+
+      function oo (item, emit) {
+        return function () { emit('toggle', item) }
+      }
+
     })
   }
+
 }
