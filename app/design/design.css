@@ -67,6 +67,10 @@ strong, b {
   font-family: var(--ft-bd);
 }
 
+img {
+  max-width: 100%;
+}
+
 code, pre {
   font-family: var(--ft-mn);
 }
@@ -92,9 +96,9 @@ p {
   padding-bottom: 1rem;
 }
 
-a,
-a:visited,
-a:hover {
+.copy a,
+.copy a:visited,
+.copy a:hover {
   color: var(--c-bl);
 }
 

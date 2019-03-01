@@ -1,11 +1,20 @@
 var recsst = require('recsst')
 var gr8 = require('gr8')
 
-var reset = recsst.toString()
+var reset = recsst.toString() + `
+a {
+  color: inherit;
+}
+
+figure {
+  margin: 0;
+  padding: 0;  
+}
+`
 
 var basic = gr8({
-  spacing: [0, 0.25, 0.5, 1, 2, 4],
-  fontSize: [0.8, 1, 1.3],
+  spacing: [0, 0.25, 0.5, 1, 2, 4, 4.7 ,5],
+  fontSize: [0.8, 1, 1.3, 1.5, 2, 2.4],
   lineHeight: [1],
   zIndex: [1, 2],
   breakpoints: {
