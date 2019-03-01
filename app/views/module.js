@@ -9,14 +9,15 @@ module.exports = view
 
 function view (state, emit) {
   emit(state.events.DOMTITLECHANGE, data.content.title)
+  console.log(state)
 
-  // const page = ov(data.children).filter(page => page.uid === 'course')
+  const page = state.page
 
   return html`
     <body>
       ${ nav(state, emit) }
       <main>
-        <h1>module</h1>
+        <h1>${ page.content.title }</h1>
       </main>
     </body>
   `
