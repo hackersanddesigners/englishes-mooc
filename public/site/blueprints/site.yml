@@ -1,9 +1,9 @@
 title: Site
 
 columns:
-  - width: 1/2
-    sections:
-      preview: sections/preview
+  # - width: 1/2
+  #   sections:
+  #     preview: sections/preview
   - width: 1/2
     sections:
       pages:

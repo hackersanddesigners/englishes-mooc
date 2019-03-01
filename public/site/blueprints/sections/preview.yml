@@ -1,7 +1,5 @@
 type: pages
 headline: Preview
-parent: site.index.findBy('intendedTemplate', 'preview')
+parent: site.index.findBy('intendedTemplate', 'module')
 info: "{{ page.title }}"
-template: item
-empty: No items yet
 sortBy: title desc
