@@ -9,8 +9,8 @@ columns:
       pages:
         type: pages
         templates:
+          - page
           - course
-          - about
           - error
           - preview
           - signup

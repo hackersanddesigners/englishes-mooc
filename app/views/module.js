@@ -1,9 +1,11 @@
 var ov = require('object-values')
-var Markdown = require('markdown-it')
 var html = require('choo/html')
 var raw = require('choo/html/raw')
-var nav = require('../components/nav')
+var Markdown = require('markdown-it')
 var md = new Markdown()
+var nav = require('../components/nav')
+var sidepage = require('../components/sidepage')
+var sp = new sidepage()
 
 module.exports = view
 
