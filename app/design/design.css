@@ -87,6 +87,10 @@ code, pre {
   font-weight: 400;
 } 
 
+.td-u-r {
+  text-decoration: underline red;
+}
+
 h1, h2, h3 {
   line-height: 1.2;
 }
@@ -94,12 +98,6 @@ h1, h2, h3 {
 h1, h2, h3,
 p {
   padding-bottom: 1rem;
-}
-
-.copy a,
-.copy a:visited,
-.copy a:hover {
-  color: var(--c-bl);
 }
 
 input,
@@ -146,26 +144,34 @@ input[type=checkbox]:checked {
   max-width: 37.5rem;
 }
 
-.copy blockquote {
-  font-family: var(--ft-mn);
-  font-size: var(--fs-1-3); 
-  padding: 2rem 0 2rem 1rem;
-}
-
-.copy p {
-  padding-bottom: 0;
-}
-
-.copy p + p {
-  text-indent: 2rem;
+.copy a,
+.copy a:visited,
+.copy a:hover {
+  color: var(--c-bl);
 }
 
 .copy-tdbk a {
   color: inherit;
 }
 
+.copy blockquote {
+  padding: 0 0 0 1rem;
+}
+
+.copy blockquote p {
+  padding-bottom: 0;
+}
+
+.copy blockquote + p {
+  padding-top: 1rem;
+}
+ 
 .bgc-wh  {
   background-color: var(--c-wh);
+}
+
+.sm-bt {
+  width: 4rem;
 }
 
 .mw-bt {
@@ -216,6 +222,10 @@ input[type=checkbox]:checked {
   .md-ttx0 {
     transform: translate(0);
   }
+}
+
+.bxsh-a {
+  box-shadow: 0 0 20px var(--c-gy);
 }
 
 .sh-a {

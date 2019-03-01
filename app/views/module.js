@@ -15,9 +15,18 @@ function view (state, emit) {
 
   return html`
     <body>
-      ${ nav(state, emit) }
-      <main>
-        <h1>${ page.content.title }</h1>
+      <main class="x xdr bl-gr br-bl">
+        <section class="${ state.sidebar ? "c6" : "c9" } br-rd pt1 pr1 pb1 pl1">
+          <h1 class="ft-bd fs2-4 c12 tac">${data.content.title}</h1>
+          
+          ${ cover() }
+          <h2 class="ft-mn fs1-3 c6 td-u-r">${ page.content.title }<br>
+          "${ page.content.subtitle }"</h2>
+          <p>with ${ page.content.tutor }</p>
+
+          ${ raw(md.render(page.content.text)) }
+        </section>
+        ${ sidebar() }
       </main>
     </body>
   `
@@ -32,6 +41,24 @@ function view (state, emit) {
         </div>
       `
     })
+  }
+
+  function cover () {
+    return ov(page.children).map(function (item) {
+      return html`
+        <figure>
+          <img src="${ ov(item.files)[0].url }">
+        </figure>
+      `
+    })
+  }
+
+  function sidebar () {
+    if (state.sidebar != true) {
+      return nav(state, emit)
+    } else {
+      return sp.render(state, state.components.sidepage, emit)
+    }
   }
 
 }
