@@ -7,14 +7,15 @@ var md = new Markdown()
 var sidepage = require('../components/sidepage')
 var sp = new sidepage()
 var login = require('../components/login')
+var Forum = require('../components/forum')
+var forum = new Forum()
 
 module.exports = view
 
 function view (state, emit) {
   emit(state.events.DOMTITLECHANGE, data.content.title)
-
   console.log(state)
-  
+
   return html`
     <body>
       <main class="x xdr bl-gr br-bl">
@@ -52,15 +53,18 @@ function view (state, emit) {
   }
 
   function sidebar () {
-    console.log('state.sidebar ' + state.sidebar)
-    console.log('state.login ' + state.login)
+    if (state.components.login !== undefined) {
+      return forum.render(state, state.components.login, emit)
 
-    if (state.login === true) {
+    } else if (state.login === true) {
       return login(state, emit)
+
     } else if (state.sidebar === false) {
       return nav(state, emit)
+
     } else {
       return sp.render(state, state.components.sidepage, emit)
+
     }
   }
 

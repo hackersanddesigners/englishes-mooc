@@ -39,6 +39,10 @@ class sidepage extends nc {
     }
 
   }
+
+  update () {
+    return true
+  }
   
 }
 

@@ -19,6 +19,7 @@ public/assets/js/
 
 #---
 /app/node_modules
+/app/stores/users.json
 
 #---
 rsync-exclude.txt
