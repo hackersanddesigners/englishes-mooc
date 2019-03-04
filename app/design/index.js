@@ -1,16 +1,4 @@
-var recsst = require('recsst')
 var gr8 = require('gr8')
-
-var reset = recsst.toString() + `
-a {
-  color: inherit;
-}
-
-figure {
-  margin: 0;
-  padding: 0;  
-}
-`
 
 var basic = gr8({
   spacing: [0, 0.25, 0.5, 1, 2, 4, 4.7 ,5],
@@ -75,5 +63,5 @@ var utils = gr8({
   breakpointSelector: 'class',
 })
 
-var utilcss = reset + basic + utils
+var utilcss = basic + utils
 module.exports = utilcss

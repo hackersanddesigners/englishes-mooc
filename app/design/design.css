@@ -43,6 +43,51 @@
   --c-bl: #3865A1;
 }
 
+html { box-sizing: border-box }
+*, *:before, *:after { box-sizing: inherit }
+html, body, h1, h2, h3, h4, h5, h6, p, ol, ul, li, dl,
+dt, dd, blockquote, address { margin: 0; padding: 0 }
+
+a {
+  color: inherit;
+}
+
+figure {
+  margin: 0;
+  padding: 0;  
+}
+
+input,
+button {
+  border: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  background: none;
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  text-align: inherit;
+}
+
+:focus{
+  outline: none;
+}
+
+:-webkit-autofill,
+:-webkit-autofill:hover, 
+:-webkit-autofill:focus {
+  -webkit-text-fill-color: green;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+::placeholder {
+  color: yellow;
+  opacity: 1;
+}
+
 html {
   width: 100%;
   box-sizing: border-box;
