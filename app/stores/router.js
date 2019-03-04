@@ -2,8 +2,6 @@ var ok = require('object-keys')
 var xtend = require('xtend')
 var views = require('../views')
 
-module.exports = router
-
 function router (site) {
   return function content (state, emitter, app) {
     state.content = { }
@@ -34,3 +32,5 @@ function router (site) {
 
   }
 }
+
+module.exports = router
