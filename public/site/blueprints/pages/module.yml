@@ -26,14 +26,29 @@ columns:
         type:  text
   - width: 1/2
     fields:
+      pitch_url:
+        label: Video Pitch
+        type: url
+  - width: 1/2
+    fields:
+      opening:
+        label: Opening
+        type:  text
+  - width: 1/2
+    fields:
+      liveclass:
+        label: Live Classroom
+        type:  text
+  - width: 1/2
+    fields:
       text:
         label: Text
         type:  textarea 
   - width: 1/2
     fields:
-      liveclass:
-        label: Live Classroom
-        type:  textarea 
+      reading:
+        label: Further Reading
+        type:  textarea
   - width: 1/2
     fields:
       feedback:

@@ -39,14 +39,37 @@ function view (state, emit) {
   `
 
   function items () {
-    return ov(page[0].children).map(function (item) {
+    return ov(page.children).map(function (item) {
       return html`
         <div>
-          <a href="${ item.url }">${ item.content.title } with ${ item.content.tutor }</a>
+          <h2 class="ft-mn fs2 ttu">${ item.content.title }</h2>
           <h2>${ item.content.subtitle }</h2>
+          <p>${ item.content.video_length }</p>
+          ${ video() }
           ${ raw(md.render(item.content.text)) }
         </div>
       `
+
+      function video () {
+        // prepare correct vimeo url embed
+        // from simple vimeo url like https://vimeo.com/308769495
+        // to https://player.vimeo.com/video/308769495
+        // <iframe src="https://player.vimeo.com/video/308769495?title=0&byline=0&portrait=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+
+        var url = item.content.video_url
+        var url_split = url.split('://')
+        var vcode = url_split[1].split('/')
+        var embed = url_split[0] + '://player.' + vcode[0] + '/video/' + vcode[1]
+
+        return html`
+          <div class="pr2 pl2 pb2">
+            <div class="iframe-container">
+              <iframe src="${ embed }?title=0&byline=0&portrait=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> 
+            </div>
+          </div>
+        `
+      }
+
     })
   }
 
