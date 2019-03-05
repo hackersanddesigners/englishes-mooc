@@ -11,7 +11,7 @@ function login (state, emit) {
 
   return html`
     <div class="c6 pt1 pr1 pb1 pl1 copy">
-      <button class="curp" onclick=${ close(emit) }>X</button>
+      <button class="psf t0 r0 pr1 ft-mn fs2-4 curp" onclick=${ close(emit) }>x</button>
 
       <form id="login" onsubmit=${ onsubmit } method="post" class="pb2">
         <div class="fw-r fs1 lh1 pt2 pb2">
@@ -28,6 +28,7 @@ function login (state, emit) {
 
         <div class="x xafs">
           <input type="submit" value="Send" class="send fs1-3 bb-rd curp">
+          <button class="dn fs1-3 bb-rd retry-box curp" onclick=${ reset }>Retry</button>
           <div class="dn success-box pl1">
             <p class="dib pb0"></p>
           </div>
@@ -36,7 +37,6 @@ function login (state, emit) {
             <p class="dib pb0"></p>
           </div>
 
-          <button class="dn retry-box curp" onclick=${ reset }>Retry</button>
         </div>
 
         <div class="psf t0 l999">
@@ -67,17 +67,18 @@ function login (state, emit) {
     retry.classList.add('dn')
 
     const send = form.querySelector('.send')
+    send.classList.remove('dn')
     send.value = 'Login'
   }
 
   function onsubmit (e) {
     e.preventDefault()
-    var form = e.currentTarget
-    var data = new FormData(form)
-    var bot = document.querySelector('.bot')
-    var send = form.querySelector('.send')
+    const form = e.currentTarget
+    const data = new FormData(form)
+    const bot = document.querySelector('.bot')
+    const send = form.querySelector('.send')
 
-    var body = {}
+    const body = {}
     for (var pair of data.entries()) body[pair[0]] = pair[1]
 
     const name = body.name
@@ -118,7 +119,7 @@ function login (state, emit) {
           const msg = 'Wrong combination of username and password.'
           box.firstChild.innerHTML = msg
 
-          send.value = 'Error!'
+          send.classList.add('dn')
 
         } else {
           console.log('request ok!', body)
