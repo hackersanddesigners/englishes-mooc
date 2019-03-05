@@ -20,9 +20,9 @@ class sidepage extends nc {
     this.emit = emit
 
     return html`
-      <div class="c6 pt1 pr1 pb1 pl1 copy">
-        <button class="curp" onclick=${ close(emit) }>X</button>
-        <h2>${ section.content.title }</h2> 
+      <div class="c12 pt1 pr2 pb1 pl2 copy">
+        <button class="psf t0 r0 pr1 ft-mn fs2-4 curp" onclick=${ close(emit) }>x</button>
+        <h2 class="ft-mn fs2 tac">${ section.content.title }</h2> 
         ${ raw(md.render(section.content.text)) }
         ${ signup_field() }
       </div>

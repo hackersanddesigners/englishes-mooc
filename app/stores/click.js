@@ -1,18 +1,36 @@
 var ok = require('object-keys')
+var ov = require('object-values')
 var xhr = require('xhr')
 var users = require('./users.json')
 
 function clickhandle (state, emitter) {
   state.sidebar = false
   state.login = false
+  state.modules = []
+  state.nav_toggle = true
 
-  emitter.on('close', function (close) {
+  const modules = data.children.course.children
+  ov(modules).map(function (module) {
+    state.modules.push(true)
+  })
+
+  emitter.on('mod_toggle', function (module) {
+    state.modules[module] =! state.modules[module]
+    emitter.emit('render')
+  })
+
+  emitter.on('nav_toggle', () => {
+    state.nav_toggle =! state.nav_toggle
+    emitter.emit('render')
+  })
+
+  emitter.on('close', () => {
     state.sidebar = false
     state.login = false
     emitter.emit('render')
   })
 
-  emitter.on('login', function (login) {
+  emitter.on('login', () => {
     state.login =! state.login
     state.sidebar =! state.sidebar
     emitter.emit('render')

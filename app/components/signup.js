@@ -9,7 +9,7 @@ function signup () {
   const page = ov(data.children).filter(page => page.uid === 'signup')
 
   return html`
-    <form id="signup" onsubmit=${ onsubmit } method="post" class="pb2">
+    <form id="signup" onsubmit=${ onsubmit } method="post" class="pb2 lg-pl2 lg-pr2">
       <div class="fw-r fs1 lh1 pt2 pb2">
         <div class="pb0-5">
           <label class="dib w-50 ft-mn">${ page[0].content.name }*</label>

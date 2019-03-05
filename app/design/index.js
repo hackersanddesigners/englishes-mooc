@@ -47,6 +47,7 @@ var border = {
     {gr: '3px solid #0D8F5C'},
     {grdb: '6px solid #0D8F5C'},
     {rd: '3px solid #D8252A'},
+    {rddb: '6px solid #D8252A'},
     {bl: '3px solid #3865A1'},
     {bldb: '6px solid #3865A1'}
   ],

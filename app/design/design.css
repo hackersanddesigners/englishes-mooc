@@ -54,7 +54,7 @@ a {
 
 figure {
   margin: 0;
-  padding: 0;  
+  padding: 0;
 }
 
 input,
@@ -76,16 +76,9 @@ button {
   outline: none;
 }
 
-:-webkit-autofill,
-:-webkit-autofill:hover, 
-:-webkit-autofill:focus {
-  -webkit-text-fill-color: green;
-  transition: background-color 5000s ease-in-out 0s;
-}
-
-::placeholder {
-  color: yellow;
-  opacity: 1;
+html,
+body {
+  height: 100%;
 }
 
 html {
@@ -137,6 +130,7 @@ code, pre {
 }
 
 h1, h2, h3 {
+  font-weight: normal;
   line-height: 1.2;
 }
 
@@ -290,4 +284,15 @@ input[type=checkbox]:checked {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.xdl {
+  -webkit-transition: all 0.1s cubic-bezier(.17,.67,.83,.67);
+  -moz-transition: all 0.1s cubic-bezier(.17,.67,.83,.67);
+  -o-transition: all 0.1s cubic-bezier(.17,.67,.83,.67);
+  transition: all 0.1s cubic-bezier(.17,.67,.83,.67);
+  -webkit-transition-property: width, height;
+  -moz-transition-property: width, height;
+  -o-transition-property: width, height;
+  transition-property: width, height;
 }
