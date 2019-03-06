@@ -15,11 +15,6 @@ columns:
         status: listed
 
   - width: 1/2
-    fields: 
-      subtitle:
-        label: Subtitle
-        type: text
-  - width: 1/2
     fields:
       tutor:
         label: Tutor

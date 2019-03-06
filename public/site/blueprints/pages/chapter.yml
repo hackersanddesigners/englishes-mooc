@@ -1,16 +1,21 @@
 title: Chapter
 
 columns:
-  - width: 1/3
+  - width: 1/2
     fields:
       video_url:
         label: Video URL
         type: url 
-  - width: 1/3
+  - width: 1/2
     fields:
       video_length:
         label: Video Length
         type: text
+  - width: 2/3
+    fields:
+      text:
+        label: Text
+        type: textarea
   - width: 1/3
     sections:
       files:
@@ -18,4 +23,4 @@ columns:
         layout: cards
         template: document
         image:
-          cover: true 
+          cover: true
