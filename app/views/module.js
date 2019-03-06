@@ -23,17 +23,18 @@ function view (state, emit) {
   return html`
     <body>
       <main class="x xdr bl-gr br-bl">
-        <section class="${ state.sidebar ? "c6" : "c9" } br-rd pt1 pr1 pb1 pl1">
+        <section class="${ state.sidebar ? "md-c6" : "md-c9" } br-rd pt1 pr1 pb1 pl1">
           <h1 class="ft-bd fs2-4 c12 tac">${data.content.title}</h1>
 
-          <h2 class="ft-mn fs2 c6 ttu">${ page.content.title }<br>
-          ${ page.content.subtitle }</h2>
+          <h2 class="ft-mn fs2 c6 ttu">${ page.content.title }</h2>
           <p>with ${ page.content.tutor }</p>
           ${ raw(md.render(page.content.text)) }
 
           ${ items() }
         </section>
-        ${ sidebar() }
+        <section class="${ state.sidebar ? "md-c6" : "md-c3" } dn md-db os md-psf md-t0 md-r0 md-vh100 xdl">
+          ${ sidebar() }
+        </section>
       </main>
     </body>
   `
