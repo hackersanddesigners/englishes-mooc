@@ -6,7 +6,7 @@ function nav (state, emit) {
 
   return html`
     <nav class="c12 x xdc sm-pt0 md-pt4-7 pb1 pr1 pl1 tac">
-      <button class="ft-bd fs2-4 pb1 md-dn curp" onclick=${ nav_toggle(emit) }>Menu</button>
+      <button class="ft-bd fs2-4 pb1 md-dn curp " onclick=${ nav_toggle(emit) }>Menu</button>
       <div class="${ state.nav_toggle ? 'dn' : 'db' } md-db">
         ${ list() }
       </div>
@@ -22,7 +22,7 @@ function nav (state, emit) {
     const list = ov(pages).filter(page => page.uid !== 'course')
     return list.map(function (item, i) {
       return html`
-        <button class="c12 fs1-5 fc-bk tdn pb1 curp" onclick=${ section(item, emit) }>${ item.content.title }</button>
+        <button class="nav-bt c12 fs1-5 fc-bk tdn pb1 curp" onclick=${ section(item, emit) }>${ item.content.title }</button>
       `
 
       function section (item, emit) {

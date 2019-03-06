@@ -18,10 +18,10 @@ function view (state, emit) {
 
   return html`
     <body>
-      <main class="x xdc md-xdr bl-gr br-bl vh100">
-        <section class="${ state.sidebar ? "md-c6" : "md-c9" } os h100 br-rddb pt1 pr1 pb1 pl1 xdl">
+      <main class="x xdc md-xdr bl-rddb md-bl-grdb br-bldb vh100">
+        <section class="${ state.sidebar ? "md-c6" : "md-c9" } os h100 md-br-rddb pt1 pr1 pb1 pl1 xdl">
           <h1 class="ft-bd fs2-4 c12 tac md-pb2">${ data.content.title }</h1>
-          <section class="${ state.sidebar ? "md-c6" : "md-c3" } db md-dn os xdl bgc-wh">
+          <section class="${ state.sidebar ? "md-c6 psf t70 l0 r0 b0 z4 md-psr bl-rddb br-bldb" : "md-c3" } db md-dn os xdl bgc-wh">
             ${ sidebar() }
           </section>
           <div class="x xw xdr">
@@ -41,7 +41,7 @@ function view (state, emit) {
       return html`
         <div class="c12 md-c6 lg-c4 pr1 pl1 pb1 z1">
           ${ video() }
-          <h2 class="fs1 fw-r ft-mn">${ module.content.title }: ${ module.content.subtitle }</h2>
+          <h2 class="fs1 fw-r ft-mn">${ module.content.title }</h2>
           <p class="pb0 fs0-8">Opens ${ module.content.opening }</p>
           <p class="fs0-8">Live classroom ${ module.content.liveclass }</p>
 
@@ -65,7 +65,7 @@ function view (state, emit) {
         return html`
           <div class="pb1">
             <div class="iframe-container">
-              <iframe src="${ embed }?title=0&byline=0&portrait=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> 
+              <iframe src="${ embed }?title=0&byline=0&portrait=0&api=1&background=1" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> 
             </div>
           </div>
         `

@@ -189,6 +189,11 @@ input[type=checkbox]:checked {
   color: var(--c-bl);
 }
 
+.nav-bt:visited,
+.nav-bt:hover {
+  text-decoration: underline var(--c-rd);
+}
+
 .copy-tdbk a {
   color: inherit;
 }
@@ -223,6 +228,14 @@ input[type=checkbox]:checked {
 
 .mhv-bx {
   max-height: 80vh;
+}
+
+.t05 {
+  top: 0.5rem;
+}
+
+.t70 {
+  top: 70px;
 }
 
 .l50 {
