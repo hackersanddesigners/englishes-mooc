@@ -10,8 +10,8 @@ var users = require('../stores/users.json')
 function login (state, emit) {
 
   return html`
-    <div class="c6 pt1 pr1 pb1 pl1 copy">
-      <button class="psf t0 r0 pr1 ft-mn fs2-4 curp" onclick=${ close(emit) }>x</button>
+    <div class="c12 pt1 pr1 pb1 pl1 copy">
+      <button class="psf t05 r0 pr1 ft-mn fs2-4 curp" onclick=${ close(emit) }>x</button>
 
       <form id="login" onsubmit=${ onsubmit } method="post" class="pb2">
         <div class="fw-r fs1 lh1 pt2 pb2">
@@ -27,7 +27,7 @@ function login (state, emit) {
         </div>
 
         <div class="x xafs">
-          <input type="submit" value="Send" class="send fs1-3 bb-rd curp">
+          <input type="submit" value="Login" class="send fs1-3 bb-rd curp">
           <button class="dn fs1-3 bb-rd retry-box curp" onclick=${ reset }>Retry</button>
           <div class="dn success-box pl1">
             <p class="dib pb0"></p>
