@@ -20,7 +20,7 @@ class discussion extends nc {
     this.emit = emit
 
     return html`
-      <div class="c12 pt1 pr1 pb1 pl1 copy">
+      <div class="c12 pt1 pb1 copy">
         <div class="pb1">
           <p>Feedback</p>
           <p>Do you have questions about the assignment or the content of this module? Share it in the group on this note board or contact Nicoline van Harskamp via englishes.mooc@gmail.com</p>
@@ -40,12 +40,18 @@ class discussion extends nc {
       if (state.components.discussion !== undefined) {
         return ov(state.components.discussion.post_stream.posts).map(function (post) {
           return html`
-            <div class="post p1 bt-bk">
-              <div class="x xjsb">
-                <p class="c9">${ post.username }</p>
-                <p class="c3">${ date() }</p>
+            <div class="post x xjb pt1 pb1 bt-bk">
+              <div class="ty-w ty-h br-50 bgc-bk fc-wh">${ post.username.charAt(0) }</div>
+
+              <div style="width: 90%">
+                <div class="x xdr xjb">
+                  <p class="c9 fc-gk">${ post.username }</p>
+                  <p class="c3 fc-gk">${ date() }</p>
+                </div>
+                <div>
+                  ${ raw(post.cooked) }
+                </div>
               </div>
-              ${ raw(post.cooked) }
             </div>
           `
           
