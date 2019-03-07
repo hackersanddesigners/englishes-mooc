@@ -9,6 +9,8 @@ var sp = new sidepage()
 var login = require('../components/login')
 var Forum = require('../components/forum')
 var forum = new Forum()
+var Statusbar = require('../components/statusbar')
+var statusbar = new Statusbar()
 
 module.exports = view
 
@@ -18,7 +20,12 @@ function view (state, emit) {
 
   return html`
     <body>
-      <main class="x xdc md-xdr bl-rddb md-bl-grdb br-bldb vh100">
+      <main class="x xdc md-xdr bl-rddb md-bl-grdb vh100">
+        <section class="${ state.status_toggle ? 'md-c3 md-db ' : 'dn ' }os md-psf md-t0 md-l0 md-vh100 xdl">
+          ${ status() }
+        </section>
+        <button class="${ state.components.login !== undefined ? 'db ' : 'dn ' }psf t0 l0 pl2 pt1 curp" onclick=${ status_toggle(emit) }>⇇</button>
+
         <section class="${ state.sidebar ? "md-c6" : "md-c9" } os h100 md-br-rddb pt1 pr1 pb1 pl1 xdl">
           <h1 class="ft-bd fs2-4 c12 tac md-pb2">${ data.content.title }</h1>
           <section class="${ state.sidebar ? "md-c6 psf t70 l0 r0 b0 z4 md-psr bl-rddb br-bldb" : "md-c3" } db md-dn os xdl bgc-wh">
@@ -28,7 +35,8 @@ function view (state, emit) {
             ${ modules() }
           </div>
         </section>
-        <section class="${ state.sidebar ? "md-c6" : "md-c3" } dn md-db os md-psf md-t0 md-r0 md-vh100 xdl">
+
+        <section class="${ state.sidebar ? "md-c6" : "md-c3" } br-bldb dn md-db os md-psf md-t0 md-r0 md-vh100 xdl">
           ${ sidebar() }
         </section>
       </main>
