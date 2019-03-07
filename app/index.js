@@ -12,6 +12,8 @@ app.use(devtools())
 
 app.use(require('./stores/click'))
 app.use(require('./stores/topic'))
+app.use(require('./stores/discussion'))
+app.use(require('./stores/assignment'))
 
 app.use(require('./stores/router')(data.children))
 
