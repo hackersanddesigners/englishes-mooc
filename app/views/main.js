@@ -74,8 +74,9 @@ function view (state, emit) {
   }
 
   function sidebar () {
-    if (state.components.login !== undefined) {
-      return forum.render(state, state.components.login, emit)
+    // https://stackoverflow.com/a/27013704
+    if (localStorage.getItem('user_data') !== undefined && localStorage.getItem('user_login') === 'true') {
+      return forum.render(state, JSON.parse(localStorage.getItem('user_data')), emit)
 
     } else if (state.login === true) {
       return login(state, emit)
@@ -87,6 +88,17 @@ function view (state, emit) {
       return sp.render(state, state.components.sidepage, emit)
 
     }
+  }
+
+  function status () {
+    const modules = ov(state.content).filter(page => page.uid === 'course')[0]
+    if (state.components.login !== undefined) {
+      return statusbar.render(state, modules, emit)
+    }
+  }
+
+  function status_toggle(emit) {
+    return function () { emit('status_toggle') }
   }
 
 }

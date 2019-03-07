@@ -11,6 +11,7 @@ function clickhandle (state, emitter) {
   state.todo_tab = false
   state.modules = []
   state.nav_toggle = true
+  state.status_toggle = true
 
   const modules = data.children.course.children
   ov(modules).map(function (module) {
@@ -24,6 +25,11 @@ function clickhandle (state, emitter) {
 
   emitter.on('nav_toggle', () => {
     state.nav_toggle =! state.nav_toggle
+    emitter.emit('render')
+  })
+
+  emitter.on('status_toggle', () => {
+    state.status_toggle =! state.status_toggle
     emitter.emit('render')
   })
 
@@ -61,6 +67,7 @@ function clickhandle (state, emitter) {
   })
 
   emitter.on('log-in', () => {
+    localStorage.setItem('user_login', 'true');
     emitter.emit('render')
   })
 
@@ -78,6 +85,9 @@ function clickhandle (state, emitter) {
     }, function (err, resp, body) {
       if (err) throw err
       console.log(body)
+
+      localStorage.setItem('user_login', 'false');
+      localStorage.removeItem('user_data');
 
       state.login = true
       state.components.login = undefined

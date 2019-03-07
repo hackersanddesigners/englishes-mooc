@@ -10,6 +10,7 @@ var users = require('../stores/users.json')
 function login (state, emit) {
 
   return html`
+    ${ storage() }
     <div class="c12 pt1 pr1 pb1 pl1 copy">
       <button class="psf t05 r0 pr1 ft-mn fs2-4 curp" onclick=${ close(emit) }>x</button>
 
@@ -52,6 +53,39 @@ function login (state, emit) {
 
   function close (emit) {
     return function () { emit('close') }
+  }
+
+  function storageAvailable(type) {
+    try {
+      var storage = window[type];
+      var x = '__storage_test__';
+      storage.setItem(x, x);
+      storage.removeItem(x);
+      return true;
+    }
+    catch(e) {
+      return e instanceof DOMException && (
+        // everything except Firefox
+        e.code === 22 ||
+        // Firefox
+        e.code === 1014 ||
+        // test name field too, because code might not be present
+        // everything except Firefox
+        e.name === 'QuotaExceededError' ||
+        // Firefox
+        e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+        // acknowledge QuotaExceededError only if there's something already stored
+        storage.length !== 0;
+    }
+  }
+
+  function storage() {
+    if (storageAvailable('localStorage')) {
+      console.log('yes! we can use localstorage')
+    }
+    else {
+      console.log('no localStorage')
+    }
   }
 
   function reset () {
@@ -125,6 +159,8 @@ function login (state, emit) {
 
         } else {
           console.log('request ok!', body)
+
+          localStorage.setItem('user_data', JSON.stringify(body))
 
           state.components.login = body
           state.components.user_id = body.user.id
