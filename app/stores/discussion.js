@@ -28,6 +28,7 @@ function discussion (state, emitter) {
         json: true,
       }, function (err, resp, body) {
         if (err) throw err
+        console.log(body)
 
         state.components.discussion = body
       })
