@@ -15,38 +15,65 @@ var topic = new Topic()
 module.exports = view
 
 function view (state, emit) {
-  emit(state.events.DOMTITLECHANGE, data.content.title)
+  emit(state.events.DOMTITLECHANGE, data.content.title + ' * ' + state.page.content.title)
   console.log(state)
 
   const page = state.page
 
   return html`
     <body>
-      <main class="x xdr bl-gr br-bl">
-        <section class="${ state.sidebar ? "md-c6" : "md-c9" } br-rd pt1 pr1 pb1 pl1">
+      <main class="x xdr bl-rddb md-bl-grdb">
+        <section class="${ state.sidebar ? "md-c6" : "md-c9" } md-br-rddb pt1 pr1 pb1 pl1">
           <h1 class="ft-bd fs2-4 c12 tac">${data.content.title}</h1>
+          <section class="${ state.sidebar ? "md-c6 psf t70 l0 r0 b0 z4 md-psr bl-rddb br-bldb" : "md-c3" } db md-dn os xdl bgc-wh">
+            ${ sidebar() }
+          </section>
+  
+          <div class="pl2 pr2">
+            <h2 class="ft-mn fs2 ttu pb1">${ page.content.title }</h2>
+            <p>with ${ page.content.tutor }</p>
+          </div>
 
-          <h2 class="ft-mn fs2 c6 ttu">${ page.content.title }</h2>
-          <p>with ${ page.content.tutor }</p>
-          ${ raw(md.render(page.content.text)) }
+          <div class="pb2">
+            ${ raw(md.render(page.content.text)) }
+            ${ attachment() }
+          </div>
 
           ${ items() }
+
+          <div class="pt4">
+            ${ raw(md.render(page.content.feedback)) }
+            <div class="ft-mn">
+              ${ raw(md.render(page.content.credit)) }
+            </div>
+          </div>
         </section>
-        <section class="${ state.sidebar ? "md-c6" : "md-c3" } ${ state.components.login !== undefined && state.route === 'course/module-01' ? "bgc-gy" : "bgc-wh" } dn md-db os md-psf md-t0 md-r0 md-vh100 xdl">
+        <section class="${ state.sidebar ? "md-c6" : "md-c3" } ${ state.components.login !== undefined && state.href === '/' + state.route ? "bgc-gy" : "bgc-wh" } br-bldb dn md-db os md-psf md-t0 md-r0 md-vh100 xdl">
           ${ sidebar() }
         </section>
       </main>
     </body>
   `
 
+  function attachment() {
+    if(ov(state.page.files).length > 0) {
+      return html`
+        <a href="${ ov(state.page.files)[0].url }">Read module as text</a>
+      `
+    }
+  }
+
   function items () {
     return ov(page.children).map(function (item) {
       return html`
-        <div>
-          <h2 class="ft-mn fs2 ttu">${ item.content.title }</h2>
-          <h2>${ item.content.subtitle }</h2>
-          <p>${ item.content.video_length }</p>
+        <div class="copy">
+          <div class="p2">
+            <h2 class="ft-mn fs2 ttu">${ item.content.title }</h2>
+            ${ raw(md.render(item.content.video_length)) }
+          </div>
+
           ${ video() }
+
           ${ raw(md.render(item.content.text)) }
         </div>
       `
@@ -63,7 +90,7 @@ function view (state, emit) {
         var embed = url_split[0] + '://player.' + vcode[0] + '/video/' + vcode[1]
 
         return html`
-          <div class="pr2 pl2 pb2">
+          <div class="pb2">
             <div class="iframe-container">
               <iframe src="${ embed }?title=0&byline=0&portrait=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> 
             </div>
@@ -89,7 +116,7 @@ function view (state, emit) {
       // pre-load module's related topics from the forum
       emit('topic')
 
-      if (state.route === 'course/module-01') {
+      if (state.href === '/' + state.route) {
         return topic.render(state, state.components.login, emit)
       } else {
         return forum.render(state, state.components.login, emit)

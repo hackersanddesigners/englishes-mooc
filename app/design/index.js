@@ -11,6 +11,7 @@ var root = `
   --fs-1-3: 1.3rem;
   --c-wh: #ffffff;
   --c-gy: #e6e5e6;
+  --c-gk: #807f80;
   --c-bk: #1a1a1a;
   --c-gr: #0d8f5c;
   --c-rd: #d8252a;
@@ -39,6 +40,7 @@ var color = {
   vals: [
     { wh: 'var(--c-wh)' },
     { gy: 'var(--c-gy)' },
+    { gk: 'var(--c-gk)' },
     { bk: 'var(--c-bk)' },
     { gr: 'var(--c-gr)' },
     { rd: 'var(--c-rd)' },
