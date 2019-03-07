@@ -65,7 +65,7 @@ function view (state, emit) {
         return html`
           <div class="pb1">
             <div class="iframe-container">
-              <iframe src="${ embed }?title=0&byline=0&portrait=0&api=1&background=1" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> 
+              <iframe src="${ embed }?title=0&byline=0&portrait=0&api=1&background=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> 
             </div>
           </div>
         `
