@@ -32,7 +32,7 @@ function view (state, emit) {
 
           ${ items() }
         </section>
-        <section class="${ state.sidebar ? "md-c6" : "md-c3" } dn md-db os md-psf md-t0 md-r0 md-vh100 xdl">
+        <section class="${ state.sidebar ? "md-c6" : "md-c3" } ${ state.components.login !== undefined && state.route === 'course/module-01' ? "bgc-gy" : "bgc-wh" } dn md-db os md-psf md-t0 md-r0 md-vh100 xdl">
           ${ sidebar() }
         </section>
       </main>
@@ -85,9 +85,10 @@ function view (state, emit) {
   }
 
   function sidebar () {
-    emit('topic')
-
     if (state.components.login !== undefined) {
+      // pre-load module's related topics from the forum
+      emit('topic')
+
       if (state.route === 'course/module-01') {
         return topic.render(state, state.components.login, emit)
       } else {
