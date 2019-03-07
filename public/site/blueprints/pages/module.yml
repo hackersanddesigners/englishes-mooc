@@ -24,16 +24,23 @@ columns:
       pitch_url:
         label: Video Pitch
         type: url
-  - width: 1/2
+
+  - width: 1/3
+    fields:
+      cat_id:
+        label: Category ID
+        type:  text
+  - width: 1/3
     fields:
       opening:
         label: Opening
         type:  text
-  - width: 1/2
+  - width: 1/3
     fields:
       liveclass:
         label: Live Classroom
         type:  text
+
   - width: 1/2
     fields:
       text:
