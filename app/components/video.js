@@ -28,18 +28,18 @@ class video extends nc {
     `
   }
 
-  load (el) {
-    console.log(this.data)
-    const player = new vimeo(el, {
-      url: this.data,
-      background: true,
-      title: false,
-      byline: false,
-      portrait: false
-    })
+  // load (el) {
+  //   console.log(this.data)
+  //   const player = new vimeo(el, {
+  //     url: this.data,
+  //     background: true,
+  //     title: false,
+  //     byline: false,
+  //     portrait: false
+  //   })
 
-    this.state.components.video = player
-  }
+  //   this.state.components.video = player
+  // }
 
   update () {
     return true
