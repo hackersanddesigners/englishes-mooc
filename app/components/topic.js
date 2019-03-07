@@ -7,6 +7,12 @@ var Markdown = require('markdown-it')
 var md = new Markdown()
 var xhr = require('xhr')
 var users = require('../stores/users.json')
+var Discussion = require('./discussion')
+var discussion = new Discussion()
+var Reading = require('./reading')
+var reading = new Reading()
+var Assignment = require('./assignment')
+var assignment = new Assignment()
 
 class topic extends nc {
   constructor (state, emit) {
@@ -23,11 +29,18 @@ class topic extends nc {
     this.data = data
 
     return html`
-      <div class="c6 pt1 pr1 pb1 pl1 copy">
+      <div class="c12 pt1 pr1 pb1 pl1 copy">
         <button class="curp" onclick=${ logout(emit) }>Log out</button>
         <h2>${ data.user.name }</h2> 
-        <div>
-         ${ topic() }
+
+        <div class="x xdr xjb pb1">
+          <button class="${ state.disc_tab ? 'tdu ' : '' }curp" onclick=${ disc_tab(emit) }>Discussion Board</button>
+          <button class="${ state.read_tab ? 'tdu ' : '' }curp" onclick=${ read_tab(emit) }>Further Reading</button>
+          <button class="${ state.todo_tab ? 'tdu ' : '' }curp" onclick=${ todo_tab(emit) }>To Do's</button>
+        </div>
+
+        <div class="posts">
+         ${ blob() }
         </div>
       </div>
     `
@@ -36,17 +49,32 @@ class topic extends nc {
       return function () { emit('log-out') }
     }
 
-    function topic () {
-      if (state.components.topic !== undefined) {
-        return ov(state.components.topic.post_stream.posts).map(function (post) {
-          return html`
-            <div class="pb1" style="border-bottom: 1px solid black">
-              ${ raw(post.cooked) }
-            </div>
-          `
-        })
+    function disc_tab (emit) {
+      return function () { emit('disc-tab') }
+    }
+
+    function read_tab (emit) {
+      return function () { emit('read-tab') }
+    }
+
+    function todo_tab (emit) {
+      return function () { emit('todo-tab') }
+    }
+
+    function blob () {
+      if(state.disc_tab === true) {
+        return discussion.render(state, emit)
+      }
+
+      if(state.read_tab === true) {
+        return reading.render(state, emit)
+      }
+
+      if(state.todo_tab === true) {
+        return assignment.render(state, emit)
       }
     }
+
   }
 
   update () {
@@ -55,27 +83,6 @@ class topic extends nc {
 
   unload () {
     this.state.components.user_id = ''
-  }
-
-  load(el) {
-    // const post_id = '47'
-
-    // xhr({
-    //   method: "get",
-    //   headers: {"Content-Type": "multipart/form-data"},
-    //   url: `https://forum.englishes-mooc.org/posts/${ post_id }.json?api_key=${users.system}&api_username=${ok(users)[0]}`,
-    //   json: true,
-    // }, function (err, resp, body) {
-    //   if (err) throw err
-    //   console.log(body)
-
-    //   state.components.topic = body
-    //   emit('topic')
-
-    // })
-
-    // this.emit('topic')
-
   }
 
 }

@@ -6,6 +6,9 @@ var users = require('./users.json')
 function clickhandle (state, emitter) {
   state.sidebar = false
   state.login = false
+  state.disc_tab = true
+  state.read_tab = false
+  state.todo_tab = false
   state.modules = []
   state.nav_toggle = true
 
@@ -21,6 +24,27 @@ function clickhandle (state, emitter) {
 
   emitter.on('nav_toggle', () => {
     state.nav_toggle =! state.nav_toggle
+    emitter.emit('render')
+  })
+
+  emitter.on('disc-tab', () => {
+    state.disc_tab = true
+    state.read_tab = false
+    state.todo_tab = false
+    emitter.emit('render')
+  })
+
+  emitter.on('read-tab', () => {
+    state.read_tab = true
+    state.disc_tab = false
+    state.todo_tab = false
+    emitter.emit('render')
+  })
+
+  emitter.on('todo-tab', () => {
+    state.todo_tab = true
+    state.disc_tab = false
+    state.read_tab = false
     emitter.emit('render')
   })
 
