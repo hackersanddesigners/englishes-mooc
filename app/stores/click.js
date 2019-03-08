@@ -74,10 +74,13 @@ function clickhandle (state, emitter) {
   })
 
   emitter.on('log-out', () => {
+    const user_s = JSON.parse(localStorage.getItem('user_data'))
+    const user = ok(users).filter(user => user === user_s.user.username)
+
     xhr({
-      method: "post",
-      headers: {"Content-Type": "multipart/form-data"},
-      url: `https://forum.englishes-mooc.org/admin/users/${state.components.user_id}/log_out?api_key=${users.system}&api_username=${ok(users)[0]}`,
+      method: 'post',
+      headers: {'Content-Type': 'multipart/form-data'},
+      url: `https://forum.englishes-mooc.org/admin/users/${state.components.user_id}/log_out?api_key=${users[user]}&api_username=${user}`,
       json: true,
       beforeSend: function(xhrObject){
         xhrObject.onprogress = function(){
@@ -98,6 +101,24 @@ function clickhandle (state, emitter) {
       emitter.emit('render')
     })
 
+  })
+
+  emitter.on('delete_post', (id) => {
+    const user_s = JSON.parse(localStorage.getItem('user_data'))
+    const user = ok(users).filter(user => user === user_s.user.username)
+
+    xhr({
+      method: 'delete',
+      headers: {'Content-Type': 'multipart/form-data'},
+      url: `https://forum.englishes-mooc.org/posts/${id}?api_key=${users[user]}&api_username=${user}`,
+      json: true,
+    }, function (err, resp, body) {
+      if (err) throw err
+      console.log(body)
+
+    })
+
+    emitter.emit('render')
   })
 
   emitter.on('section', function (section) {

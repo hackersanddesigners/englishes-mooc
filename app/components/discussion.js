@@ -6,6 +6,7 @@ var raw = require('choo/html/raw')
 var Markdown = require('markdown-it')
 var md = new Markdown()
 var ti = require('./textinput')
+var users = require('../stores/users')
 
 class discussion extends nc {
   constructor (state, emit) {
@@ -27,7 +28,7 @@ class discussion extends nc {
         </div>
 
         <div class="posts">
-         ${ topic() }
+         ${ topic(state, emit) }
         </div>
 
         <div class="">
@@ -38,15 +39,19 @@ class discussion extends nc {
 
     function topic () {
       if (state.components.discussion !== undefined) {
-        return ov(state.components.discussion.post_stream.posts).map(function (post) {
+        const user_s = JSON.parse(localStorage.getItem('user_data'))
+        const user = ok(users).filter(user => user === user_s.user.username)
+
+        return ov(state.components.discussion.post_stream.posts).filter(post => post.user_deleted === false).map(function (post) {
           return html`
-            <div class="post x xjb pt1 pb1 bt-bk">
+            <div class="post x xjb pt1 pb1 bt-bk${ post.username === user ? ' bgc-rd' : '' }">
               <div class="ty-w ty-h br-50 bgc-bk fc-wh">${ post.username.charAt(0) }</div>
 
               <div style="width: 90%">
                 <div class="x xdr xjb">
                   <p class="c9 fc-gk">${ post.username }</p>
                   <p class="c3 fc-gk">${ date() }</p>
+                  ${ delbutt() }
                 </div>
                 <div>
                   ${ raw(post.cooked) }
@@ -57,6 +62,19 @@ class discussion extends nc {
           
           function date() {
             return Date.parse(post.created_at)
+          }
+
+          function delbutt () {
+            if (post.username === user[0]) {
+              return html`
+                <button onclick=${ delete_post(emit) } class="curp">delete</button>
+              `
+            }
+          }
+
+
+          function delete_post(id) {
+            return function () { emit('delete_post', post.id) }
           }
 
         })
