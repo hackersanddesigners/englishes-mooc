@@ -26,7 +26,7 @@ function assignment (state, emitter) {
         json: true,
       }, function (err, resp, body) {
         if (err) throw err
-        console.log(body)
+        // console.log(body)
 
         state.components.assignment = body
       })
