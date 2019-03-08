@@ -120,6 +120,8 @@ function login (state, emit) {
 
 		const auth = {'login': name, 'password': pw}
 
+    const user = ok(users).filter(user => user === name)
+
     if (body.website !== '') {
       bot.classList.remove('dn')
     } else if (body.name === '') {
@@ -131,7 +133,7 @@ function login (state, emit) {
         method: "post",
         body: auth,
 				headers: {"Content-Type": "multipart/form-data"},
-        url: `https://forum.englishes-mooc.org/session?api_key=${users.system}&api_username=${ok(users)[0]}&login=${name}&password=${pw}`,
+        url: `https://forum.englishes-mooc.org/session?api_key=${users[user]}&api_username=${user}&login=${name}&password=${pw}`,
         json: true,
         beforeSend: function(xhrObject){
           xhrObject.onprogress = function(){
