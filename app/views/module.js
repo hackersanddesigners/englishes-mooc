@@ -7,6 +7,8 @@ var nav = require('../components/nav')
 var sidepage = require('../components/sidepage')
 var sp = new sidepage()
 var login = require('../components/login')
+var Statusbar = require('../components/statusbar')
+var statusbar = new Statusbar()
 var Forum = require('../components/forum')
 var forum = new Forum()
 var Topic = require('../components/topic')
@@ -22,10 +24,15 @@ function view (state, emit) {
 
   return html`
     <body>
-      <main class="x xdr bl-rddb md-bl-grdb">
-        <section class="${ state.sidebar ? "md-c6" : "md-c9" } md-br-rddb pt1 pr1 pb1 pl1">
-          <h1 class="ft-bd fs2-4 c12 tac">${data.content.title}</h1>
-          <section class="${ state.sidebar ? "md-c6 psf t70 l0 r0 b0 z4 md-psr bl-rddb br-bldb" : "md-c3" } db md-dn os xdl bgc-wh">
+      <main class="x xdc md-xdr vh100">
+        <section class="${ localStorage.getItem('user_login') !== 'true' ? 'dn ' : '' }${ state.status_toggle ? 'md-w-15 ' : '' }os x md-vh100 z3 xdl bgc-wh psr">
+          ${ status() }
+          <button class="psf t0-5${ state.status_toggle ? ' l16 ' : ' l0-75 ' }curp z4" onclick=${ status_toggle(emit) }>${ state.status_toggle ? '⇇ ' : '⇉' }</button>
+        </section>
+
+        <section class="${ state.status_toggle ? 'md-w-35 ' : '' }${ localStorage.getItem('user_login') !== 'true' ? 'md-c9' : 'md-c6' } os xh100 md-bl-grdb md-br-rddb pt1 pr1 pb1 pl1 xdl">
+          <h1 class="ft-bd fs2-4 c12 tac md-pb2">${data.content.title}</h1>
+          <section class="${ state.sidebar ? 'md-c6 psf t70 l0 r0 b0 z4 md-psr bl-rddb br-bldb' : 'md-c3' } db md-dn os xdl bgc-wh">
             ${ sidebar() }
           </section>
   
@@ -33,10 +40,8 @@ function view (state, emit) {
             <h2 class="ft-mn fs2 ttu pb1">${ page.content.title }</h2>
             <p>with ${ page.content.tutor }</p>
           </div>
-
           <div class="pb2">
             ${ raw(md.render(page.content.text)) }
-            ${ attachment() }
           </div>
 
           ${ items() }
@@ -48,20 +53,12 @@ function view (state, emit) {
             </div>
           </div>
         </section>
-        <section class="${ state.sidebar ? "md-c6" : "md-c3" } ${ state.components.login !== undefined && state.href === '/' + state.route ? "bgc-gy" : "bgc-wh" } br-bldb dn md-db os md-psf md-t0 md-r0 md-vh100 xdl">
+        <section class="${ localStorage.getItem('user_login') === 'true' && state.sidebar ? 'md-c6 ' : 'md-c3 ' }${ localStorage.getItem('user_login') === 'true' && state.href === '/' + state.route ? 'bgc-gy' : 'bgc-wh' } br-bldb dn md-db os md-vh100 xdl">
           ${ sidebar() }
         </section>
       </main>
     </body>
   `
-
-  function attachment() {
-    if(ov(state.page.files).length > 0) {
-      return html`
-        <a href="${ ov(state.page.files)[0].url }">Read module as text</a>
-      `
-    }
-  }
 
   function items () {
     return ov(page.children).map(function (item) {
@@ -111,15 +108,26 @@ function view (state, emit) {
     })
   }
 
+  function status () {
+    const modules = ov(state.content).filter(page => page.uid === 'course')[0]
+    if (localStorage.getItem('user_data') !== undefined && localStorage.getItem('user_login') === 'true') {
+      return statusbar.render(state, modules, emit)
+    }
+  }
+
+  function status_toggle(emit) {
+    return function () { emit('status_toggle') }
+  }
+
   function sidebar () {
-    if (state.components.login !== undefined) {
+    if (localStorage.getItem('user_data') !== undefined && localStorage.getItem('user_login') === 'true') {
       // pre-load module's related topics from the forum
       emit('topic')
 
       if (state.href === '/' + state.route) {
-        return topic.render(state, state.components.login, emit)
+        return topic.render(state, JSON.parse(localStorage.getItem('user_data')), emit)
       } else {
-        return forum.render(state, state.components.login, emit)
+        return forum.render(state, JSON.parse(localStorage.getItem('user_data')), emit)
       }
 
     } else if (state.login === true) {
