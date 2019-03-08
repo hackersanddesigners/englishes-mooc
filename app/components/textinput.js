@@ -12,7 +12,7 @@ function textinput (state, emit) {
   return html`
     <div class="c12 pt1 pr1 pb1 pl1 copy">
       <form id="textinput" onsubmit=${ onsubmit } method="post" class="pb2">
-        <textarea form="textinput" id="msg" name="msg" class="dib ba-bk" rows="6" cols="50"></textarea>
+        <textarea for="textinput" id="msg" name="msg" class="dib ba-bk" rows="6" cols="50"></textarea>
 
         <div class="x xafs">
           <input type="submit" value="post" class="send fs1 tdu curp">
@@ -53,12 +53,13 @@ function textinput (state, emit) {
 
     const send = form.querySelector('.send')
     send.classList.remove('dn')
-    send.value = 'Login'
+    send.value = 'post'
   }
 
   function onsubmit (e) {
     e.preventDefault()
     const form = e.currentTarget
+    const txa = form.firstChild
     const data = new FormData(form)
     const bot = document.querySelector('.bot')
     const send = form.querySelector('.send')
@@ -68,21 +69,26 @@ function textinput (state, emit) {
 
     const msg = body.msg
 
+    console.log(form, data, body)
+
     const post = {
-      'title': 'what?',
+      'title': '',
       'topic_id': state.components.discussion.id, 
       'raw': msg
     }
 
+    const user_s = JSON.parse(localStorage.getItem('user_data'))
+    const user = ok(users).filter(user => user === user_s.user.username)
+
     if (body.website !== '') {
       bot.classList.remove('dn')
     } else if (body.msg === '') {
-      form.childNodes[0].childNodes[0].value="Type something before sending a message"
+      form.childNodes[0].childNodes[0].value='Type something before sending a message'
     } else {
       xhr({
-        method: "post",
-				headers: {"Content-Type": "multipart/form-data"},
-        url: `https://forum.englishes-mooc.org/posts.json?api_key=${users.system}&api_username=${ok(users)[0]}&title='what?'&topic_id=${state.components.discussion.id}&raw=${msg}`,
+        method: 'post',
+				headers: {'Content-Type': 'multipart/form-data'},
+        url: `https://forum.englishes-mooc.org/posts.json?api_key=${users[user]}&api_username=${user}&title='what?'&topic_id=${state.components.discussion.id}&raw=${msg}`,
         json: true,
         beforeSend: function(xhrObject){
           xhrObject.onprogress = function(){
