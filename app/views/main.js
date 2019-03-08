@@ -37,7 +37,7 @@ function view (state, emit) {
           </div>
         </section>
 
-        <section class="${ state.status_toggle ? 'md-c6 ' : 'md-c6 ' }${ state.sidebar ? 'md-c6' : 'md-c3' } br-bldb dn md-db os xmd-psf xmd-t0 xmd-r0 md-vh100 xdl">
+        <section class="${ state.sidebar ? 'md-c6' : 'md-c3' } br-bldb dn md-db os xmd-psf xmd-t0 xmd-r0 md-vh100 xdl">
           ${ sidebar() }
         </section>
       </main>
