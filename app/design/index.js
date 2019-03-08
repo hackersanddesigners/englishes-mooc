@@ -55,7 +55,7 @@ var size = {
       h: 'height'
     }
   ],
-  vals: [50, 90, 100],
+  vals: [15, 35, 50, 90, 100],
   join: '-',
   unit: '%'
 }

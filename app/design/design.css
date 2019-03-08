@@ -244,8 +244,16 @@ input[type=checkbox]:checked {
   max-height: 80vh;
 }
 
-.t05 {
+.t0-5 {
   top: 0.5rem;
+}
+
+.l0-75 {
+  left: 0.75rem;
+}
+
+.l16 {
+  left: 16%;
 }
 
 .t70 {
@@ -262,6 +270,10 @@ input[type=checkbox]:checked {
 
 .ttxc {
   transform: translate(-50%);
+}
+
+.ttr180 {
+  transform: rotate(180deg);
 }
 
 @media screen and (min-width: 540px) {
