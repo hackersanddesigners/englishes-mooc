@@ -52,7 +52,7 @@ class forum extends nc {
     }, function (err, resp, body) {
       if (err) throw err
 
-      console.log(body)
+      // console.log(body)
     })
 
   }
