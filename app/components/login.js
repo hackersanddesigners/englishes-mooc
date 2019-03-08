@@ -10,8 +10,8 @@ var users = require('../stores/users.json')
 function login (state, emit) {
 
   return html`
-    ${ storage() }
     <div class="c12 pt1 pr1 pb1 pl1 copy">
+      ${ storage() }
       <button class="psf t05 r0 pr1 ft-mn fs2-4 curp" onclick=${ close(emit) }>x</button>
 
       <form id="login" onsubmit=${ onsubmit } method="post" class="pb2">
