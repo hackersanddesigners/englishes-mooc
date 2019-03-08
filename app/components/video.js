@@ -21,25 +21,22 @@ class video extends nc {
 
     // console.log(data)
 
+    var url_split = data.split('://')
+    var vcode = url_split[1].split('/')
+    var embed = url_split[0] + '://player.' + vcode[0] + '/video/' + vcode[1]
+
     return html`
       <div class="iframe-container psr">
-        <button class="z4 psa b0 l0 bgc-wh p02-5">play</button>
+        <iframe src="${ embed }?title=0&byline=0&portrait=0&api=1&background=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> 
+        <button class="dn z4 psa b0 l0 bgc-wh p02-5">play</button>
       </div>
     `
   }
 
-  // load (el) {
-  //   console.log(this.data)
-  //   const player = new vimeo(el, {
-  //     url: this.data,
-  //     background: true,
-  //     title: false,
-  //     byline: false,
-  //     portrait: false
-  //   })
-
-  //   this.state.components.video = player
-  // }
+  load (el) {
+    const player = el
+    // console.log(el)
+  }
 
   update () {
     return true
