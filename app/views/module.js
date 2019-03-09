@@ -25,12 +25,18 @@ function view (state, emit) {
   return html`
     <body>
       <main class="x xdc md-xdr vh100">
-        <section class="${ localStorage.getItem('user_login') !== 'true' ? 'dn ' : '' }${ state.status_toggle ? 'md-w-15 ' : '' }os x md-vh100 z3 xdl bgc-wh psr">
+        <section class="
+          ${ localStorage.getItem('user_login') === 'false' ? 'dn ' : '' }
+          ${ state.status_toggle ? 'md-w-15 ' : 'xx ' }
+          os x md-vh100 z3 xdl bgc-wh psr">
           ${ status() }
           <button class="psf t0-5${ state.status_toggle ? ' l16 ' : ' l0-75 ' }curp z4" onclick=${ status_toggle(emit) }>${ state.status_toggle ? '⇇ ' : '⇉' }</button>
         </section>
 
-        <section class="${ state.status_toggle ? 'md-w-35 ' : '' }${ localStorage.getItem('user_login') !== 'true' ? 'md-c9' : 'md-c6' } os xh100 md-bl-grdb md-br-rddb pt1 pr1 pb1 pl1 xdl">
+        <section class="
+          ${ state.status_toggle ? 'md-w-35 ' : '' }
+          ${ localStorage.getItem('user_login') === 'false' && state.sidebar === false ? 'md-c9 ' : 'md-c6 ' }
+          os xh100 md-bl-grdb md-br-rddb pt1 pr1 pb1 pl1 xdl">
           <h1 class="ft-bd fs2-4 c12 tac md-pb2">${data.content.title}</h1>
           <section class="${ state.sidebar ? 'md-c6 psf t70 l0 r0 b0 z4 md-psr bl-rddb br-bldb' : 'md-c3' } db md-dn os xdl bgc-wh">
             ${ sidebar() }
@@ -53,7 +59,11 @@ function view (state, emit) {
             </div>
           </div>
         </section>
-        <section class="${ localStorage.getItem('user_login') === 'true' && state.sidebar ? 'md-c6 ' : 'md-c3 ' }${ localStorage.getItem('user_login') === 'true' && state.href === '/' + state.route ? 'bgc-gy' : 'bgc-wh' } br-bldb dn md-db os md-vh100 xdl">
+        <section class="
+          ${ localStorage.getItem('user_login') === 'true' ? 'md-c6 ' : '' }
+          ${ state.sidebar ? 'md-c6 ' : 'md-c3 ' }
+          ${ localStorage.getItem('user_login') === 'true' && state.href === '/' + state.route ? 'bgc-gy' : 'bgc-wh' }
+          br-bldb dn md-db os md-vh100 xdl">
           ${ sidebar() }
         </section>
       </main>

@@ -43,7 +43,7 @@ class sidepage extends nc {
   update () {
     return true
   }
-  
+
 }
 
 module.exports = sidepage
