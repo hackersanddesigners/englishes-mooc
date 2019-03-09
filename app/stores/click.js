@@ -12,7 +12,7 @@ function clickhandle (state, emitter) {
   state.modules = []
   state.nav_toggle = true
   state.status_toggle = false
-  state.editor_toggle = false
+  state.editor_toggle = true
 
   const modules = data.children.course.children
   ov(modules).map(function (module) {
