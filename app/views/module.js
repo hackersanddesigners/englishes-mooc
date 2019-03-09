@@ -27,7 +27,7 @@ function view (state, emit) {
       <main class="x xdc md-xdr vh100">
         <section class="
           ${ localStorage.getItem('user_login') === 'false' ? 'dn ' : '' }
-          ${ state.status_toggle ? 'md-w-15 ' : 'xx ' }
+          ${ state.status_toggle ? 'md-w-15 ' : '' }
           os x md-vh100 z3 xdl bgc-wh psr">
           ${ status(state, emit) }
           <button class="psf t0-5${ state.status_toggle ? ' l16 ' : ' l0-75 ' }curp z4" onclick=${ status_toggle(emit) }>${ state.status_toggle ? '⇇ ' : '⇉' }</button>
@@ -36,8 +36,8 @@ function view (state, emit) {
         <section class="
           ${ state.status_toggle ? 'md-w-35 ' : '' }
           ${ localStorage.getItem('user_login') === 'false' && state.sidebar === false ? 'md-c9 ' : 'md-c6 ' }
-          os xh100 md-bl-grdb md-br-rddb pt1 pr1 pb1 pl1 xdl">
-          <h1 class="ft-bd fs2-4 c12 tac md-pb2">${data.content.title}</h1>
+          os h100 md-bl-grdb md-br-rddb pt1 pr1 pb1 pl1 xdl">
+          <a href="/" class="tdn"><h1 class="ft-bd fs2-4 c12 tac md-pb2">${data.content.title}</h1></a>
           <section class="${ state.sidebar ? 'md-c6 psf t70 l0 r0 b0 z4 md-psr bl-rddb br-bldb' : 'md-c3' } db md-dn os xdl bgc-wh">
             ${ sidebar(state, emit) }
           </section>

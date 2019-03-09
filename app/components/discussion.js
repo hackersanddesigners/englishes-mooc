@@ -46,7 +46,7 @@ class discussion extends nc {
 
         return ov(state.components.discussion.post_stream.posts).filter(post => post.user_deleted === false).map(function (post) {
           return html`
-            <div class="post x xjb pt1 pb1 bt-bk${ post.username === user ? ' bgc-rd' : '' }">
+            <div class="post x xjb pt1 pb1 bt-bk">
               <div class="ty-w ty-h br-50 bgc-bk fc-wh">${ post.username.charAt(0) }</div>
 
               <div style="width: 90%">
