@@ -14,7 +14,6 @@ class forum extends nc {
     this.state = null
     this.emit = null
     this.data = { }
-    this.getPosts = this.getPosts.bind(this)
   }
 
   createElement(state, data, emit) {
@@ -23,10 +22,11 @@ class forum extends nc {
     this.data = data
 
     return html`
-      <div class="c6 pt1 pr1 pb1 pl1 copy">
-        <button class="curp" onclick=${ logout(emit) }>Log out</button>
-        <h2>${ data.user.name }</h2> 
-        ${ this.getPosts() }
+      <div class="c12 pt1 pr1 pb1 pl1 copy">
+        <div class="c12 x xdr xjb pb2">
+          <button class="fs1 tdu">${ data.user.name }</button> 
+          <button class="curp" onclick=${ logout(emit) }>Log out</button>
+        </div>
       </div>
     `
 
@@ -41,25 +41,6 @@ class forum extends nc {
 
   unload () {
     this.state.components.user_id = ''
-  }
-
-  getPosts() {
-    const user_s = JSON.parse(localStorage.getItem('user_data'))
-    if (user_s !== null) {
-      const user = ok(users).filter(user => user === user_s.user.username)
-
-      xhr({
-        method: 'get',
-        headers: {'Content-Type': 'multipart/form-data'},
-        url: `https://forum.englishes-mooc.org/posts.json?api_key=${users[user]}&api_username=${ok(users)[0]}`,
-        json: true,
-      }, function (err, resp, body) {
-        if (err) throw err
-
-        // console.log(body)
-      })
-    }
-
   }
 
 }
