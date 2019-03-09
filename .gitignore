@@ -13,9 +13,7 @@ public/vendor/
 
 public/content/
 
-public/assets/fonts/
-public/assets/css/
-public/assets/js/
+public/assets/
 
 #---
 /app/node_modules
