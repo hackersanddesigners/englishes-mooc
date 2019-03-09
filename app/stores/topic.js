@@ -15,11 +15,11 @@ function topic (state, emitter) {
       xhr({
         method: 'get',
         headers: {'Content-Type': 'multipart/form-data'},
-        url: `https://forum.englishes-mooc.org/c/${ cat_id }.json?api_key=${users[user]}&api_username=${ok(users)[0]}`,
+        url: `https://forum.englishes-mooc.org/c/${ cat_id }.json?api_key=${users[user]}&api_username=${user[0]}`,
         json: true,
       }, function (err, resp, body) {
         if (err) throw err
-        // console.log(body)
+        console.log(body)
         state.components.cat = body
       })
 

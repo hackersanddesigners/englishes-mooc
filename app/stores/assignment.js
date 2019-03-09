@@ -4,47 +4,38 @@ var xhr = require('xhr')
 var users = require('./users.json')
 
 function assignment (state, emitter) {
-  emitter.on('topic', () => {
-    const page = ov(state.content).filter(page => page.uri === state.route)[0]
-    const cat_id = page.content.cat_id
+  const user_s = JSON.parse(localStorage.getItem('user_data'))
+  if (user_s !== null) {
+    const user = ok(users).filter(user => user === user_s.user.username)
 
-    xhr({
-      method: "get",
-      headers: {"Content-Type": "multipart/form-data"},
-      url: `https://forum.englishes-mooc.org/c/${ cat_id }.json?api_key=${users.system}&api_username=${ok(users)[0]}`,
-      json: true,
-    }, function (err, resp, body) {
-      if (err) throw err
-      console.log(body)
-      state.components.cat = body
+    emitter.on('assignment', () => {
+      const page = ov(state.content).filter(page => page.uri === state.route)[0]
+      const cat_id = page.content.cat_id
 
-      if(body !== undefined && !('assignment' in state.components)) {
-        const topics = body.topic_list.topics
+      // console.log(state.components)
+
+      if(state.components.cat !== undefined) {
+        const topics = state.components.cat.topic_list.topics
         const topic = topics.filter(tag => tag.tags.includes('assignment'))
 
-        if (topic.lenght > 0) {
+        if (topic.length > 0) {
           xhr({
             method: "get",
             headers: {"Content-Type": "multipart/form-data"},
-            url: `https://forum.englishes-mooc.org/t/${ topic[0].id }.json?api_key=${users.system}&api_username=${ok(users)[0]}`,
+            url: `https://forum.englishes-mooc.org/t/${ topic[0].id }.json?api_key=${users[user]}&api_username=${user[0]}`,
             json: true,
           }, function (err, resp, body) {
             if (err) throw err
-            // console.log(body)
-
+            console.log(body)
             state.components.assignment = body
-
-            if ('assignment' in state.components) {
-              console.log('state.components.assignment')
-            }
           })
-        }
 
+          emitter.emit('render')
+        }
       }
 
     })
-    emitter.emit('render')
-  })
+  }
 
 }
 

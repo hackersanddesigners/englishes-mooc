@@ -29,7 +29,7 @@ function view (state, emit) {
           ${ localStorage.getItem('user_login') === 'false' ? 'dn ' : '' }
           ${ state.status_toggle ? 'md-w-15 ' : 'xx ' }
           os x md-vh100 z3 xdl bgc-wh psr">
-          ${ status() }
+          ${ status(state, emit) }
           <button class="psf t0-5${ state.status_toggle ? ' l16 ' : ' l0-75 ' }curp z4" onclick=${ status_toggle(emit) }>${ state.status_toggle ? '⇇ ' : '⇉' }</button>
         </section>
 
@@ -39,7 +39,7 @@ function view (state, emit) {
           os xh100 md-bl-grdb md-br-rddb pt1 pr1 pb1 pl1 xdl">
           <h1 class="ft-bd fs2-4 c12 tac md-pb2">${data.content.title}</h1>
           <section class="${ state.sidebar ? 'md-c6 psf t70 l0 r0 b0 z4 md-psr bl-rddb br-bldb' : 'md-c3' } db md-dn os xdl bgc-wh">
-            ${ sidebar() }
+            ${ sidebar(state, emit) }
           </section>
   
           <div class="pl2 pr2">
@@ -64,7 +64,7 @@ function view (state, emit) {
           ${ state.sidebar ? 'md-c6 ' : 'md-c3 ' }
           ${ localStorage.getItem('user_login') === 'true' && state.href === '/' + state.route ? 'bgc-gy' : 'bgc-wh' }
           br-bldb dn md-db os md-vh100 xdl">
-          ${ sidebar() }
+          ${ sidebar(state, emit) }
         </section>
       </main>
     </body>
@@ -129,10 +129,12 @@ function view (state, emit) {
     return function () { emit('status_toggle') }
   }
 
-  function sidebar () {
+  function sidebar (state, emit) {
     if (localStorage.getItem('user_data') !== undefined && localStorage.getItem('user_login') === 'true') {
       // pre-load module's related topics from the forum
-      emit('topic')
+      // emit('topic')
+      // emit('discussion')
+      // emit('assignment')
 
       if (state.href === '/' + state.route) {
         return topic.render(state, JSON.parse(localStorage.getItem('user_data')), emit)

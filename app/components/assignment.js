@@ -81,7 +81,7 @@ class assignment extends nc {
       } else {
         return html`
           <div class="pt1 pb1 bt-bk">
-            <p>no post yet!</p>
+            <p>loading...</p>
           </div>
         `
       }
