@@ -25,12 +25,16 @@ class texteditor extends nc {
 
     return html`
       <div class="c12 pt1 pr1 pb1 pl1 copy">
-        <button onclick=${editor_toggle(emit)} class="fs1 curp">${ state.editor_toggle ? '↑' : '↓' }</button>
+        <p class="dn">${ state.editor_toggle }</p>
+        <button onclick=${editor_toggle(emit)} class="fs1 curp dn">${ state.editor_toggle ? '↓' : '↑' }</button>
 
-        <div class="${ state.editor_toggle ? 'dn' : 'db'}">
-          <form method="post" enctype="multipart/form-data">
-            <input id="upload" type="file" onchange=${ upload } class="tdu curp">
-          </form>
+        <div class="${ state.editor_toggle ? 'db ' : 'dn '}psr">
+          <div class="z3 psa to r0 pt0-25">
+            <form method="post" enctype="multipart/form-data" class="psr oh dib">
+              <button class="tdu curp">upload file</button>
+              <input id="upload" type="file" onchange=${ upload } class="psa t0 l0 op0 curp">
+            </form>
+          </div>
 
           <div class="txa">
             <textarea for="textinput" id="msg" name="msg" rows="5" class="c12 dib ba-bk b-bk p0-25 fs1 ft-rg"></textarea>
