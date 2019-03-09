@@ -105,7 +105,6 @@ class texteditor extends nc {
     function onsubmit (e) {
       e.preventDefault()
       const form = e.currentTarget
-      const txa = form.firstChild
       const data = new FormData(form)
       const bot = document.querySelector('.bot')
       const send = form.querySelector('.send')
@@ -113,7 +112,8 @@ class texteditor extends nc {
       const body = {}
       for (var pair of data.entries()) body[pair[0]] = pair[1]
 
-      const msg = body.msg
+      const txe = state.components.txe
+      const msg = txe.parseMarkdown(txe.value())
 
       const post = {
         'title': '',
@@ -168,13 +168,15 @@ class texteditor extends nc {
 
   load(el) {
     const textarea = el.querySelector('textarea')
-    wf(textarea, {
+    const txe = wf(textarea, {
       parseMarkdown: mm,
       parseHTML: dm,
       defaultMode: 'markdown',
       wysiwyg: false,
       html: false
     })
+
+    this.state.components.txe = txe
 
     // woofmark(document.querySelector('#ta'), {
     //   parseMarkdown: megamark,
