@@ -1,12 +1,12 @@
 var ok = require('object-keys')
+var ov = require('object-values')
 var xhr = require('xhr')
 var users = require('./users.json')
 
 function discussion (state, emitter) {
-  const cat_id = '5'
-
   emitter.on('topic', () => {
-    // console.log(state)
+    const page = ov(state.content).filter(page => page.uri === state.route)[0]
+    const cat_id = page.content.cat_id
 
     xhr({
       method: 'get',
@@ -15,25 +15,29 @@ function discussion (state, emitter) {
       json: true,
     }, function (err, resp, body) {
       if (err) throw err
-      // console.log(body)
+      console.log(body)
       state.components.cat = body
 
-      const topics = body.topic_list.topics
-      const topic = topics.filter(tag => tag.tags.includes('discussion'))
+      if(body !== undefined && !('discussion' in state.components)) {
+        const topics = body.topic_list.topics
+        const topic = topics.filter(tag => tag.tags.includes('discussion'))
 
-      xhr({
-        method: 'get',
-        headers: {'Content-Type': 'multipart/form-data'},
-        url: `https://forum.englishes-mooc.org/t/${ topic[0].id }.json?api_key=${users.system}&api_username=${ok(users)[0]}`,
-        json: true,
-      }, function (err, resp, body) {
-        if (err) throw err
-        // console.log(body)
+        if (topic.lenght > 0) {
+          xhr({
+            method: 'get',
+            headers: {'Content-Type': 'multipart/form-data'},
+            url: `https://forum.englishes-mooc.org/t/${ topic[0].id }.json?api_key=${users.system}&api_username=${ok(users)[0]}`,
+            json: true,
+          }, function (err, resp, body) {
+            if (err) throw err
+            // console.log(body)
+            state.components.discussion = body
+          })
+        }
 
-        state.components.discussion = body
-      })
-
+      }
     })
+
     emitter.emit('render')
   })
 

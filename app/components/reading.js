@@ -18,11 +18,12 @@ class reading extends nc {
     this.state = state
     this.emit = emit
 
+    const course = ov(state.content).filter(page => page.uid === 'course')[0]
+
     return html`
-      <div class="c12 pt1 pr1 pb1 pl1 copy">
+      <div class="c12 pt1 pb1 copy">
         <div class="pb1 bb-bk">
-          <p>Downloads and links</p>
-          <p>Here you can find additional material such as texts, videos or audio recordings for your classes.</p>
+          ${ raw(md.render(course.content.material)) }
         </div>
         <div class="pt1">
         ${ raw(md.render(state.page.content.reading)) }

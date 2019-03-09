@@ -21,11 +21,12 @@ class discussion extends nc {
     this.state = state
     this.emit = emit
 
+    const course = ov(state.content).filter(page => page.uid === 'course')[0]
+
     return html`
       <div class="psr c12 pt1 pb1 copy">
         <div class="pb1">
-          <p>Feedback</p>
-          <p>Do you have questions about the assignment or the content of this module? Share it in the group on this note board or contact Nicoline van Harskamp via englishes.mooc@gmail.com</p>
+          ${ raw(md.render(course.content.discussion)) }
         </div>
 
         <div class="posts">
@@ -38,7 +39,7 @@ class discussion extends nc {
       </div>
     `
 
-    function topic () {
+    function topic (state, emit) {
       if (state.components.discussion !== undefined) {
         const user_s = JSON.parse(localStorage.getItem('user_data'))
         const user = ok(users).filter(user => user === user_s.user.username)
@@ -73,13 +74,19 @@ class discussion extends nc {
             }
           }
 
-
           function delete_post(id) {
             return function () { emit('delete_post', post.id) }
           }
 
         })
+      } else {
+        return html`
+          <div class="pt1 pb1 bt-bk">
+            <p>no post yet!</p>
+          </div>
+        `
       }
+
     }
 
   }
