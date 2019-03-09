@@ -32,14 +32,26 @@ class statusbar extends nc {
       return ov(data.children).map(function (item) {
         return html`
           <div class="x xdr xjb pt1">
-            <div class="video tac pb1 c12">
+            <div class="video tac pb1 c12${ item.content.status === 'upcoming' ? ' op50' : '' }">
               ${ video.render(state, item.content.pitch_url, emit) }
-              <a href="${ item.url }" class="ft-mn fs0-8 fc-bk tdn">${ item.content.title }</a>
+              ${ link() }
               <p class="ft-mn fs0-8 pt0-5 pb0">${ item.content.duration }</p>
             </div>
             ${ status() }
           </div>
         `
+
+        function link () {
+          if(item.content.status === 'upcoming') {
+            return html`
+              <p class="ft-mn fs0-8 fc-bk tdn">${ item.content.title }</p>
+            `
+          } else {
+            return html`
+              <a href="${ item.url }" class="ft-mn fs0-8 fc-bk tdn">${ item.content.title }</a>
+            `
+          }
+        }
 
         function status () {
           const clocks = {
