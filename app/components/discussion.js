@@ -5,7 +5,8 @@ var html = require('choo/html')
 var raw = require('choo/html/raw')
 var Markdown = require('markdown-it')
 var md = new Markdown()
-var ti = require('./textinput')
+var Txe = require('./texteditor')
+var txe = new Txe()
 var users = require('../stores/users')
 
 class discussion extends nc {
@@ -32,7 +33,7 @@ class discussion extends nc {
         </div>
 
         <div class="">
-          ${ ti(state, emit)}
+          ${ txe.render(state, emit)}
         </div>
       </div>
     `
@@ -59,7 +60,7 @@ class discussion extends nc {
               </div>
             </div>
           `
-          
+
           function date() {
             return Date.parse(post.created_at)
           }

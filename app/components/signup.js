@@ -66,7 +66,6 @@ function signup () {
     var bot = document.querySelector('.bot')
     var send = form.querySelector('.send')
 
-    var headers = new Headers({ 'Content-Type': 'application/json' })
     var body = {}
     for (var pair of data.entries()) body[pair[0]] = pair[1]
 

@@ -32,13 +32,21 @@
     "yo-yoify": "^4.3.0"
   },
   "dependencies": {
+    "@uppy/core": "^0.30.2",
+    "@uppy/dashboard": "^0.30.2",
+    "@uppy/xhr-upload": "^0.30.2",
     "@vimeo/player": "^2.8.0",
     "choo": "^6.13.1",
+    "domador": "^2.4.4",
+    "filepond": "^4.2.0",
     "gr8": "^3.1.5",
     "markdown-it": "^8.4.2",
+    "megamark": "^3.3.0",
     "object-keys": "^1.0.12",
     "object-values": "^2.0.0",
     "recsst": "^1.1.2",
+    "uppy": "^0.30.2",
+    "woofmark": "^4.2.6",
     "xhr": "^2.5.0",
     "xtend": "^4.0.1"
   }

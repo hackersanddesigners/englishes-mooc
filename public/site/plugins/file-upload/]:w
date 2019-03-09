@@ -1,0 +1,39 @@
+<?php
+
+Kirby::plugin('mooc/upload', [
+  'routes' => [
+    [
+      'method' => 'POST',
+      'pattern' => 'apiupload',
+      'action'  => function () {
+        if(r::is('POST')) {
+          /* $d = r::data(); */
+
+          $data = array(
+            'module' => get('module'),
+            'file' => get('file'),
+            /* 'lastModified' => get('lastModified'), */
+            /* 'name' => get('name'), */
+            /* 'size' => get('size'), */
+            /* 'type' => get('type') */
+          );
+
+          $p = page('error')->children()->create(str::slug(time()), 'assignment', $data);
+
+          /* try { */
+          /*   $upload = new Upload($p->root() . DS . '{safeFilename}'); */
+          /* } catch(Error $e) { */
+          /*   switch($e->getCode()) { */
+          /*   case Upload::ERROR_MISSING_FILE: */
+          /*     $error = 'No file uploaded'; */
+          /*     break; */
+          /*   } */
+          /* } */
+
+          return response::json($data);
+        }
+
+      }
+    ]
+  ]
+]);

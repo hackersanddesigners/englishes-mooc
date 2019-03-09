@@ -6,7 +6,7 @@ function discussion (state, emitter) {
   const cat_id = '5'
 
   emitter.on('topic', () => {
-    console.log(state)
+    // console.log(state)
 
     xhr({
       method: 'get',

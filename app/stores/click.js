@@ -76,11 +76,13 @@ function clickhandle (state, emitter) {
   emitter.on('log-out', () => {
     const user_s = JSON.parse(localStorage.getItem('user_data'))
     const user = ok(users).filter(user => user === user_s.user.username)
+    const user_id = user_s.user.id
+    console.log(user, user_id, users[user])
 
     xhr({
       method: 'post',
       headers: {'Content-Type': 'multipart/form-data'},
-      url: `https://forum.englishes-mooc.org/admin/users/${state.components.user_id}/log_out?api_key=${users[user]}&api_username=${user}`,
+      url: `https://forum.englishes-mooc.org/admin/users/${user_id}/log_out?api_key=${users[user]}&api_username=${user}`,
       json: true,
       beforeSend: function(xhrObject){
         xhrObject.onprogress = function(){
