@@ -44,16 +44,21 @@ class forum extends nc {
   }
 
   getPosts() {
-    xhr({
-      method: "get",
-      headers: {"Content-Type": "multipart/form-data"},
-      url: `https://forum.englishes-mooc.org/posts.json?api_key=${users.system}&api_username=${ok(users)[0]}`,
-      json: true,
-    }, function (err, resp, body) {
-      if (err) throw err
+    const user_s = JSON.parse(localStorage.getItem('user_data'))
+    if (user_s !== null) {
+      const user = ok(users).filter(user => user === user_s.user.username)
 
-      // console.log(body)
-    })
+      xhr({
+        method: 'get',
+        headers: {'Content-Type': 'multipart/form-data'},
+        url: `https://forum.englishes-mooc.org/posts.json?api_key=${users[user]}&api_username=${ok(users)[0]}`,
+        json: true,
+      }, function (err, resp, body) {
+        if (err) throw err
+
+        // console.log(body)
+      })
+    }
 
   }
 
