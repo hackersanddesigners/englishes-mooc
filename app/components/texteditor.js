@@ -32,12 +32,12 @@ class texteditor extends nc {
             <input id="upload" type="file" onchange=${ upload } class="tdu curp">
           </form>
 
-          <div>
-            <textarea for="textinput" id="msg" name="msg" rows="5" class="c12 dib ba-bk b-bk"></textarea>
+          <div class="txa">
+            <textarea for="textinput" id="msg" name="msg" rows="5" class="c12 dib ba-bk b-bk p0-25 fs1 ft-rg"></textarea>
           </div>
 
           <div class="x xjb pt0-5">
-            <button class="cancel-box fs1 tdu curp" onclick=${ reset }>cancel</button>
+            <button class="cancel-box fs1 tdu curp" onclick=${editor_toggle(emit)}>cancel</button>
 
             <form id="textinput" onsubmit=${ onsubmit } method="post">
               <div class="x xafs">
@@ -79,9 +79,9 @@ class texteditor extends nc {
       formData.append('module', state.page.content.title)
       formData.append('file', file)
 
-      // for (var key of formData.entries()) {
-      //   console.log(key[0] + ', ' + key[1]);
-      // }
+      for (var key of formData.entries()) {
+        console.log(key[0] + ', ' + key[1]);
+      }
 
       console.log(file)
 
@@ -100,12 +100,6 @@ class texteditor extends nc {
         console.log(err, resp)
         console.log(body)
       })
-    }
-
-    function reset () {
-      const txa = document.querySelector('textarea')
-      console.log(txa)
-      // txa.value = ''
     }
 
     function onsubmit (e) {
@@ -150,17 +144,13 @@ class texteditor extends nc {
 
           console.log(body)
 
-          if (body.error) {
+          if (body.errors) {
             const box = form.querySelector('.error-box')
             box.classList.remove('dn')
             box.classList.add('dib')
 
-            const retry = form.querySelector('.retry-box')
-            retry.classList.remove('dn')
-            retry.classList.add('dib')
-
-            const msg = 'Something went wrong, try again.'
-            box.firstChild.innerHTML = msg
+            const text = 'Something went wrong, try again.'
+            box.firstChild.innerHTML = text
 
             send.classList.add('dn')
 
@@ -182,6 +172,7 @@ class texteditor extends nc {
       parseMarkdown: mm,
       parseHTML: dm,
       defaultMode: 'markdown',
+      wysiwyg: false,
       html: false
     })
 

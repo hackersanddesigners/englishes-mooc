@@ -118,6 +118,10 @@ code, pre {
   font-family: var(--ft-mn);
 }
 
+.ft-rg {
+font-family: var(--ft-rg);
+}
+
 .ft-bd {
   font-family: var(--ft-bd);
 }
@@ -338,20 +342,78 @@ input[type=checkbox]:checked {
 
 /* woofmark text-editor */
 
+.wk-container {
+  position: relative;
+}
+
+.txa {
+  padding-top: 1.65rem;
+}
+
+.wk-prompt {
+  font-size: 1rem;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 50%;
+  border-right: 6px solid #3865A1;
+  padding: 1rem;
+  background: var(--c-gy);
+}
+
+.wk-prompt-title {
+  font-size: 1rem;
+}
+
+.wk-prompt-body {
+  padding-bottom: 1rem;
+}
+
+.wk-prompt-description {
+  display: none;
+}
+
+.wk-prompt-input-container {
+  width: 100%;
+}
+
+.wk-prompt-input {
+  border-bottom: 1px solid var(--c-bl);
+  width: 100%;
+}
+
+.wk-prompt-buttons {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+.wk-prompt-buttons button {
+  cursor: pointer;
+  text-decoration: underline;
+  text-transform: lowercase;
+}
+
 .wk-wysiwyg {
+  display: none;
   border: 1px solid var(--c-bk);
-  height: 6rem;
   overflow: scroll;
 }
 
-.wk-commands,
 .wk-switchboard {
-  display: inline-block;
+  display: none;
+}
+
+.wk-commands,
+.xwk-switchboard {
+  /* display: inline-block; */
   border: 1px solid var(--c-bk);
   background: var(--c-gy);
 }
 
 .wk-commands {
+  position: absolute;
+  top: 0;
   border: 1px solid var(--c-bk);
   background: var(--c-gy);
 }
