@@ -25,38 +25,50 @@ class texteditor extends nc {
 
     return html`
       <div class="c12 pt1 pr1 pb1 pl1 copy">
-        <form method="post" enctype="multipart/form-data">
-          <input id="upload" type="file" onchange=${ upload } class="tdu curp">
-        </form>
+        <button onclick=${editor_toggle(emit)} class="fs1 curp">${ state.editor_toggle ? '↑' : '↓' }</button>
 
-        <div>
-          <textarea for="textinput" id="msg" name="msg" class="dib ba-bk"></textarea>
+        <div class="${ state.editor_toggle ? 'dn' : 'db'}">
+          <form method="post" enctype="multipart/form-data">
+            <input id="upload" type="file" onchange=${ upload } class="tdu curp">
+          </form>
+
+          <div>
+            <textarea for="textinput" id="msg" name="msg" rows="5" class="c12 dib ba-bk b-bk"></textarea>
+          </div>
+
+          <div class="x xjb pt0-5">
+            <button class="cancel-box fs1 tdu curp" onclick=${ reset }>cancel</button>
+
+            <form id="textinput" onsubmit=${ onsubmit } method="post">
+              <div class="x xafs">
+                <input type="submit" value="post" class="send fs1 tdu curp">
+
+                <div class="dn success-box pl1">
+                  <p class="dib pb0"></p>
+                </div>
+
+                <div class="dn error-box pl1">
+                  <p class="dib pb0"></p>
+                </div>
+              </div>
+
+              <div class="psf t0 l999">
+                <label for="message">If you are not a bot, leave this field empty</label>
+                <input type="website" name="website" id="website" placeholder ="http://example.com" value="">
+              </div>
+              <div class="bot dn psa t0 l0 w100 h100 tac">
+                <p class="psa t50 l50 ttcc">Hello bot!</p>
+              </div>
+            </form>
+          </div>
         </div>
 
-        <form id="textinput" onsubmit=${ onsubmit } method="post" class="pb2">
-          <div class="x xafs">
-            <input type="submit" value="post" class="send fs1 tdu curp">
-
-            <button class="dn fs1-3 retry-box curp" onclick=${ reset }>Retry</button>
-            <div class="dn success-box pl1">
-              <p class="dib pb0"></p>
-            </div>
-
-            <div class="dn error-box pl1">
-              <p class="dib pb0"></p>
-            </div>
-          </div>
-
-          <div class="psf t0 l999">
-            <label for="message">If you are not a bot, leave this field empty</label>
-            <input type="website" name="website" id="website" placeholder ="http://example.com" value="">
-          </div>
-          <div class="bot dn psa t0 l0 w100 h100 tac">
-            <p class="psa t50 l50 ttcc">Hello bot!</p>
-          </div>
-        </form>
       </div>
     `
+
+    function editor_toggle(emit) {
+      return function () { emit('editor_toggle') }
+    }
 
     function upload (e) {
       e.preventDefault()
@@ -91,20 +103,9 @@ class texteditor extends nc {
     }
 
     function reset () {
-      const form = document.querySelector('#textinput')
-      form.reset()
-
-      const box = form.querySelector('.error-box')
-      box.classList.remove('dib')
-      box.classList.add('dn')
-
-      const retry = form.querySelector('.retry-box')
-      retry.classList.remove('dib')
-      retry.classList.add('dn')
-
-      const send = form.querySelector('.send')
-      send.classList.remove('dn')
-      send.value = 'post'
+      const txa = document.querySelector('textarea')
+      console.log(txa)
+      // txa.value = ''
     }
 
     function onsubmit (e) {
@@ -180,7 +181,8 @@ class texteditor extends nc {
     wf(textarea, {
       parseMarkdown: mm,
       parseHTML: dm,
-      defaultMode: 'markdown'
+      defaultMode: 'markdown',
+      html: false
     })
 
     // woofmark(document.querySelector('#ta'), {
@@ -196,9 +198,6 @@ class texteditor extends nc {
     //     url: '/uploads/attachments'
     //   }
     // });
-
-    console.log(wf)
-    console.log(wf.find(textarea))
   }
 
   update () {

@@ -22,7 +22,7 @@ class discussion extends nc {
     this.emit = emit
 
     return html`
-      <div class="c12 pt1 pb1 copy">
+      <div class="psr c12 pt1 pb1 copy">
         <div class="pb1">
           <p>Feedback</p>
           <p>Do you have questions about the assignment or the content of this module? Share it in the group on this note board or contact Nicoline van Harskamp via englishes.mooc@gmail.com</p>
@@ -32,7 +32,7 @@ class discussion extends nc {
          ${ topic(state, emit) }
         </div>
 
-        <div class="">
+        <div class="psf b0 r0 bgc-wh c6 br-bldb">
           ${ txe.render(state, emit)}
         </div>
       </div>

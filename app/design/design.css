@@ -335,3 +335,33 @@ input[type=checkbox]:checked {
   -o-transition-property: width, height;
   transition-property: width, height;
 }
+
+/* woofmark text-editor */
+
+.wk-wysiwyg {
+  border: 1px solid var(--c-bk);
+  height: 6rem;
+  overflow: scroll;
+}
+
+.wk-commands,
+.wk-switchboard {
+  display: inline-block;
+  border: 1px solid var(--c-bk);
+  background: var(--c-gy);
+}
+
+.wk-commands {
+  border: 1px solid var(--c-bk);
+  background: var(--c-gy);
+}
+
+.wk-command {
+  padding: 0.25rem;
+  cursor: pointer;
+}
+
+.wk-command:hover,
+.wk-command:hover {
+  background: var(--c-wh);
+}

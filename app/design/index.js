@@ -20,7 +20,7 @@ var root = `
 `
 
 var basic = gr8({
-  spacing: [0, 0.25, 0.5, 1, 2, 4, 4.7 ,5],
+  spacing: [0, 0.25, 0.5, 1, 2, 4, 4.7 ,5, 15],
   fontSize: [0.8, 1, 1.3, 1.5, 2, 2.4],
   lineHeight: [1],
   zIndex: [1, 2],

@@ -29,19 +29,21 @@ class topic extends nc {
     this.data = data
 
     return html`
-      <div class="c12 pt1 pr1 pb1 pl1 copy">
-        <div class="c12 x xdr xjb pb2">
-          <button class="fs1 tdu">${ data.user.name }</button> 
-          <button class="curp" onclick=${ logout(emit) }>Log out</button>
+      <div class="psr c12 pt1 pr1 pb1 pl1 copy">
+        <div class="z3 psf t0 r0 c6 br-bldb pt1 pr1 pb1 pl1 copy bgc-gy">
+          <div class="c12 x xdr xjb pb2">
+            <button class="fs1 tdu">${ data.user.name }</button> 
+            <button class="curp" onclick=${ logout(emit) }>Log out</button>
+          </div>
+
+          <div class="x xdr xjb">
+            <button class="${ state.disc_tab ? 'tdu ' : '' }ft-mn curp" onclick=${ disc_tab(emit) }>Discussion Board</button>
+            <button class="${ state.read_tab ? 'tdu ' : '' }ft-mn curp" onclick=${ read_tab(emit) }>Further Reading</button>
+            <button class="${ state.todo_tab ? 'tdu ' : '' }ft-mn curp" onclick=${ todo_tab(emit) }>To Do's</button>
+          </div>
         </div>
 
-        <div class="x xdr xjb pb2">
-          <button class="${ state.disc_tab ? 'tdu ' : '' }ft-mn curp" onclick=${ disc_tab(emit) }>Discussion Board</button>
-          <button class="${ state.read_tab ? 'tdu ' : '' }ft-mn curp" onclick=${ read_tab(emit) }>Further Reading</button>
-          <button class="${ state.todo_tab ? 'tdu ' : '' }ft-mn curp" onclick=${ todo_tab(emit) }>To Do's</button>
-        </div>
-
-        <div class="posts">
+        <div class="posts pt5 pb15">
          ${ blob() }
         </div>
       </div>
