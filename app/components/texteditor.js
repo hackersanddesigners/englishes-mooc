@@ -170,6 +170,14 @@ class texteditor extends nc {
 
   }
 
+  update (el) {
+    return true
+  }
+
+  beforererender (el) {
+    console.log('look at me')
+  }
+
   load(el) {
     const textarea = el.querySelector('textarea')
     const txe = wf(textarea, {
@@ -195,10 +203,14 @@ class texteditor extends nc {
     //     url: '/uploads/attachments'
     //   }
     // });
+    
+    // this.rerender()
   }
 
-  update () {
-    return true
+  unload (el) {
+    const txe = this.state.components.txe
+    // console.log(txe)
+    // txe.destroy()
   }
 
 }
