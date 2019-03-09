@@ -37,14 +37,14 @@ class topic extends nc {
           </div>
 
           <div class="x xdr xjb">
-            <button class="${ state.disc_tab ? 'tdu ' : '' }ft-mn curp" onclick=${ disc_tab(emit) }>Discussion Board</button>
-            <button class="${ state.read_tab ? 'tdu ' : '' }ft-mn curp" onclick=${ read_tab(emit) }>Further Reading</button>
-            <button class="${ state.todo_tab ? 'tdu ' : '' }ft-mn curp" onclick=${ todo_tab(emit) }>To Do's</button>
+            <button class="${ state.disc_tab ? 'tdu ' : '' }ft-mn curp" onclick=${ disc_tab(emit) }>Discussion</button>
+            <button class="${ state.todo_tab ? 'tdu ' : '' }ft-mn curp" onclick=${ todo_tab(emit) }>Assignments</button>
+            <button class="${ state.read_tab ? 'tdu ' : '' }ft-mn curp" onclick=${ read_tab(emit) }>More Material</button>
           </div>
         </div>
 
         <div class="posts pt5 pb15">
-         ${ blob() }
+         ${ blob(state, emit) }
         </div>
       </div>
     `
@@ -65,7 +65,7 @@ class topic extends nc {
       return function () { emit('todo-tab') }
     }
 
-    function blob () {
+    function blob (state, emit) {
       if(state.disc_tab === true) {
         return discussion.render(state, emit)
       }
