@@ -21,6 +21,11 @@ class forum extends nc {
     this.emit = emit
     this.data = data
 
+    const user_s = JSON.parse(localStorage.getItem('user_data'))
+    const user = ok(users).filter(user => user === user_s.user.username)
+
+    console.log(user_s, user)
+
     return html`
       <div class="c12 pt1 pr1 pb1 pl1 copy">
         <div class="c12 x xdr xjb pb2">
