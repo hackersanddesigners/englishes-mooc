@@ -4,6 +4,8 @@ var nc = require('nanocomponent')
 var html = require('choo/html')
 var raw = require('choo/html/raw')
 var Markdown = require('markdown-it')
+var day = require('dayjs')
+var rt = require('dayjs/plugin/relativeTime')
 var md = new Markdown()
 var Txe = require('./texteditor')
 var txe = new Txe()
@@ -60,19 +62,78 @@ class discussion extends nc {
               <div style="width: 90%">
                 <div class="x xdr xjb">
                   <p class="c9 fc-gk">${ post.username }</p>
-                  <p class="c3 fc-gk">${ date() }</p>
+                  <p class="c3 fc-gk">${ date(post.created_at) }</p>
                   ${ delbutt() }
                 </div>
                 <div>
+                  ${ post.id } - ${ post.post_number }
                   ${ raw(post.cooked) }
                 </div>
               </div>
             </div>
           `
 
-          function date() {
-            return Date.parse(post.created_at)
+          function delbutt () {
+            if (post.username === user[0]) {
+              return html`
+                <button onclick=${ delete_post(emit) } class="curp">delete</button>
+              `
+            }
           }
+
+          function delete_post(id) {
+            return function () { emit('delete_post', post.id) }
+          }
+
+        })
+      }
+    }
+
+    function loadmore(posts, stream) {
+      const post_tot = posts.length -1
+      const post_n_l = posts[post_tot].post_number
+      const stream_tot = stream.length -1
+
+      console.log(post_n_l, stream_tot)
+
+      if(post_n_l < stream_tot) {
+        console.log('more posts to load')
+        emit('post-pag', post_n_l+1, 'discussion')
+      } else {
+        console.log('loading post')
+      }
+    }
+
+    function date(ts) {
+      day.extend(rt)
+      return day(ts).fromNow()
+    }
+
+    function topic (state, emit) {
+      if (state.components.discussion !== undefined) {
+        const posts = ov(state.components.discussion.post_stream.posts).filter(post => post.user_deleted === false)
+        const stream = ov(state.components.discussion.post_stream.stream)
+
+        loadmore(posts, stream)
+
+        return posts.map(function (post, i) {
+          return html`
+            <div class="post x xjb pt1 pb1 bt-bk">
+              <div class="ty-w ty-h br-50 bgc-bk fc-wh">${ post.username.charAt(0) }</div>
+
+              <div style="width: 90%">
+                <div class="x xdr xjb">
+                  <p class="c9 fc-gk">${ post.username }</p>
+                  <p class="c3 fc-gk">${ date(post.created_at) }</p>
+                  ${ delbutt() }
+                </div>
+                <div>
+                  ${ post.id } - ${ post.post_number }
+                  ${ raw(post.cooked) }
+                </div>
+              </div>
+            </div>
+          `
 
           function delbutt () {
             if (post.username === user[0]) {

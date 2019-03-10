@@ -37,6 +37,7 @@
     "@uppy/xhr-upload": "^0.30.2",
     "@vimeo/player": "^2.8.0",
     "choo": "^6.13.1",
+    "dayjs": "^1.8.9",
     "domador": "^2.4.4",
     "filepond": "^4.2.0",
     "gr8": "^3.1.5",
