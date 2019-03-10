@@ -11,7 +11,10 @@ var app = choo()
 app.use(devtools())
 
 app.use(require('./stores/click'))
+
 app.use(require('./stores/forum'))
+app.use(require('./stores/post-pag'))
+
 app.use(require('./stores/topic'))
 app.use(require('./stores/discussion'))
 app.use(require('./stores/assignment'))

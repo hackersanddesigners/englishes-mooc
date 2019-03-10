@@ -23,6 +23,9 @@ class discussion extends nc {
 
     const course = ov(state.content).filter(page => page.uid === 'course')[0]
 
+    const user_s = JSON.parse(localStorage.getItem('user_data'))
+    const user = ok(users).filter(user => user === user_s.user.username)
+
     return html`
       <div class="psr c12 pt1 pb1 copy">
         <div class="pb1">
@@ -30,7 +33,8 @@ class discussion extends nc {
         </div>
 
         <div class="posts">
-         ${ topic(state, emit) }
+          ${ topic(state, emit) }
+          ${ pagination(state, emit) }
         </div>
 
         <div class="psf b0 r0 bgc-wh c6 br-bldb">
@@ -39,12 +43,16 @@ class discussion extends nc {
       </div>
     `
 
-    function topic (state, emit) {
-      if (state.components.discussion !== undefined) {
-        const user_s = JSON.parse(localStorage.getItem('user_data'))
-        const user = ok(users).filter(user => user === user_s.user.username)
+    function pagination(state, emit) {
+      if(state.components.post_pag !== undefined) {
+        const posts = ov(state.components.post_pag.post_stream.posts).filter(post => post.user_deleted === false)
+        const stream = ov(state.components.post_pag.post_stream.stream)
 
-        return ov(state.components.discussion.post_stream.posts).filter(post => post.user_deleted === false).map(function (post) {
+        loadmore(posts, stream)
+
+        // 2019-03-05T10:35:55.758Z
+
+        return posts.map(function (post, i) {
           return html`
             <div class="post x xjb pt1 pb1 bt-bk">
               <div class="ty-w ty-h br-50 bgc-bk fc-wh">${ post.username.charAt(0) }</div>
