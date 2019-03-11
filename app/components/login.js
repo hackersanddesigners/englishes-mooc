@@ -129,10 +129,11 @@ function login (state, emit) {
     } else if (body.password === '') {
       form.childNodes[0].childNodes[1].value="Type password"
     } else {
+
       xhr({
-        method: "post",
+        method: 'post',
         body: auth,
-				headers: {"Content-Type": "multipart/form-data"},
+				headers: {'Content-Type': 'multipart/form-data'},
         url: `https://forum.englishes-mooc.org/session?api_key=${users[user]}&api_username=${user}&login=${name}&password=${pw}`,
         json: true,
         beforeSend: function(xhrObject){
