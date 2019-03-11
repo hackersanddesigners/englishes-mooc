@@ -84,7 +84,9 @@ function view (state, emit) {
             </div>
           </div>
 
+          <div class="pb2">
           ${ vvideo(state, item.content.video_url, emit) }
+          </div>
 
           ${ raw(md.render(item.content.text)) }
         </div>

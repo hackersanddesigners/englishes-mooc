@@ -12,7 +12,7 @@ function vvideo (state, data, emit) {
   var embed = url_split[0] + '://player.' + vcode[0] + '/video/' + vcode[1]
 
   return html`
-    <div class="iframe-container psr">
+    <div class="iframe-container">
       <iframe src="${ embed }?title=0&byline=0&portrait=0&api=1&background=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> 
     </div>
   `

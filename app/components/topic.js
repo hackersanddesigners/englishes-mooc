@@ -31,7 +31,7 @@ class topic extends nc {
     return html`
       <div class="psr c12 pt1 pr1 pb1 pl1 copy">
         <div class="z3 psf t0 r0 c6 br-bldb pt1 pr1 pb1 pl1 copy bgc-gy">
-          <div class="c12 x xdr xjb pb2">
+          <div class="c12 x xdr xjb pb1">
             <button class="fs1 tdu">${ data.user.name }</button> 
             <button class="curp" onclick=${ logout(emit) }>Log out</button>
           </div>
