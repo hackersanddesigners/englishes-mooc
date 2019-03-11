@@ -11,6 +11,9 @@ var Statusbar = require('../components/statusbar')
 var statusbar = new Statusbar()
 var Forum = require('../components/forum')
 var forum = new Forum()
+var vvideo = require('../components/video-player')
+// var VVideo = require('../components/video')
+// var vvideo = new VVideo()
 
 module.exports = view
 
@@ -24,14 +27,14 @@ function view (state, emit) {
         <section class="
           ${ localStorage.getItem('user_login') === 'false' ? 'dn ' : '' }
           ${ state.status_toggle ? 'md-w-15 ' : '' }
-          os x md-vh100 z3 xdl bgc-wh psr">
+          os x md-vh100 z3 xdl bgc-wh">
           ${ status(state, emit) }
-          <button class="psf t0-5${ state.status_toggle ? ' l16 ' : ' l0-75 ' }curp z4" onclick=${ status_toggle(emit) }>${ state.status_toggle ? '⇇ ' : '⇉' }</button>
         </section>
+        <button class="psf t0-5${ localStorage.getItem('user_login') === 'false' || localStorage.getItem('user_login') === null ? ' dn ' : ' ' }${ state.status_toggle ? ' l16 ' : ' l0-75 ' }curp z4" onclick=${ status_toggle(emit) }>${ state.status_toggle ? '⇇ ' : '⇉' }</button>
 
         <section class="
           ${ state.status_toggle ? 'md-w-35 ' : '' }
-          ${ localStorage.getItem('user_login') === 'false' && state.sidebar === false ? 'md-c9 ' : 'md-c6 ' }
+          ${ localStorage.getItem('user_login') === 'false' || localStorage.getItem('user_login') === null && state.sidebar === false ? 'md-c9 ' : 'md-c6 ' }
           os h100 md-bl-grdb md-br-rddb pt1 pr1 pb1 pl1 xdl">
           <h1 class="ft-bd fs2-4 c12 tac md-pb2">${ data.content.title }</h1>
           <section class="${ state.sidebar ? 'md-c6 psf t70 l0 r0 b0 z4 md-psr bl-rddb br-bldb' : 'md-c3' } db md-dn os xdl bgc-wh">
@@ -58,7 +61,7 @@ function view (state, emit) {
     return ov(modules).map(function (module, i) {
       return html`
         <div class="c12 md-c6 lg-c4 pr1 pl1 pb1 z1">
-          ${ video() }
+          ${ vvideo(state, module.content.pitch_url, emit) }
           <h2 class="fs1 fw-r ft-mn">${ module.content.title }</h2>
           <p class="pb0 fs0-8">Opens ${ module.content.opening }</p>
           <p class="fs0-8">Live classroom ${ module.content.liveclass }</p>
@@ -74,20 +77,6 @@ function view (state, emit) {
         return function () { emit('mod_toggle', i) }
       }
 
-      function video () {
-        var url = module.content.pitch_url
-        var url_split = url.split('://')
-        var vcode = url_split[1].split('/')
-        var embed = url_split[0] + '://player.' + vcode[0] + '/video/' + vcode[1]
-
-        return html`
-          <div class="pb1">
-            <div class="iframe-container">
-              <iframe src="${ embed }?title=0&byline=0&portrait=0&api=1&background=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> 
-            </div>
-          </div>
-        `
-      }
     })
   }
 

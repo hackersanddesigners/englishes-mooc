@@ -24,47 +24,42 @@ class texteditor extends nc {
     this.emit = emit
 
     return html`
-      <div class="c12 pt1 pr1 pb1 pl1 copy">
-        <p class="dn">${ state.editor_toggle }</p>
-        <button onclick=${editor_toggle(emit)} class="fs1 curp dn">${ state.editor_toggle ? '↓' : '↑' }</button>
+      <div>
+        <div class="z3 psa to r0 pt0-25">
+          <form method="post" enctype="multipart/form-data" class="psr oh dib">
+            <button class="tdu curp">upload file</button>
+            <input id="upload" type="file" onchange=${ upload } class="psa t0 l0 op0 curp">
+          </form>
+        </div>
 
-        <div class="${ state.editor_toggle ? 'db ' : 'dn '}psr">
-          <div class="z3 psa to r0 pt0-25">
-            <form method="post" enctype="multipart/form-data" class="psr oh dib">
-              <button class="tdu curp">upload file</button>
-              <input id="upload" type="file" onchange=${ upload } class="psa t0 l0 op0 curp">
-            </form>
-          </div>
+        <div class="txa">
+          <textarea for="textinput" id="msg" name="msg" rows="5" class="c12 dib ba-bk b-bk p0-25 fs1 ft-rg"></textarea>
+        </div>
 
-          <div class="txa">
-            <textarea for="textinput" id="msg" name="msg" rows="5" class="c12 dib ba-bk b-bk p0-25 fs1 ft-rg"></textarea>
-          </div>
+        <div class="x xjb pt0-5">
+          <button class="cancel-box fs1 tdu curp" onclick=${editor_toggle(emit)}>cancel</button>
 
-          <div class="x xjb pt0-5">
-            <button class="cancel-box fs1 tdu curp" onclick=${editor_toggle(emit)}>cancel</button>
+          <form id="textinput" onsubmit=${ onsubmit } method="post">
+            <div class="x xafs">
+              <input type="submit" value="post" class="send fs1 tdu curp">
 
-            <form id="textinput" onsubmit=${ onsubmit } method="post">
-              <div class="x xafs">
-                <input type="submit" value="post" class="send fs1 tdu curp">
-
-                <div class="dn success-box pl1">
-                  <p class="dib pb0"></p>
-                </div>
-
-                <div class="dn error-box pl1">
-                  <p class="dib pb0"></p>
-                </div>
+              <div class="dn success-box pl1">
+                <p class="dib pb0"></p>
               </div>
 
-              <div class="psf t0 l999">
-                <label for="message">If you are not a bot, leave this field empty</label>
-                <input type="website" name="website" id="website" placeholder ="http://example.com" value="">
+              <div class="dn error-box pl1">
+                <p class="dib pb0"></p>
               </div>
-              <div class="bot dn psa t0 l0 w100 h100 tac">
-                <p class="psa t50 l50 ttcc">Hello bot!</p>
-              </div>
-            </form>
-          </div>
+            </div>
+
+            <div class="psf t0 l999">
+              <label for="message">If you are not a bot, leave this field empty</label>
+              <input type="website" name="website" id="website" placeholder ="http://example.com" value="">
+            </div>
+            <div class="bot dn psa t0 l0 w100 h100 tac">
+              <p class="psa t50 l50 ttcc">Hello bot!</p>
+            </div>
+          </form>
         </div>
 
       </div>
@@ -94,11 +89,11 @@ class texteditor extends nc {
         headers: {'Content-Type': undefined},
         url: '/apiupload',
         body: formData,
-        // beforeSend: function(xhrObject){
-        //   xhrObject.onprogress = function(){
-        //     send.value = '...'
-        //   }
-        // }
+        beforeSend: function(xhrObject){
+          xhrObject.onprogress = function(){
+            send.value = '...'
+          }
+        }
       }, function (err, resp, body) {
         if (err) throw err
         console.log(err, resp)
@@ -117,7 +112,12 @@ class texteditor extends nc {
       for (var pair of data.entries()) body[pair[0]] = pair[1]
 
       const txe = state.components.txe
-      const msg = txe.parseMarkdown(txe.value())
+      let msg
+      if (txe.parseMarkdown(txe.value()) !== '') {
+        msg = txe.parseMarkdown(txe.value())
+      } else {
+        msg = document.querySelector('textarea').value
+      }
 
       const post = {
         'title': '',
@@ -162,6 +162,9 @@ class texteditor extends nc {
             console.log('request ok!', body)
             form.reset()
             send.value = "posted"
+
+            emit('loadmore')
+            emit('post-pag')
           }
 
         })
@@ -171,14 +174,10 @@ class texteditor extends nc {
   }
 
   update (el) {
-    return true
+    return false
   }
 
-  beforererender (el) {
-    console.log('look at me')
-  }
-
-  load(el) {
+  beforerender (el) {
     const textarea = el.querySelector('textarea')
     const txe = wf(textarea, {
       parseMarkdown: mm,
@@ -187,30 +186,15 @@ class texteditor extends nc {
       wysiwyg: false,
       html: false
     })
+  }
 
-    this.state.components.txe = txe
-
-    // woofmark(document.querySelector('#ta'), {
-    //   parseMarkdown: megamark,
-    //   parseHTML: parseHTML,
-    //   fencing: true,
-    //   defaultMode: 'wysiwyg',
-    //   images: {
-    //     url: '/uploads/images',
-    //     validate: imageValidator
-    //   },
-    //   attachments: {
-    //     url: '/uploads/attachments'
-    //   }
-    // });
-    
-    // this.rerender()
+  load(el) {
+    const textarea = el.querySelector('textarea')
+    this.state.components.txe = wf.find(textarea)
   }
 
   unload (el) {
     const txe = this.state.components.txe
-    // console.log(txe)
-    // txe.destroy()
   }
 
 }
