@@ -92,6 +92,8 @@ function login (state, emit) {
     const form = document.querySelector('#login')
     form.reset()
 
+    localStorage.clear()
+
     const box = form.querySelector('.error-box')
     box.classList.remove('dib')
     box.classList.add('dn')
@@ -117,9 +119,7 @@ function login (state, emit) {
 
     const name = body.name
     const pw = body.password
-
 		const auth = {'login': name, 'password': pw}
-
     const user = ok(users).filter(user => user === name)
 
     if (body.website !== '') {
@@ -143,9 +143,9 @@ function login (state, emit) {
         }
       }, function (err, resp, body) {
         if (err) throw err
-        // console.log(body)
+        console.log(body)
 
-        if (body.error) {
+        if (body.error || body.errors) {
           const box = form.querySelector('.error-box')
           box.classList.remove('dn')
           box.classList.add('dib')
@@ -154,7 +154,7 @@ function login (state, emit) {
           retry.classList.remove('dn')
           retry.classList.add('dib')
 
-          const msg = 'Wrong combination of username and password.'
+          const msg = 'Wrong combination of username and password. Try again. In case of further assistance, please <a href="mailto:engsmooc@gmail.com">contact us</a>.'
           box.firstChild.innerHTML = msg
 
           send.classList.add('dn')
