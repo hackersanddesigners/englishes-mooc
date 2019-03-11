@@ -160,8 +160,7 @@ function login (state, emit) {
           send.classList.add('dn')
 
         } else {
-          console.log('request ok!', body)
-
+          // console.log('request ok!', body)
           localStorage.setItem('user_data', JSON.stringify(body))
 
           state.components.login = body
