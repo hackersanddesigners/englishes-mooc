@@ -39,6 +39,11 @@ function clickhandle (state, emitter) {
     emitter.emit('render')
   })
 
+  emitter.on('editor_retry', () => {
+    state.components.txe.value('')
+    emitter.emit('render')
+  })
+
   emitter.on('disc-tab', () => {
     state.disc_tab = true
     state.read_tab = false
@@ -143,9 +148,15 @@ function clickhandle (state, emitter) {
     emitter.emit('render')
   })
 
-  emitter.on('section', function (section) {
+  emitter.on('section', (section) => {
     state.components.sidepage = section
     state.sidebar =! state.sidebar
+    emitter.emit('render')
+  })
+
+  emitter.on('msg-posted', () => {
+    document.querySelector('.send').value = 'post'
+    document.querySelector('textarea').value = ''
     emitter.emit('render')
   })
 

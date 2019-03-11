@@ -25,7 +25,7 @@ class texteditor extends nc {
 
     return html`
       <div>
-        <div class="z3 psa to r0 pt0-25">
+        <div class="dn z3 psa to r0 pt0-25">
           <form method="post" enctype="multipart/form-data" class="psr oh dib">
             <button class="tdu curp">upload file</button>
             <input id="upload" type="file" onchange=${ upload } class="psa t0 l0 op0 curp">
@@ -37,7 +37,8 @@ class texteditor extends nc {
         </div>
 
         <div class="x xjb pt0-5">
-          <button class="cancel-box fs1 tdu curp" onclick=${editor_toggle(emit)}>cancel</button>
+          <button class="retry dn fs1 tdu curp" onclick=${ editor_retry }>retry</button>
+          <button class="cancel fs1 tdu curp" onclick=${ editor_cancel }>cancel</button>
 
           <form id="textinput" onsubmit=${ onsubmit } method="post">
             <div class="x xafs">
@@ -67,6 +68,26 @@ class texteditor extends nc {
 
     function editor_toggle(emit) {
       return function () { emit('editor_toggle') }
+    }
+
+    function editor_cancel (e) {
+      e.preventDefault()
+      document.querySelector('textarea').value = ''
+    }
+
+    function editor_retry (e) {
+      e.preventDefault()
+
+      document.querySelector('textarea').value = ''
+      const send = document.querySelector('.send')
+      send.classList.remove('dn')
+      send.value = 'post'
+
+      const error = document.querySelector('.error-box')
+      error.classList.add('dn')
+
+      document.querySelector('.retry').classList.add('dn')
+      document.querySelector('.cancel').classList.remove('dn')
     }
 
     function upload (e) {
@@ -107,6 +128,8 @@ class texteditor extends nc {
       const data = new FormData(form)
       const bot = document.querySelector('.bot')
       const send = form.querySelector('.send')
+      const cancel = document.querySelector('.cancel')
+      const retry = document.querySelector('.retry')
 
       const body = {}
       for (var pair of data.entries()) body[pair[0]] = pair[1]
@@ -130,8 +153,10 @@ class texteditor extends nc {
 
       if (body.website !== '') {
         bot.classList.remove('dn')
-      } else if (body.msg === '') {
+      } else if (msg === '') {
         form.childNodes[0].childNodes[0].value='Type something before sending a message'
+        form.childNodes[0].childNodes[0].classList.remove('tdu curp')
+
       } else {
         xhr({
           method: 'post',
@@ -156,13 +181,16 @@ class texteditor extends nc {
             const text = 'Something went wrong, try again.'
             box.firstChild.innerHTML = text
 
+            cancel.classList.add('dn')
+            retry.classList.remove('dn')
+
             send.classList.add('dn')
 
           } else {
             console.log('request ok!', body)
-            form.reset()
-            send.value = "posted"
+            send.value = 'posted'
 
+            emit('msg-posted')
             emit('loadmore')
             emit('post-pag')
           }
