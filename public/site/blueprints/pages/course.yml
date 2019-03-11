@@ -1,0 +1,40 @@
+title: Course
+
+tabs:
+  modules:
+    label: Modules
+    columns:
+      - width: 1/2
+        sections:
+          drafts:
+            extends: sections/course
+            headline: Drafts
+            status: draft
+      - width: 1/2
+        sections:
+          listed:
+            extends: sections/course
+            headline: Published
+            status: listed
+  forum:
+    label: Forum
+    columns:
+      - width: 2/3
+        fields:
+          discussion:
+            label: Discussion
+            type: textarea
+          assignment:
+            label: Assignment
+            type: textarea
+          material:
+            label: More Material
+            type: textarea
+      - width: 1/3
+        sections:
+          files:
+            type: files
+            layout: list
+            template: document
+            image:
+              cover: true

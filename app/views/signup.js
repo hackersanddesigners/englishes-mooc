@@ -2,6 +2,7 @@ var ov = require('object-values')
 var Markdown = require('markdown-it')
 var html = require('choo/html')
 var raw = require('choo/html/raw')
+var nav = require('../components/nav')
 var md = new Markdown()
 var xhr = require('xhr')
 
@@ -16,6 +17,7 @@ function view (state, emit) {
 
   return html`
     <body class="bg-oh">
+      ${ nav(state, emit) }
       <main class="w100 x xdc bg-xdr bl-grdb br-bldb bg-bl-n bg-br-n">
         <section class="w100 bg-w-50 bg-vh100 bg-os pt2 pb2 pr2 pl2 bg-bb-n bg-bl-grdb bg-br-rd">
           <h1 class="ft-bd fs1-3">${ page[0].content.title }</h1>

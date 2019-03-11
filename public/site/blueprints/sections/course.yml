@@ -1,0 +1,7 @@
+type: pages
+headline: Module
+parent: site.index.findBy('intendedTemplate', 'course')
+info: "{{ page.title }}"
+template: module
+empty: No module yet
+sortBy: title desc

@@ -1,6 +1,7 @@
 var choo = require('choo')
 var html = require('choo/html')
 var devtools = require('choo-devtools')
+var ok = require('object-keys')
 var ov = require('object-values')
 var css = require('sheetify')
 css('./design/index.js')
@@ -11,16 +12,14 @@ app.use(devtools())
 
 app.use(require('./stores/click'))
 
-var views = {
-  about: require("./views/main"),
-  hkw: require("./views/preview"),
-  signup: require("./views/signup"),
-  error: require("./views/notfound")
-}
+app.use(require('./stores/forum'))
+app.use(require('./stores/post-pag'))
 
-ov(data.children).map(function (page) {
-  app.route('/' + page.id, (state, emit) => views[page.uid](state, emit))
-})
+app.use(require('./stores/topic'))
+app.use(require('./stores/discussion'))
+app.use(require('./stores/assignment'))
+
+app.use(require('./stores/router')(data.children))
 
 app.route('/', require('./views/main'))
 app.route('*', require('./views/notfound'))

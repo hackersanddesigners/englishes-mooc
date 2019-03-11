@@ -36,11 +36,50 @@
   --fs-1: 1rem;
   --fs-1-3: 1.3rem;
   --c-wh: #ffffff;
-  --c-gy: #767676;
+  --c-gy: #e6e5e6;
+  --c-gk: #807f80;
   --c-bk: #1a1a1a;
-  --c-gr: #0D8F5C;
-  --c-rd: #D8252A;
-  --c-bl: #3865A1;
+  --c-gr: #0d8f5c;
+  --c-rd: #d8252a;
+  --c-bl: #3865a1;
+}
+
+html { box-sizing: border-box }
+*, *:before, *:after { box-sizing: inherit }
+html, body, h1, h2, h3, h4, h5, h6, p, ol, ul, li, dl,
+dt, dd, blockquote, address { margin: 0; padding: 0 }
+
+a {
+  color: inherit;
+}
+
+figure {
+  margin: 0;
+  padding: 0;
+}
+
+input,
+button {
+  border: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  background: none;
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  text-align: inherit;
+}
+
+:focus{
+  outline: none;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 html {
@@ -67,8 +106,20 @@ strong, b {
   font-family: var(--ft-bd);
 }
 
+img.emoji {
+  max-width: 1rem;
+}
+
+img {
+  max-width: 100%;
+}
+
 code, pre {
   font-family: var(--ft-mn);
+}
+
+.ft-rg {
+font-family: var(--ft-rg);
 }
 
 .ft-bd {
@@ -83,19 +134,18 @@ code, pre {
   font-weight: 400;
 } 
 
+.td-u-r {
+  text-decoration: underline red;
+}
+
 h1, h2, h3 {
+  font-weight: normal;
   line-height: 1.2;
 }
 
 h1, h2, h3,
 p {
   padding-bottom: 1rem;
-}
-
-a,
-a:visited,
-a:hover {
-  color: var(--c-bl);
 }
 
 input,
@@ -142,26 +192,48 @@ input[type=checkbox]:checked {
   max-width: 37.5rem;
 }
 
-.copy blockquote {
-  font-family: var(--ft-mn);
-  font-size: var(--fs-1-3); 
-  padding: 2rem 0 2rem 1rem;
+.copy a,
+.copy a:visited,
+.copy a:hover {
+  color: var(--c-bl);
 }
 
-.copy p {
-  padding-bottom: 0;
-}
-
-.copy p + p {
-  text-indent: 2rem;
+.nav-bt:visited,
+.nav-bt:hover {
+  text-decoration: underline var(--c-rd);
 }
 
 .copy-tdbk a {
   color: inherit;
 }
 
-.bgc-wh  {
-  background-color: var(--c-wh);
+.copy blockquote {
+  padding: 0 0 0 1rem;
+}
+
+.copy blockquote p {
+  padding-bottom: 0;
+}
+
+.copy blockquote + p {
+  padding-top: 1rem;
+}
+
+.ty-w {
+  width: 2rem;
+}
+
+.ty-h {
+  height: 2rem;
+}
+
+.br-50 {
+  border-radius: 50%;
+}
+
+
+.sm-bt {
+  width: 4rem;
 }
 
 .mw-bt {
@@ -176,6 +248,26 @@ input[type=checkbox]:checked {
   max-height: 80vh;
 }
 
+.t0-5 {
+  top: 0.5rem;
+}
+
+.t50 {
+  top: 50%;
+}
+
+.l0-75 {
+  left: 0.75rem;
+}
+
+.l16 {
+  left: 16%;
+}
+
+.t70 {
+  top: 70px;
+}
+
 .l50 {
   left: 50%;
 }
@@ -184,8 +276,24 @@ input[type=checkbox]:checked {
   left: -999px; 
 }
 
+.ttcc {
+  transform: translate(-50%, -50%);
+}
+
 .ttxc {
   transform: translate(-50%);
+}
+
+.ttr180 {
+  transform: rotate(180deg);
+}
+
+.mra {
+  margin-right: auto;
+}
+
+.mla {
+  margin-left: auto;
 }
 
 @media screen and (min-width: 540px) {
@@ -214,6 +322,10 @@ input[type=checkbox]:checked {
   }
 }
 
+.bxsh-a {
+  box-shadow: 0 0 20px var(--c-gy);
+}
+
 .sh-a {
   filter: drop-shadow(0px 0px 5px var(--c-gy));
 }
@@ -231,4 +343,103 @@ input[type=checkbox]:checked {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.xdl {
+  -webkit-transition: all 0.1s cubic-bezier(.17,.67,.83,.67);
+  -moz-transition: all 0.1s cubic-bezier(.17,.67,.83,.67);
+  -o-transition: all 0.1s cubic-bezier(.17,.67,.83,.67);
+  transition: all 0.1s cubic-bezier(.17,.67,.83,.67);
+  -webkit-transition-property: width, height;
+  -moz-transition-property: width, height;
+  -o-transition-property: width, height;
+  transition-property: width, height;
+}
+
+/* woofmark text-editor */
+
+.wk-container {
+  position: relative;
+}
+
+.txa {
+  padding-top: 1.65rem;
+}
+
+.wk-prompt {
+  font-size: 1rem;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 50%;
+  border-right: 6px solid #3865A1;
+  padding: 1rem;
+  background: var(--c-gy);
+}
+
+.wk-prompt-title {
+  font-size: 1rem;
+}
+
+.wk-prompt-body {
+  padding-bottom: 1rem;
+}
+
+.wk-prompt-description {
+  display: none;
+}
+
+.wk-prompt-input-container {
+  width: 100%;
+}
+
+.wk-prompt-input {
+  border-bottom: 1px solid var(--c-bl);
+  width: 100%;
+}
+
+.wk-prompt-buttons {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+.wk-prompt-buttons button {
+  cursor: pointer;
+  text-decoration: underline;
+  text-transform: lowercase;
+}
+
+.wk-wysiwyg {
+  display: none;
+  border: 1px solid var(--c-bk);
+  overflow: scroll;
+}
+
+.wk-switchboard {
+  display: none;
+}
+
+.wk-commands,
+.xwk-switchboard {
+  /* display: inline-block; */
+  border: 1px solid var(--c-bk);
+  background: var(--c-gy);
+}
+
+.wk-commands {
+  position: absolute;
+  top: 0;
+  border: 1px solid var(--c-bk);
+  background: var(--c-gy);
+}
+
+.wk-command {
+  padding: 0.25rem;
+  cursor: pointer;
+}
+
+.wk-command:hover,
+.wk-command:hover {
+  background: var(--c-wh);
 }

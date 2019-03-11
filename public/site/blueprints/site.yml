@@ -1,15 +1,16 @@
 title: Site
 
 columns:
-  - width: 1/2
-    sections:
-      preview: sections/preview
+  # - width: 1/2
+  #   sections:
+  #     preview: sections/preview
   - width: 1/2
     sections:
       pages:
         type: pages
         templates:
-          - about
+          - page
+          - course
           - error
           - preview
           - signup
