@@ -13,6 +13,7 @@ var Forum = require('../components/forum')
 var forum = new Forum()
 var Topic = require('../components/topic')
 var topic = new Topic()
+var vvideo = require('../components/video-player')
 
 module.exports = view
 
@@ -79,7 +80,7 @@ function view (state, emit) {
             ${ raw(md.render(item.content.video_length)) }
           </div>
 
-          ${ video() }
+          ${ vvideo(state, item.content.video_url, emit) }
 
           ${ raw(md.render(item.content.text)) }
         </div>
