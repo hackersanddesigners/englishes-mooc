@@ -75,6 +75,11 @@ function clickhandle (state, emitter) {
   emitter.on('log-in', () => {
     localStorage.setItem('user_login', 'true');
     state.status_toggle = true
+
+    // redirect to current module page
+    const page = ov(state.content).filter(page => page.content.status === 'current')[0]
+    emitter.emit('pushState', page.url)
+
     emitter.emit('render')
   })
 
