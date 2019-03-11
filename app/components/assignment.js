@@ -5,6 +5,8 @@ var html = require('choo/html')
 var raw = require('choo/html/raw')
 var Markdown = require('markdown-it')
 var md = new Markdown()
+var day = require('dayjs')
+var rt = require('dayjs/plugin/relativeTime')
 var Txe = require('./texteditor')
 var txe = new Txe()
 var users = require('../stores/users')
@@ -22,6 +24,8 @@ class assignment extends nc {
     this.emit = emit
 
     const course = ov(state.content).filter(page => page.uid === 'course')[0]
+    const user_s = JSON.parse(localStorage.getItem('user_data'))
+    const user = ok(users).filter(user => user === user_s.user.username)
 
     return html`
       <div class="psr c12 pt1 pb1 copy">
@@ -30,46 +34,128 @@ class assignment extends nc {
         </div>
 
         <div class="posts">
-         ${ topic(state, emit) }
+          ${ topic(state, emit) }
+          ${ pagination(state, emit) }
+          <button class="${ state.components.discussion === undefined ? 'dn ' : 'db ' }${ state.components.loadmore ? 'db ' : 'dn ' }tdu curp" onclick=${ loadmore('emit') }>load more</button>
         </div>
 
         <div class="psf b0 r0 bgc-wh c6 br-bldb">
-          ${ txe.render(state, emit)}
+          <div class="x xdr c12 pt0-5 pr1 pb0-5 pl1 copy">
+            <div class="${ state.editor_toggle ? 'db ' : 'dn '}psr pt0-5 c12">
+              ${ txe.render(state, emit)}
+            </div>
+            <button onclick=${editor_toggle(emit)} class="mla fs1 curp pl0-5">${ state.editor_toggle ? '↓' : '↑' }</button>
+          </div>
         </div>
       </div>
     `
 
-    function topic (state, emit) {
-      if (state.components.assignment !== undefined) {
-        const user_s = JSON.parse(localStorage.getItem('user_data'))
-        const user = ok(users).filter(user => user === user_s.user.username)
+    function editor_toggle(emit) {
+      return function () { emit('editor_toggle') }
+    }
 
-        return ov(state.components.assignment.post_stream.posts).filter(post => post.user_deleted === false).map(function (post) {
+    function loadmore() {
+      return function () { emit('loadmore') }
+    }
+
+    function pagination(state, emit) {
+      if(state.components.assignment_pag !== undefined) {
+        const posts = ov(state.components.assignment_pag.post_stream.posts).filter(post => post.user_deleted === false)
+        const stream = ov(state.components.assignment_pag.post_stream.stream)
+
+        get_more_posts(posts, stream)
+
+        return posts.map(function (post, i) {
           return html`
-            <div class="post x xjb pt1 pb1 bt-bk${ post.username === user ? ' bgc-rd' : '' }">
-              <div class="ty-w ty-h br-50 bgc-bk fc-wh">${ post.username.charAt(0) }</div>
+            <div class="post pt1 pb1 bt-bk">
+              <div class="x xjb xab">
+                <div class="x xac xjc ty-w ty-h br-50 bgc-bk fc-wh">
+                  <div class="fs1-2">${ post.username.charAt(0) }</div>
+                </div>
+                <p class="pl1 c8 fc-gk">${ post.username }</p>
 
-              <div style="width: 90%">
-                <div class="x xdr xjb">
-                  <p class="c9 fc-gk">${ post.username }</p>
-                  <p class="c3 fc-gk">${ date() }</p>
+                <div class="c4 x xdc tar">
+                  <p class="fs0-8 fc-gk c12 pb0-25">${ date(post.created_at) }</p>
                   ${ delbutt() }
                 </div>
-                <div>
-                  ${ raw(post.cooked) }
-                </div>
+             </div>
+
+             <div class="pl3 c12">
+               ${ raw(post.cooked) }
               </div>
             </div>
           `
 
-          function date() {
-            return Date.parse(post.created_at)
+          function delbutt () {
+            if (post.username === user[0]) {
+              return html`
+                <button onclick=${ delete_post(emit) } class="fs0-8 tdu curp">delete</button>
+              `
+            }
           }
+
+          function delete_post(id) {
+            return function () { emit('delete_post', post.id) }
+          }
+
+        })
+      }
+    }
+
+    function get_more_posts(posts, stream) {
+      const post_tot = posts.length -1
+      const post_n_l = posts[post_tot].post_number
+      const stream_tot = stream.length -1
+
+      if(post_n_l < stream_tot) {
+        emit('post-pag', post_n_l+1, 'discussion')
+        console.log('more post to load')
+        state.components.loadmore = true
+        console.log('state.components.loadmore ' + state.components.loadmore)
+      } else {
+        state.components.loadmore = false
+        console.log('no more loading post')
+        console.log('state.components.loadmore ' + state.components.loadmore)
+      }
+    }
+
+    function date(ts) {
+      day.extend(rt)
+      return day(ts).fromNow()
+    }
+
+    function topic (state, emit) {
+      if (state.components.assignment !== undefined) {
+        const posts = ov(state.components.assignment.post_stream.posts).filter(post => post.user_deleted === false)
+        const stream = ov(state.components.assignment.post_stream.stream)
+
+        get_more_posts(posts, stream)
+
+        return posts.map(function (post, i) {
+          return html`
+            <div class="post pt1 pb1 bt-bk">
+              <div class="x xjb xab">
+                <div class="x xac xjc ty-w ty-h br-50 bgc-bk fc-wh">
+                  <div class="fs1-2">${ post.username.charAt(0) }</div>
+                </div>
+                <p class="pl1 c8 fc-gk">${ post.username }</p>
+
+                <div class="c4 x xdc tar">
+                  <p class="fs0-8 fc-gk c12 pb0-25">${ date(post.created_at) }</p>
+                  ${ delbutt() }
+                </div>
+             </div>
+
+             <div class="pl3 c12">
+               ${ raw(post.cooked) }
+              </div>
+            </div>
+          `
 
           function delbutt () {
             if (post.username === user[0]) {
               return html`
-                <button onclick=${ delete_post(emit) } class="curp">delete</button>
+                <button onclick=${ delete_post(emit) } class="fs0-8 tdu curp">delete</button>
               `
             }
           }

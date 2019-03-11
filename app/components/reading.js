@@ -19,6 +19,17 @@ class reading extends nc {
     this.emit = emit
 
     const course = ov(state.content).filter(page => page.uid === 'course')[0]
+    console.log(course)
+    
+
+    function material () {
+      if (state.page === undefined) {
+        const page = ov(course.children).filter(page => page.content.status === 'current')[0]
+        return page.content.reading
+      } else {
+        return state.page.content.reading
+      }
+    }
 
     return html`
       <div class="c12 pt1 pb1 copy">
@@ -26,7 +37,7 @@ class reading extends nc {
           ${ raw(md.render(course.content.material)) }
         </div>
         <div class="pt1">
-        ${ raw(md.render(state.page.content.reading)) }
+        ${ raw(md.render(material())) }
         </div>
       </div>
     `

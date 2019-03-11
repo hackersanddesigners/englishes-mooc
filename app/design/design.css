@@ -252,6 +252,10 @@ input[type=checkbox]:checked {
   top: 0.5rem;
 }
 
+.t50 {
+  top: 50%;
+}
+
 .l0-75 {
   left: 0.75rem;
 }
@@ -272,12 +276,24 @@ input[type=checkbox]:checked {
   left: -999px; 
 }
 
+.ttcc {
+  transform: translate(-50%, -50%);
+}
+
 .ttxc {
   transform: translate(-50%);
 }
 
 .ttr180 {
   transform: rotate(180deg);
+}
+
+.mra {
+  margin-right: auto;
+}
+
+.mla {
+  margin-left: auto;
 }
 
 @media screen and (min-width: 540px) {
