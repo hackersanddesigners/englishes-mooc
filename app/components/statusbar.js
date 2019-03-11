@@ -5,8 +5,7 @@ var html = require('choo/html')
 var raw = require('choo/html/raw')
 var Markdown = require('markdown-it')
 var md = new Markdown()
-var Video = require('./video')
-var video = new Video()
+var vvideo = require('./video-player')
 
 class statusbar extends nc {
   constructor (state, emit) {
@@ -33,22 +32,27 @@ class statusbar extends nc {
         return html`
           <div class="x xdr xjb pt1">
             <div class="video tac pb1 c12${ item.content.status === 'upcoming' ? ' op50' : '' }">
-              ${ video.render(state, item.content.pitch_url, emit) }
-              ${ link() }
+              ${ videoitem() }
               <p class="ft-mn fs0-8 pt0-5 pb0">${ item.content.duration }</p>
             </div>
             ${ status() }
           </div>
         `
 
-        function link () {
+        function videoitem () {
           if(item.content.status === 'upcoming') {
             return html`
-              <p class="ft-mn fs0-8 fc-bk tdn">${ item.content.title }</p>
+              <div class="pen">
+                ${ vvideo(state, item.content.pitch_url, emit) }
+                <p class="ft-mn fs0-8 fc-bk tdn">${ item.content.title }</p>
+              </div>
             `
           } else {
             return html`
-              <a href="${ item.url }" class="ft-mn fs0-8 fc-bk tdn">${ item.content.title }</a>
+              <div>
+                ${ vvideo(state, item.content.pitch_url, emit) }
+                <a href="${ item.url }" class="ft-mn fs0-8 fc-bk tdn">${ item.content.title }</a>
+              </div>
             `
           }
         }
