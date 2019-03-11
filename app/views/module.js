@@ -73,11 +73,15 @@ function view (state, emit) {
 
   function items () {
     return ov(page.children).map(function (item) {
+      console.log()
       return html`
         <div class="copy">
           <div class="p2">
             <h2 class="ft-mn fs2 ttu">${ item.content.title }</h2>
-            ${ raw(md.render(item.content.video_length)) }
+            <div class="x xdr">
+              <p class="pr1">${ item.content.video_length }</p>
+              ${ attachment() }
+            </div>
           </div>
 
           ${ vvideo(state, item.content.video_url, emit) }
@@ -86,24 +90,12 @@ function view (state, emit) {
         </div>
       `
 
-      function video () {
-        // prepare correct vimeo url embed
-        // from simple vimeo url like https://vimeo.com/308769495
-        // to https://player.vimeo.com/video/308769495
-        // <iframe src="https://player.vimeo.com/video/308769495?title=0&byline=0&portrait=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-
-        var url = item.content.video_url
-        var url_split = url.split('://')
-        var vcode = url_split[1].split('/')
-        var embed = url_split[0] + '://player.' + vcode[0] + '/video/' + vcode[1]
-
-        return html`
-          <div class="pb2">
-            <div class="iframe-container">
-              <iframe src="${ embed }?title=0&byline=0&portrait=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> 
-            </div>
-          </div>
-        `
+      function attachment () {
+        if(item.content.attachment !== undefined) {
+          return html`
+            <a href="${ item.files[item.content.attachment].url }" target="_blank" rel="noopener noreferrer">Trascript</a>
+          `
+        }
       }
 
     })

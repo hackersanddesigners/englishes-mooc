@@ -11,16 +11,26 @@ columns:
       video_length:
         label: Video Length
         type: text
+
   - width: 2/3
     fields:
       text:
         label: Text
         type: textarea
+
   - width: 1/3
     sections:
       files:
         type: files
-        layout: cards
+        layout: list
         template: document
         image:
           cover: true
+
+  - width: 1/2
+    fields:
+      attachment:
+        label: Attachment
+        type: select
+        options: query
+        query: page.files
