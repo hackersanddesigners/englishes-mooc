@@ -143,8 +143,7 @@ function login (state, emit) {
         }
       }, function (err, resp, body) {
         if (err) throw err
-
-        console.log(body)
+        // console.log(body)
 
         if (body.error) {
           const box = form.querySelector('.error-box')
