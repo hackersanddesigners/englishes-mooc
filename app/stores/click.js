@@ -19,7 +19,7 @@ function clickhandle (state, emitter) {
     state.modules.push(true)
   })
 
-  emitter.on('mod_toggle', function (module) {
+  emitter.on('mod_toggle', (module) => {
     state.modules[module] =! state.modules[module]
     emitter.emit('render')
   })
@@ -75,7 +75,6 @@ function clickhandle (state, emitter) {
   emitter.on('log-in', () => {
     localStorage.setItem('user_login', 'true');
     state.status_toggle = true
-
     emitter.emit('render')
   })
 
@@ -83,31 +82,42 @@ function clickhandle (state, emitter) {
     const user_s = JSON.parse(localStorage.getItem('user_data'))
     const user = ok(users).filter(user => user === user_s.user.username)
     const user_id = user_s.user.id
-    console.log(user, user_id, users[user])
 
-    xhr({
-      method: 'post',
-      headers: {'Content-Type': 'multipart/form-data'},
-      url: `https://forum.englishes-mooc.org/admin/users/${user_id}/log_out?api_key=${users[user]}&api_username=${user}`,
-      json: true,
-      beforeSend: function(xhrObject){
-        xhrObject.onprogress = function(){
-          // send.value = '...'
-        }
-      }
-    }, function (err, resp, body) {
-      if (err) throw err
-      console.log(body)
+    const auth = {'login': user, 'password': users[user]}
 
-      localStorage.setItem('user_login', 'false');
-      localStorage.removeItem('user_data');
-      state.status_toggle = false
+    localStorage.setItem('user_login', 'false');
+    localStorage.removeItem('user_data');
+    state.status_toggle = false
 
-      state.login = true
-      state.components.login = undefined
+    state.login = true
+    state.components.login = undefined
 
-      emitter.emit('render')
-    })
+    emitter.emit('render')
+
+    // xhr({
+    //   method: 'post',
+    //   body: auth,
+    //   headers: {'Content-Type': 'multipart/form-data'},
+    //   url: `https://forum.englishes-mooc.org/admin/users/${user_id}/log_out?api_key=${users[user]}&api_username=${user}`,
+    //   json: true,
+    //   beforeSend: function(xhrObject){
+    //     xhrObject.onprogress = function(){
+    //       // send.value = '...'
+    //     }
+    //   }
+    // }, function (err, resp, body) {
+    //   if (err) throw err
+    //   console.log(body)
+
+    //   localStorage.setItem('user_login', 'false');
+    //   localStorage.removeItem('user_data');
+    //   state.status_toggle = false
+
+    //   state.login = true
+    //   state.components.login = undefined
+
+    //   emitter.emit('render')
+    // })
 
   })
 
@@ -125,7 +135,6 @@ function clickhandle (state, emitter) {
       console.log(body)
 
     })
-
     emitter.emit('render')
   })
 
