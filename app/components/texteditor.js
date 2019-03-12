@@ -161,7 +161,7 @@ class texteditor extends nc {
         xhr({
           method: 'post',
           headers: {'Content-Type': 'multipart/form-data'},
-          url: `https://forum.englishes-mooc.org/posts.json?api_key=${users[user]}&api_username=${user}&title='what?'&topic_id=${state.components.discussion.id}&raw=${msg}`,
+          url: `https://forum.englishes-mooc.org/posts.json?api_key=${users[user]}&api_username=${user}&title='what?'&topic_id=${ state.disc_tab ? state.components.discussion.id : state.components.assignment.id }&raw=${msg}`,
           json: true,
           beforeSend: function(xhrObject){
             xhrObject.onprogress = function(){
@@ -191,8 +191,8 @@ class texteditor extends nc {
             send.value = 'posted'
 
             emit('msg-posted')
-            emit('loadmore')
-            emit('post-pag')
+            // emit('loadmore')
+            // emit('post-pag')
           }
 
         })
