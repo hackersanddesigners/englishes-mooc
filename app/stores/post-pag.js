@@ -33,9 +33,18 @@ function post_pag (state, emitter) {
           }, function (err, resp, body) {
             if (err) throw err
             console.log(body)
-            let comp_n = topic_n + '_pag'
-            // state.components.post_pag = body
-            state.components[comp_n] = body
+
+            if (body.errors) {
+              console.log(body.errors[0])
+            }
+
+            state.components.post_pag = body
+
+            if (topic_n === 'discussion') {
+              state.components.discussion_pag = body
+            } else {
+              state.components.assignment_pag = body
+            }
 
             const posts = ov(body.post_stream.posts).filter(post => post.user_deleted === false)
             const post_tot = posts.length -1
