@@ -73,7 +73,6 @@ function view (state, emit) {
 
   function items () {
     return ov(page.children).map(function (item) {
-      console.log()
       return html`
         <div class="copy">
           <div class="p2">
