@@ -36,7 +36,7 @@ class discussion extends nc {
         <div class="posts">
           ${ topic(state, emit) }
           ${ pagination(state, emit) }
-          <button class="${ state.components.discussion === undefined ? 'dn ' : 'db ' }${ state.components.loadmore ? 'db ' : 'dn ' }tdu curp" onclick=${ loadmore('emit') }>load more</button>
+          <button class="${ state.components.discussion === undefined ? 'dn ' : 'db ' }c12 bt-bk pt1 tac tdu curp" onclick=${ loadmore('emit') }>${ state.components.loadmore ? 'load more' : 'no more post, refresh still?' }</button>
         </div>
 
         <div class="psf b0 r0 bgc-wh c6 br-bldb">
