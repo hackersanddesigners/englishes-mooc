@@ -26,9 +26,13 @@ class texteditor extends nc {
 
     return html`
       <div>
+        <div class="file-error-box pb1 dn">
+          <p class="dib pb0 pr1"></p>
+          <button class="tdu curp" onclick=${ filemsg_toggle }>close</button>
+        </div>
         <div class="z3 psa to r0 pt0-25">
           <form method="post" enctype="multipart/form-data" class="psr oh dib">
-            <button class="tdu curp">upload file</button>
+            <button class="butt-upload tdu curp">upload file</button>
             <input id="upload" type="file" onchange=${ upload } class="psa t0 l0 op0 curp">
           </form>
         </div>
@@ -71,6 +75,12 @@ class texteditor extends nc {
       return function () { emit('editor_toggle') }
     }
 
+    function filemsg_toggle(e) {
+      e.preventDefault()
+      document.querySelector('.file-error-box').classList.remove('dib')
+      document.querySelector('.file-error-box').classList.add('dn')
+    }
+
     function editor_cancel (e) {
       e.preventDefault()
       document.querySelector('textarea').value = ''
@@ -95,7 +105,7 @@ class texteditor extends nc {
       e.preventDefault()
       const form = e.currentTarget
       const file = form.files[0]
-      const send = document.querySelector('.send')
+      const butt_upload = document.querySelector('.butt-upload')
 
       let formData = new FormData()
       formData.append('file', file)
@@ -113,11 +123,23 @@ class texteditor extends nc {
         body: formData,
         beforeSend: function(xhrObject){
           xhrObject.onprogress = function(){
-            send.value = '...'
+            butt_upload.value = 'uploading...'
           }
         }
       }, function (err, resp, body) {
         if (err) throw err
+        console.log(resp)
+        const bd = JSON.parse(body)
+
+        const box = document.querySelector('.file-error-box')
+        box.classList.remove('dn')
+        box.classList.add('dib')
+
+        if(bd.status === 'error') {
+          box.firstChild.innerHTML = bd.message + '. Try again!'
+        } else {
+          box.firstChild.innerHTML = 'File uploaded!'
+        }
       })
     }
 
