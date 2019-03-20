@@ -23,8 +23,8 @@ function fetch_topic (state, emitter, page, cat_id) {
 
       if(state.components.cat !== undefined) {
         const topics = state.components.cat.topic_list.topics
-        const disc = topics.filter(tag => tag.tags.includes('discussion-test'))
-        const todo = topics.filter(tag => tag.tags.includes('assignment-test'))
+        const disc = topics.filter(tag => tag.tags.includes('discussion'))
+        const todo = topics.filter(tag => tag.tags.includes('assignment'))
 
         if (disc.length > 0) {
           xhr({

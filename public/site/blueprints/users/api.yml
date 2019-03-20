@@ -1,0 +1,16 @@
+title: API
+permissions:
+  access:
+    panel: true
+    site: true
+    settings: false
+  files:
+    *: true
+  site:
+    update: false
+  pages:
+    *: false
+  user:
+    *: false
+  users:
+    *: false

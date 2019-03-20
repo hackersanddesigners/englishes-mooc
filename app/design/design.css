@@ -219,6 +219,11 @@ input[type=checkbox]:checked {
   padding-top: 1rem;
 }
 
+.copy ul,
+.copy ol {
+  padding-left: 1rem;
+}
+
 .ty-w {
   width: 2rem;
 }
