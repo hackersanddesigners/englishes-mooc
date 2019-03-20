@@ -94,7 +94,7 @@ function view (state, emit) {
       function attachment () {
         if(item.content.attachment !== undefined) {
           return html`
-            <a href="${ item.files[item.content.attachment].url }" target="_blank" rel="noopener noreferrer">Trascript</a>
+            <a href="${ item.files[item.content.attachment].url }" target="_blank" rel="noopener noreferrer">${ item.content.attachment_lab || 'Transcript' }</a>
           `
         }
       }
