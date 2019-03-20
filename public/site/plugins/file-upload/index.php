@@ -5,7 +5,8 @@ Kirby::plugin('mooc/upload', [
     [
       'method' => 'POST',
       'pattern' => 'apiupload',
-      'action'  => function (string $path) {
+      'action' => function (string $path = '/') {
+        print_r('hola there');
         return $this->upload(function ($source, $filename) use ($path) {
           return $this->parent($path)->createFile([
             'source' => $source,

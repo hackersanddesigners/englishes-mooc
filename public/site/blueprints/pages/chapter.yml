@@ -23,9 +23,6 @@ columns:
       files:
         type: files
         layout: list
-        template: document
-        image:
-          cover: true
 
   - width: 1/2
     fields:
@@ -34,3 +31,11 @@ columns:
         type: select
         options: query
         query: page.files
+
+  - width: 1/2
+    fields:
+      attachment_lab:
+        label: Attachment label
+        type: text
+        default: Transcript
+        placeholder: Transcript

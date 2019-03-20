@@ -10,6 +10,7 @@ var mm = require('megamark')
 var dm = require('domador')
 var xhr = require('xhr')
 var users = require('../stores/users.json')
+var api = require('../stores/api.json')
 
 class texteditor extends nc {
   constructor (state, emit) {
@@ -25,7 +26,7 @@ class texteditor extends nc {
 
     return html`
       <div>
-        <div class="dn z3 psa to r0 pt0-25">
+        <div class="z3 psa to r0 pt0-25">
           <form method="post" enctype="multipart/form-data" class="psr oh dib">
             <button class="tdu curp">upload file</button>
             <input id="upload" type="file" onchange=${ upload } class="psa t0 l0 op0 curp">
@@ -94,21 +95,21 @@ class texteditor extends nc {
       e.preventDefault()
       const form = e.currentTarget
       const file = form.files[0]
-      let formData = new FormData()
+      const send = document.querySelector('.send')
 
-      formData.append('module', state.page.content.title)
+      let formData = new FormData()
       formData.append('file', file)
 
-      for (var key of formData.entries()) {
-        console.log(key[0] + ', ' + key[1]);
-      }
-
-      console.log(file)
+      const email = ok(api)
+      const password = ov(api)[0]
+      const auth = Buffer.from([email,password].join(':')).toString('base64')
 
       xhr({
         method: 'post',
-        headers: {'Content-Type': undefined},
-        url: '/apiupload',
+        headers: {
+          Authorization: `Basic ${auth}`
+        },
+        uri: `/api/pages/${ state.page.id.replace('/', '+') }/files`,
         body: formData,
         beforeSend: function(xhrObject){
           xhrObject.onprogress = function(){
@@ -117,8 +118,6 @@ class texteditor extends nc {
         }
       }, function (err, resp, body) {
         if (err) throw err
-        console.log(err, resp)
-        console.log(body)
       })
     }
 
@@ -171,8 +170,6 @@ class texteditor extends nc {
         }, function (err, resp, body) {
           if (err) throw err
 
-          console.log(body)
-
           if (body.errors) {
             const box = form.querySelector('.error-box')
             box.classList.remove('dn')
@@ -187,7 +184,6 @@ class texteditor extends nc {
             send.classList.add('dn')
 
           } else {
-            console.log('request ok!', body)
             send.value = 'posted'
 
             emit('msg-posted')
