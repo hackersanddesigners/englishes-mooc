@@ -26,7 +26,7 @@ class texteditor extends nc {
 
     return html`
       <div>
-        <div class="file-error-box pb1 dn">
+        <div class="file-error-box c12 x xjb pb0-5 dn">
           <p class="dib pb0 pr1"></p>
           <button class="tdu curp" onclick=${ filemsg_toggle }>close</button>
         </div>
@@ -105,7 +105,6 @@ class texteditor extends nc {
       e.preventDefault()
       const form = e.currentTarget
       const file = form.files[0]
-      const butt_upload = document.querySelector('.butt-upload')
 
       let formData = new FormData()
       formData.append('file', file)
@@ -114,26 +113,35 @@ class texteditor extends nc {
       const password = ov(api)[0]
       const auth = Buffer.from([email,password].join(':')).toString('base64')
 
+      const box = document.querySelector('.file-error-box')
+
+      let page
+      if (state.route !== '/') {
+        page = ov(state.content).filter(page => page.uri === state.route)[0]
+      } else {
+        page = ov(state.content).filter(page => page.content.status === 'current')[0]
+      }
+
+      box.classList.remove('dn')
+      box.firstChild.innerHTML = 'Uploading...'
+
       xhr({
         method: 'post',
         headers: {
           Authorization: `Basic ${auth}`
         },
-        uri: `/api/pages/${ state.page.id.replace('/', '+') }/files`,
+        uri: `/api/pages/${ page.id.replace('/', '+') }/files`,
         body: formData,
         beforeSend: function(xhrObject){
           xhrObject.onprogress = function(){
-            butt_upload.value = 'uploading...'
+            // box.classList.remove('dn')
+            // box.firstChild.innerHTML = 'Uploading...'
           }
         }
       }, function (err, resp, body) {
         if (err) throw err
-        console.log(resp)
+        // console.log(resp)
         const bd = JSON.parse(body)
-
-        const box = document.querySelector('.file-error-box')
-        box.classList.remove('dn')
-        box.classList.add('dib')
 
         if(bd.status === 'error') {
           box.firstChild.innerHTML = bd.message + '. Try again!'
