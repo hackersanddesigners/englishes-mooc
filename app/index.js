@@ -19,7 +19,9 @@ app.use(require('./stores/topic'))
 app.use(require('./stores/discussion'))
 app.use(require('./stores/assignment'))
 
-app.use(require('./stores/router')(data.children))
+app.use(require('./stores/content')(data.children))
+
+app.use(require('./stores/redirect'))
 
 app.route('/', require('./views/main'))
 app.route('*', require('./views/notfound'))
