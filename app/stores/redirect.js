@@ -9,10 +9,7 @@ function redirect (state, emitter) {
 
       if (localStorage.getItem('user_data') !== undefined && localStorage.getItem('user_login') === 'true') {
         emitter.emit('pushState', page.uri)
-
-      } else {
-        app.route('/', require('../views/main'))
-      }
+      } 
     }
 
   })
