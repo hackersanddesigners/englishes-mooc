@@ -1,6 +1,7 @@
 var ok = require('object-keys')
 var ov = require('object-values')
 var xhr = require('xhr')
+var xhr_meths = require('../components/xhr-meths.js') 
 var users = require('./users.json')
 
 function post_pag (state, emitter) {
@@ -25,6 +26,11 @@ function post_pag (state, emitter) {
         const topic = topics.filter(tag => tag.tags.includes(topic_n))
 
         if (topic.length > 0) {
+
+          xhr_meths.posts((err, resp, body) => {
+            
+          })
+
           xhr({
             method: 'get',
             headers: {'Content-Type': 'multipart/form-data'},

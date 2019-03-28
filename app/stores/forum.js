@@ -5,9 +5,6 @@ var users = require('./users.json')
 var fetch_topic = require('../components/fetch-topic')
 
 function forum (state, emitter) {
-  // state.components.disc_posts = []
-  // state.components.todo_posts = []
-
   emitter.on('DOMContentLoaded', () => {
     let page
     let cat_id
