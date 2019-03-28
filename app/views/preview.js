@@ -15,7 +15,6 @@ function view (state, emit) {
 
   return html`
     <body>
-      ${ nav(state, emit) }
       <main class="w100 bg-oh x xdc bg-xdr xjb copy copy-tdbk bl-gr br-bldb bg-bl-n bg-br-n">
         <section class="w100 bg-vh100 bg-os pt2 pb2 pr2 pl2 bg-bb-n bg-bl-gr bg-br-rd">
           <h1 class="fs1-3 fw-r ft-mn pt1 pb2 pl1">${ page.content.title }</h1>
