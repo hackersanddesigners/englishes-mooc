@@ -12,18 +12,18 @@ function login (state, emit) {
   return html`
     <div class="c12 pt1 pr1 pb1 pl1 copy">
       ${ storage() }
-      <button class="psf t05 r0 pr1 ft-mn fs2-4 curp" onclick=${ close(emit) }>x</button>
+      <button class="psf t0 r0 pr1 ft-mn fs2-4 curp" onclick=${ close(emit) }>x</button>
 
       <form id="login" onsubmit=${ onsubmit } method="post" class="pb2">
         <div class="fw-r fs1 lh1 pt2 pb2">
           <div class="pb0-5">
-            <label class="dib w-50 ft-mn">Name*</label>
-              <input id="name" name="name" type="text" placeholder="" class="dib w-50 bb-bl" required>
+            <label class="dib w-100 bg-w-50 ft-mn">Name*</label>
+              <input id="name" name="name" type="text" placeholder="" class="dib w-100 bg-w-50 bb-bl" required>
           </div>
 
           <div class="pb0-5">
-            <label class="dib w-50 ft-mn">Password*</label>
-            <input id="password" name="password" type="password" class="dib w-50 bb-bl" required>
+            <label class="dib w-100 bg-w-50 ft-mn">Password*</label>
+            <input id="password" name="password" type="password" class="dib w-100 bg-w-50 bb-bl" required>
           </div>
         </div>
 

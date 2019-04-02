@@ -43,8 +43,8 @@ function view (state, emit) {
             ${ sidebar(state, emit) }
           </section>
   
-          <div class="pl2 pr2">
-            <h2 class="ft-mn fs2 ttu pb1">${ page.content.title }</h2>
+          <div class="pl2 pr2 pb1">
+            <h2 class="ft-mn fs2 pb1">${ page.content.title }</h2>
             <p>with ${ page.content.tutor }</p>
           </div>
           <div class="pb2">
@@ -55,7 +55,7 @@ function view (state, emit) {
 
           <div class="pt4">
             ${ raw(md.render(page.content.feedback)) }
-            <div class="ft-mn">
+            <div class="ft-mn pt1">
               ${ raw(md.render(page.content.credit)) }
             </div>
           </div>
@@ -76,7 +76,7 @@ function view (state, emit) {
       return html`
         <div class="copy">
           <div class="p2">
-            <h2 class="ft-mn fs2 ttu">${ item.content.title }</h2>
+            <h2 class="ft-mn fs2">${ item.content.title }</h2>
             <div class="x xdr">
               <p class="pr1">${ item.content.video_length }</p>
               ${ attachment() }

@@ -30,7 +30,7 @@ class texteditor extends nc {
           <p class="dib pb0 pr1"></p>
           <button class="tdu curp" onclick=${ filemsg_toggle }>close</button>
         </div>
-        <div class="z3 psa to r0 pt0-25">
+        <div class="z3 psa to r0 pt0-25 pr0-5">
           <form method="post" enctype="multipart/form-data" class="psr oh dib">
             <button class="butt-upload tdu curp">upload file</button>
             <input id="upload" type="file" onchange=${ upload } class="psa t0 l0 op0 curp">
@@ -132,12 +132,6 @@ class texteditor extends nc {
         },
         uri: `/api/pages/${ page.id.replace('/', '+') }/files`,
         body: formData,
-        beforeSend: function(xhrObject){
-          xhrObject.onprogress = function(){
-            // box.classList.remove('dn')
-            // box.firstChild.innerHTML = 'Uploading...'
-          }
-        }
       }, function (err, resp, body) {
         if (err) throw err
         // console.log(resp)

@@ -135,7 +135,7 @@ font-family: var(--ft-rg);
 } 
 
 .td-u-r {
-  text-decoration: underline red;
+  text-decoration: underline var(--c-rd);
 }
 
 h1, h2, h3 {
@@ -170,7 +170,7 @@ button {
 :-webkit-autofill,
 :-webkit-autofill:hover, 
 :-webkit-autofill:focus {
-  -webkit-text-fill-color: black;
+  -webkit-text-fill-color: var(--c-bk);
   transition: background-color 5000s ease-in-out 0s;
 }
 
@@ -236,7 +236,6 @@ input[type=checkbox]:checked {
   border-radius: 50%;
 }
 
-
 .sm-bt {
   width: 4rem;
 }
@@ -255,6 +254,10 @@ input[type=checkbox]:checked {
 
 .t0-5 {
   top: 0.5rem;
+}
+
+.t2-7 {
+  top: 2.7rem;
 }
 
 .t50 {
@@ -433,6 +436,7 @@ input[type=checkbox]:checked {
 }
 
 .wk-commands {
+  width: 100%;
   position: absolute;
   top: 0;
   border: 1px solid var(--c-bk);

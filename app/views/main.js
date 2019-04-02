@@ -62,7 +62,7 @@ function view (state, emit) {
       return html`
         <div class="c12 md-c6 lg-c4 pr1 pl1 pb1 z1">
           ${ vvideo(state, module.content.pitch_url, emit) }
-          <h2 class="fs1 fw-r ft-mn">${ module.content.title }</h2>
+          <h2 class="fs1 fw-r ft-mn pt1">${ module.content.title }</h2>
           <p class="pb0 fs0-8">Opens ${ module.content.opening }</p>
           <p class="fs0-8">Live classroom ${ module.content.liveclass }</p>
 
