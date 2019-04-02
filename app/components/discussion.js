@@ -40,11 +40,11 @@ class discussion extends nc {
         </div>
 
         <div class="psf b0 r0 bgc-wh c6 br-bldb">
-          <div class="x xdr c12 pt0-5 pr1 pb0-5 pl1 copy">
+          <div class="x xdr xafs c12 pt0-5 pr1 pb0-5 pl1 copy">
             <div class="${ state.editor_toggle ? 'db ' : 'dn '}psr pt0-5 c12">
               ${ txe.render(state, emit)}
             </div>
-            <button onclick=${editor_toggle(emit)} class="mla fs1 curp pl0-5">${ state.editor_toggle ? '↓' : '↑' }</button>
+            <button onclick=${editor_toggle(emit)} class="fs1 curp mla pl0-5 ${ state.editor_toggle ? 'pt0-75' : '' }">${ state.editor_toggle ? '↓' : '↑' }</button>
           </div>
         </div>
       </div>

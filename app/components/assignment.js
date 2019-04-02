@@ -44,7 +44,9 @@ class assignment extends nc {
             <div class="${ state.editor_toggle ? 'db ' : 'dn '}psr pt0-5 c12">
               ${ txe.render(state, emit)}
             </div>
-            <button onclick=${editor_toggle(emit)} class="mla fs1 curp pl0-5">${ state.editor_toggle ? '↓' : '↑' }</button>
+            <div class="mla pl0-5">
+              <button onclick=${editor_toggle(emit)} class="fs1 curp psa t2-7">${ state.editor_toggle ? '↓' : '↑' }</button>
+            </div>
           </div>
         </div>
       </div>
