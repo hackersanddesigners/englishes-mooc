@@ -2,9 +2,7 @@ const ok = require('object-keys')
 const ov = require('object-values')
 const xhr = require('xhr')
 const users = require('../stores/users.json')
-const xhrMeths = require('./xhr-meths')
-const xhrGetPosts = xhrMeths.getPosts
-
+const xhr_call = require('./xhr-call')
 
 function fetch_topic (state, emitter, page, cat_id) {
   const user_s = JSON.parse(localStorage.getItem('user_data'))
@@ -14,12 +12,13 @@ function fetch_topic (state, emitter, page, cat_id) {
     state.components.disc_posts = []
     state.components.todo_posts = []
 
-    xhr({
-      method: 'get',
-      headers: {'Content-Type': 'multipart/form-data'},
-      url: `https://forum.englishes-mooc.org/c/${ cat_id }.json?api_key=${users[user]}&api_username=${user[0]}`,
-      json: true,
-    }, function (err, resp, body) {
+    const posts_opts = {
+      cat_id: cat_id,
+      user_k: users[user],
+      user_v: user[0]
+    }
+
+    xhr_call.getPosts(posts_opts, (err, resp, body) => {
       if (err) throw err
       state.components.cat = body
 
@@ -29,12 +28,13 @@ function fetch_topic (state, emitter, page, cat_id) {
         const todo = topics.filter(tag => tag.tags.includes('assignment'))
 
         if (disc.length > 0) {
-          xhr({
-            method: 'get',
-            headers: {'Content-Type': 'multipart/form-data'},
-            url: `https://forum.englishes-mooc.org/t/${ disc[0].id }.json?api_key=${users[user]}&api_username=${user[0]}`,
-            json: true,
-          }, function (err, resp, body) {
+          const disc_opts = {
+            topic_id: disc[0].id,
+            user_k: users[user],
+            user_v: user[0]
+          }
+
+          xhr_call.getTopic(disc_opts, (err, resp, body) => {
             if (err) throw err
             // console.log(body)
             state.components.discussion = body
@@ -52,12 +52,13 @@ function fetch_topic (state, emitter, page, cat_id) {
         }
 
         if (todo.length > 0) {
-          xhr({
-            method: 'get',
-            headers: {'Content-Type': 'multipart/form-data'},
-            url: `https://forum.englishes-mooc.org/t/${ todo[0].id }.json?api_key=${users[user]}&api_username=${user[0]}`,
-            json: true,
-          }, function (err, resp, body) {
+          const todo_opts = {
+            topic_id: todo[0].id,
+            user_k: users[user],
+            user_v: user[0]
+          }
+
+          xhr_call.getTopic(todo_opts, (err, resp, body) => {
             if (err) throw err
             // console.log(body)
             state.components.assignment = body
@@ -72,11 +73,9 @@ function fetch_topic (state, emitter, page, cat_id) {
             emitter.emit('render')
           })
         }
-
       }
     })
   }
-
 }
 
 module.exports = fetch_topic
