@@ -1,7 +1,10 @@
-var ok = require('object-keys')
-var ov = require('object-values')
-var xhr = require('xhr')
-var users = require('../stores/users.json')
+const ok = require('object-keys')
+const ov = require('object-values')
+const xhr = require('xhr')
+const users = require('../stores/users.json')
+const xhrMeths = require('./xhr-meths')
+const xhrGetPosts = xhrMeths.getPosts
+
 
 function fetch_topic (state, emitter, page, cat_id) {
   const user_s = JSON.parse(localStorage.getItem('user_data'))
@@ -18,10 +21,9 @@ function fetch_topic (state, emitter, page, cat_id) {
       json: true,
     }, function (err, resp, body) {
       if (err) throw err
-      // console.log(body)
       state.components.cat = body
 
-      if(state.components.cat !== undefined) {
+      if (state.components.cat !== undefined) {
         const topics = state.components.cat.topic_list.topics
         const disc = topics.filter(tag => tag.tags.includes('discussion'))
         const todo = topics.filter(tag => tag.tags.includes('assignment'))
