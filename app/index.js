@@ -15,10 +15,6 @@ app.use(require('./stores/click'))
 app.use(require('./stores/forum'))
 app.use(require('./stores/post-pag'))
 
-app.use(require('./stores/topic'))
-app.use(require('./stores/discussion'))
-app.use(require('./stores/assignment'))
-
 app.use(require('./stores/content')(data.children))
 
 app.use(require('./stores/redirect'))
