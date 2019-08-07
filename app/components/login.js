@@ -1,9 +1,5 @@
 var ok = require('object-keys')
-var ov = require('object-values')
 var html = require('choo/html')
-var raw = require('choo/html/raw')
-var Markdown = require('markdown-it')
-var md = new Markdown()
 var xhr = require('xhr')
 var users = require('../stores/users.json')
 
@@ -11,10 +7,10 @@ function login (state, emit) {
 
   return html`
     <div class="c12 pt1 pr1 pb1 pl1 copy">
-      ${ storage() }
-      <button class="psf t0 r0 pr1 ft-mn fs2-4 curp" onclick=${ close(emit) }>x</button>
+      ${storage()}
+      <button class="psf t0 r0 pr1 ft-mn fs2-4 curp" onclick=${close(emit)}>x</button>
 
-      <form id="login" onsubmit=${ onsubmit } method="post" class="pb2">
+      <form id="login" onsubmit=${onsubmit} method="post" class="pb2">
         <div class="fw-r fs1 lh1 pt2 pb2">
           <div class="pb0-5">
             <label class="dib w-100 bg-w-50 ft-mn">Name*</label>
@@ -29,7 +25,7 @@ function login (state, emit) {
 
         <div class="x xafs">
           <input type="submit" value="Login" class="send fs1-3 bb-rd curp">
-          <button class="dn fs1-3 bb-rd retry-box curp" onclick=${ reset }>Retry</button>
+          <button class="dn fs1-3 bb-rd retry-box curp" onclick=${reset}>Retry</button>
           <div class="dn success-box pl1">
             <p class="dib pb0"></p>
           </div>
@@ -55,15 +51,14 @@ function login (state, emit) {
     return function () { emit('close') }
   }
 
-  function storageAvailable(type) {
+  function storageAvailable (type) {
     try {
-      var storage = window[type];
-      var x = '__storage_test__';
-      storage.setItem(x, x);
-      storage.removeItem(x);
-      return true;
-    }
-    catch(e) {
+      var storage = window[type]
+      var x = '__storage_test__'
+      storage.setItem(x, x)
+      storage.removeItem(x)
+      return true
+    } catch (e) {
       return e instanceof DOMException && (
         // everything except Firefox
         e.code === 22 ||
@@ -75,15 +70,14 @@ function login (state, emit) {
         // Firefox
         e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
         // acknowledge QuotaExceededError only if there's something already stored
-        storage.length !== 0;
+        storage.length !== 0
     }
   }
 
-  function storage() {
+  function storage () {
     if (storageAvailable('localStorage')) {
       console.log('yes! we can use localstorage')
-    }
-    else {
+    } else {
       console.log('no localStorage')
     }
   }
@@ -119,25 +113,24 @@ function login (state, emit) {
 
     const name = body.name
     const pw = body.password
-		const auth = {'login': name, 'password': pw}
+    const auth = { 'login': name, 'password': pw }
     const user = ok(users).filter(user => user === name)
 
     if (body.website !== '') {
       bot.classList.remove('dn')
     } else if (body.name === '') {
-      form.childNodes[0].childNodes[0].value="Type username"
+      form.childNodes[0].childNodes[0].value = 'Type username'
     } else if (body.password === '') {
-      form.childNodes[0].childNodes[1].value="Type password"
+      form.childNodes[0].childNodes[1].value = 'Type password'
     } else {
-
       xhr({
         method: 'post',
         body: auth,
-				headers: {'Content-Type': 'multipart/form-data'},
+        headers: {'Content-Type': 'multipart/form-data'},
         url: `https://forum.englishes-mooc.org/session?api_key=${users[user]}&api_username=${user}&login=${name}&password=${pw}`,
         json: true,
-        beforeSend: function(xhrObject){
-          xhrObject.onprogress = function(){
+        beforeSend: (xhrObject) => {
+          xhrObject.onprogress = () => {
             send.value = '...'
           }
         }
@@ -158,7 +151,6 @@ function login (state, emit) {
           box.firstChild.innerHTML = msg
 
           send.classList.add('dn')
-
         } else {
           // console.log('request ok!', body)
           localStorage.setItem('user_data', JSON.stringify(body))
@@ -170,11 +162,9 @@ function login (state, emit) {
 
           emit('log-in')
         }
-
       })
     }
   }
-
 }
 
 module.exports = login

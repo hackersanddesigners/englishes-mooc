@@ -22,7 +22,7 @@ class topic extends nc {
     this.data = { }
   }
 
-  createElement(state, data, emit) {
+  createElement (state, data, emit) {
     this.state = state
     this.emit = emit
     this.data = data
@@ -31,19 +31,19 @@ class topic extends nc {
       <div class="psr c12 pt1 pr1 pb1 pl1 copy">
         <div class="z3 psf t0 r0 c6 br-bldb pt1 pr1 pb1 pl1 copy bgc-gy">
           <div class="c12 x xdr xjb pb1">
-            <button class="fs1 tdu">${ data.user.name }</button> 
-            <button class="curp" onclick=${ logout(emit) }>Log out</button>
+            <button class="fs1 tdu">${data.user.name}</button> 
+            <button class="curp" onclick=${logout(emit)}>Log out</button>
           </div>
 
           <div class="x xdr xjb">
-            <button class="${ state.disc_tab ? 'tdu ' : '' }ft-mn curp" onclick=${ disc_tab(emit) }>Discussion</button>
-            <button class="${ state.todo_tab ? 'tdu ' : '' }ft-mn curp" onclick=${ todo_tab(emit) }>Assignments</button>
-            <button class="${ state.read_tab ? 'tdu ' : '' }ft-mn curp" onclick=${ read_tab(emit) }>More Material</button>
+            <button class="${state.disc_tab ? 'tdu ' : ''}ft-mn curp" onclick=${disc_tab(emit)}>Discussion</button>
+            <button class="${state.todo_tab ? 'tdu ' : ''}ft-mn curp" onclick=${todo_tab(emit)}>Assignments</button>
+            <button class="${state.read_tab ? 'tdu ' : ''}ft-mn curp" onclick=${read_tab(emit)}>More Material</button>
           </div>
         </div>
 
         <div class="posts pt5 pb15">
-         ${ blob(state, emit) }
+         ${blob(state, emit)}
         </div>
       </div>
     `
@@ -65,19 +65,18 @@ class topic extends nc {
     }
 
     function blob (state, emit) {
-      if(state.disc_tab === true) {
+      if (state.disc_tab === true) {
         return discussion.render(state, emit)
       }
 
-      if(state.read_tab === true) {
+      if (state.read_tab === true) {
         return reading.render(state, emit)
       }
 
-      if(state.todo_tab === true) {
+      if (state.todo_tab === true) {
         return assignment.render(state, emit)
       }
     }
-
   }
 
   update () {
@@ -87,7 +86,6 @@ class topic extends nc {
   unload () {
     this.state.components.user_id = ''
   }
-
 }
 
 module.exports = topic
