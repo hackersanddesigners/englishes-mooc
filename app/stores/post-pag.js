@@ -26,7 +26,7 @@ function post_pag (state, emitter) {
 
         if (topic.length > 0) {
           const opts = {
-            topic_id: 'topic[0].id }/${ post_id || 20',
+            topic_id: `${topic[0].id }/${ post_id || 20}`,
             user_k: users[user],
             user_v: user[0]
           }
