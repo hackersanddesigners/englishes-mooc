@@ -1,7 +1,6 @@
 var ok = require('object-keys')
 var ov = require('object-values')
-var xhr = require('xhr')
-var xhr_meths = require('../components/xhr-meths.js') 
+var xhr_call = require('../components/xhr-call.js')
 var users = require('./users.json')
 
 function post_pag (state, emitter) {
@@ -21,22 +20,18 @@ function post_pag (state, emitter) {
         cat_id = page.content.cat_id
       }
 
-      if(state.components.cat !== undefined) {
+      if (state.components.cat !== undefined) {
         const topics = state.components.cat.topic_list.topics
         const topic = topics.filter(tag => tag.tags.includes(topic_n))
 
         if (topic.length > 0) {
+          const opts = {
+            topic_id: 'topic[0].id }/${ post_id || 20',
+            user_k: users[user],
+            user_v: user[0]
+          }
 
-          xhr_meths.posts((err, resp, body) => {
-            
-          })
-
-          xhr({
-            method: 'get',
-            headers: {'Content-Type': 'multipart/form-data'},
-            url: `https://forum.englishes-mooc.org/t/${ topic[0].id }/${ post_id || 20 }.json?api_key=${users[user]}&api_username=${user[0]}`,
-            json: true,
-          }, function (err, resp, body) {
+          xhr_call.getTopic(opts, (err, resp, body) => {
             if (err) throw err
             console.log(body)
 
@@ -53,30 +48,26 @@ function post_pag (state, emitter) {
             }
 
             const posts = ov(body.post_stream.posts).filter(post => post.user_deleted === false)
-            const post_tot = posts.length -1
+            const post_tot = posts.length - 1
             const post_n_l = posts[post_tot].post_number
             const stream = ov(body.post_stream.stream)
-            const stream_tot = stream.length -1
+            const stream_tot = stream.length - 1
 
-            if(post_n_l < stream_tot) {
+            if (post_n_l < stream_tot) {
               state.components.loadmore = true
             } else {
               state.components.loadmore = false
             }
-
           })
 
           emitter.emit('render')
-
         }
       }
-
     })
 
     emitter.on('loadmore', () => {
       emitter.emit('render')
     })
-
   }
 }
 

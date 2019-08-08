@@ -1,8 +1,8 @@
-var ok = require('object-keys')
-var ov = require('object-values')
-var xhr = require('xhr')
-var users = require('./users.json')
-var fetch_topic = require('../components/fetch-topic')
+const ok = require('object-keys')
+const ov = require('object-values')
+const xhr_call = require('../components/xhr-call.js')
+const users = require('./users.json')
+const fetch_topic = require('../components/fetch-topic')
 
 function clickhandle (state, emitter) {
   state.sidebar = false
@@ -136,15 +136,15 @@ function clickhandle (state, emitter) {
     const user_s = JSON.parse(localStorage.getItem('user_data'))
     const user = ok(users).filter(user => user === user_s.user.username)
 
-    xhr({
-      method: 'delete',
-      headers: {'Content-Type': 'multipart/form-data'},
-      url: `https://forum.englishes-mooc.org/posts/${id}?api_key=${users[user]}&api_username=${user}`,
-      json: true,
-    }, function (err, resp, body) {
+    const opts = {
+      id: id,
+      user_k: users[user],
+      user_v: user
+    }
+
+    xhr_call.delete_post(opts, (err, resp, body) => {
       if (err) throw err
       console.log(body)
-
     })
     emitter.emit('render')
   })

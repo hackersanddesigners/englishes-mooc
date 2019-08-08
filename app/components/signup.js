@@ -1,38 +1,35 @@
-var ov = require('object-values')
-var html = require('choo/html')
-var raw = require('choo/html/raw')
-var Markdown = require('markdown-it')
-var md = new Markdown()
-var xhr = require('xhr')
+const ov = require('object-values')
+const html = require('choo/html')
+const xhr_call = require('./xhr-call')
 
 function signup () {
   const page = ov(data.children).filter(page => page.uid === 'signup')
 
   return html`
-    <form id="signup" onsubmit=${ onsubmit } method="post" class="pb2 lg-pl2 lg-pr2">
+    <form id="signup" onsubmit=${onsubmit} method="post" class="pb2 lg-pl2 lg-pr2">
       <div class="fw-r fs1 lh1 pt2 pb2">
         <div class="pb0-5">
-          <label class="dib w-50 ft-mn">${ page[0].content.name }*</label>
+          <label class="dib w-50 ft-mn">${page[0].content.name}*</label>
             <input id="name" name="name" type="text" placeholder="" class="dib w-50 bb-bl" required>
         </div>
 
         <div class="pb0-5">
-          <label class="dib w-50 ft-mn">${ page[0].content.email }*</label>
+          <label class="dib w-50 ft-mn">${page[0].content.email}*</label>
           <input id="email" name="email" type="email" class="dib w-50 bb-bl" required>
         </div>
 
         <div class="pb0-5">
-          <label class="dib w-50 ft-mn">${ page[0].content.email2t }*</label>
+          <label class="dib w-50 ft-mn">${page[0].content.email2t}*</label>
           <input id="email2t" name="email2t" type="email" class="dib w-50 bb-bl" required>
         </div>
 
         <div class="pb1">
-          <label class="dib w-50 ft-mn">${ page[0].content.info }</label>
+          <label class="dib w-50 ft-mn">${page[0].content.info}</label>
           <input id="info" name="info" type="text" class="dib w-50 bb-bl">
         </div>
 
         <div class="pb1">
-          <label class="dib w-50 ft-mn">${ page[0].content.pilot }</label>
+          <label class="dib w-50 ft-mn">${page[0].content.pilot}</label>
           <input id="pilot" value="1" name="pilot" type="checkbox">
         </div>
       </div>
@@ -71,25 +68,20 @@ function signup () {
 
     const email = body.email
 
+    const opts = {
+      body: body,
+      send: send
+    }
+
     if (body.website !== '') {
       bot.classList.remove('dn')
     } else if (body.email === '') {
-      form.childNodes[0].childNodes[0].value="Type email adddress"
+      form.childNodes[0].childNodes[0].value = 'Type email adddress'
     } else {
-      xhr({
-        method: "post",
-        body: body,
-        uri: '/apisignup',
-        json: true,
-        beforeSend: function(xhrObject){
-          xhrObject.onprogress = function(){
-            send.value = '...'
-          }
-        }
-      }, function (err, resp, body) {
+      xhr_call.signup(opts, (err, resp, body) => {
         if (err) throw err
 
-        if (body.title === "Member Exists") {
+        if (body.title === 'Member Exists') {
           const box = form.querySelector('.error-box')
           box.classList.remove('dn')
           box.classList.add('dib')
@@ -98,7 +90,6 @@ function signup () {
           box.firstChild.innerHTML = msg
 
           send.value = 'Error!'
-
         } else if (body.title === null || body.title === undefined) {
           const box = form.querySelector('.success-box')
           box.classList.remove('dn')
@@ -112,7 +103,6 @@ function signup () {
       })
     }
   }
-
 }
 
 module.exports = signup

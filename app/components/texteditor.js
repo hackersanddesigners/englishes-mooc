@@ -2,13 +2,10 @@ var ok = require('object-keys')
 var ov = require('object-values')
 var nc = require('nanocomponent')
 var html = require('choo/html')
-var raw = require('choo/html/raw')
-var Markdown = require('markdown-it')
-var md = new Markdown()
 var wf = require('woofmark')
 var mm = require('megamark')
 var dm = require('domador')
-var xhr = require('xhr')
+var xhr_call = require('./xhr-call')
 var users = require('../stores/users.json')
 var api = require('../stores/api.json')
 
@@ -125,19 +122,18 @@ class texteditor extends nc {
       box.classList.remove('dn')
       box.firstChild.innerHTML = 'Uploading...'
 
-      xhr({
-        method: 'post',
-        headers: {
-          Authorization: `Basic ${auth}`
-        },
-        uri: `/api/pages/${ page.id.replace('/', '+') }/files`,
-        body: formData,
-      }, function (err, resp, body) {
+      const file_opts = {
+        auth: auth,
+        page_id: page.id.replace('/', '+'),
+        form_data: formData
+      }
+
+      xhr_call.upload_file(file_opts, (err, resp, body) => {
         if (err) throw err
         // console.log(resp)
         const bd = JSON.parse(body)
 
-        if(bd.status === 'error') {
+        if (bd.status === 'error') {
           box.firstChild.innerHTML = bd.message + '. Try again!'
         } else {
           box.firstChild.innerHTML = 'File uploaded!'
@@ -166,9 +162,9 @@ class texteditor extends nc {
       }
 
       const post = {
-        'title': '',
-        'topic_id': state.components.discussion.id, 
-        'raw': msg
+        title: '',
+        topic_id: state.components.discussion.id,
+        raw: msg
       }
 
       const user_s = JSON.parse(localStorage.getItem('user_data'))
@@ -177,21 +173,10 @@ class texteditor extends nc {
       if (body.website !== '') {
         bot.classList.remove('dn')
       } else if (msg === '') {
-        form.childNodes[0].childNodes[0].value='Type something before sending a message'
+        form.childNodes[0].childNodes[0].value = 'Type something before sending a message'
         form.childNodes[0].childNodes[0].classList.remove('tdu curp')
-
       } else {
-        xhr({
-          method: 'post',
-          headers: {'Content-Type': 'multipart/form-data'},
-          url: `https://forum.englishes-mooc.org/posts.json?api_key=${users[user]}&api_username=${user}&title='what?'&topic_id=${ state.disc_tab ? state.components.discussion.id : state.components.assignment.id }&raw=${msg}`,
-          json: true,
-          beforeSend: function(xhrObject){
-            xhrObject.onprogress = function(){
-              send.value = '...'
-            }
-          }
-        }, function (err, resp, body) {
+        xhr_call.upload_post(post_opts, (err, resp, body) => {
           if (err) throw err
 
           if (body.errors) {

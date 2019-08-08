@@ -1,10 +1,9 @@
-var ok = require('object-keys')
-var html = require('choo/html')
-var xhr = require('xhr')
-var users = require('../stores/users.json')
+const ok = require('object-keys')
+const html = require('choo/html')
+const xhr_call = require('./xhr-call')
+const users = require('../stores/users.json')
 
 function login (state, emit) {
-
   return html`
     <div class="c12 pt1 pr1 pb1 pl1 copy">
       ${storage()}
@@ -113,8 +112,17 @@ function login (state, emit) {
 
     const name = body.name
     const pw = body.password
-    const auth = { 'login': name, 'password': pw }
     const user = ok(users).filter(user => user === name)
+
+    const opts = {
+      name: name,
+      pw: pw,
+      auth: { 'login': name, 'password': pw },
+      user: ok(users).filter(user => user === name),
+      user_k: users[user],
+      user_v: user[0],
+      send: send
+    }
 
     if (body.website !== '') {
       bot.classList.remove('dn')
@@ -123,18 +131,7 @@ function login (state, emit) {
     } else if (body.password === '') {
       form.childNodes[0].childNodes[1].value = 'Type password'
     } else {
-      xhr({
-        method: 'post',
-        body: auth,
-        headers: {'Content-Type': 'multipart/form-data'},
-        url: `https://forum.englishes-mooc.org/session?api_key=${users[user]}&api_username=${user}&login=${name}&password=${pw}`,
-        json: true,
-        beforeSend: (xhrObject) => {
-          xhrObject.onprogress = () => {
-            send.value = '...'
-          }
-        }
-      }, function (err, resp, body) {
+      xhr_call.login(opts, (err, resp, body) => {
         if (err) throw err
         console.log(body)
 
