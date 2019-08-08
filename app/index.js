@@ -1,8 +1,5 @@
 var choo = require('choo')
-var html = require('choo/html')
 var devtools = require('choo-devtools')
-var ok = require('object-keys')
-var ov = require('object-values')
 var css = require('sheetify')
 css('./design/index.js')
 css('./design/design.css')

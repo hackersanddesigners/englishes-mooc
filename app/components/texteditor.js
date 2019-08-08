@@ -1,13 +1,13 @@
-var ok = require('object-keys')
-var ov = require('object-values')
-var nc = require('nanocomponent')
-var html = require('choo/html')
-var wf = require('woofmark')
-var mm = require('megamark')
-var dm = require('domador')
-var xhr_call = require('./xhr-call')
-var users = require('../stores/users.json')
-var api = require('../stores/api.json')
+const ok = require('object-keys')
+const ov = require('object-values')
+const nc = require('nanocomponent')
+const html = require('choo/html')
+const wf = require('woofmark')
+const mm = require('megamark')
+const dm = require('domador')
+const xhr_call = require('./xhr-call')
+const users = require('../stores/users.json')
+const api = require('../stores/api.json')
 
 class texteditor extends nc {
   constructor (state, emit) {
@@ -17,7 +17,7 @@ class texteditor extends nc {
     this.emit = null
   }
 
-  createElement(state, emit) {
+  createElement (state, emit) {
     this.state = state
     this.emit = emit
 
@@ -25,12 +25,12 @@ class texteditor extends nc {
       <div>
         <div class="file-error-box c12 x xjb pb0-5 dn">
           <p class="dib pb0 pr1"></p>
-          <button class="tdu curp" onclick=${ filemsg_toggle }>close</button>
+          <button class="tdu curp" onclick=${filemsg_toggle}>close</button>
         </div>
         <div class="z3 psa to r0 pt0-25 pr0-5">
           <form method="post" enctype="multipart/form-data" class="psr oh dib">
             <button class="butt-upload tdu curp">upload file</button>
-            <input id="upload" type="file" onchange=${ upload } class="psa t0 l0 op0 curp">
+            <input id="upload" type="file" onchange=${upload} class="psa t0 l0 op0 curp">
           </form>
         </div>
 
@@ -39,10 +39,10 @@ class texteditor extends nc {
         </div>
 
         <div class="x xjb pt0-5">
-          <button class="retry dn fs1 tdu curp" onclick=${ editor_retry }>retry</button>
-          <button class="cancel fs1 tdu curp" onclick=${ editor_cancel }>cancel</button>
+          <button class="retry dn fs1 tdu curp" onclick=${editor_retry}>retry</button>
+          <button class="cancel fs1 tdu curp" onclick=${editor_cancel}>cancel</button>
 
-          <form id="textinput" onsubmit=${ onsubmit } method="post">
+          <form id="textinput" onsubmit=${onsubmit} method="post">
             <div class="x xafs">
               <input type="submit" value="post" class="send fs1 tdu curp">
 
@@ -68,11 +68,11 @@ class texteditor extends nc {
       </div>
     `
 
-    function editor_toggle(emit) {
+    function editor_toggle (emit) {
       return function () { emit('editor_toggle') }
     }
 
-    function filemsg_toggle(e) {
+    function filemsg_toggle (e) {
       e.preventDefault()
       document.querySelector('.file-error-box').classList.remove('dib')
       document.querySelector('.file-error-box').classList.add('dn')
@@ -108,7 +108,7 @@ class texteditor extends nc {
 
       const email = ok(api)
       const password = ov(api)[0]
-      const auth = Buffer.from([email,password].join(':')).toString('base64')
+      const auth = Buffer.from([email, password].join(':')).toString('base64')
 
       const box = document.querySelector('.file-error-box')
 
@@ -191,7 +191,6 @@ class texteditor extends nc {
             retry.classList.remove('dn')
 
             send.classList.add('dn')
-
           } else {
             send.value = 'posted'
 
@@ -199,11 +198,9 @@ class texteditor extends nc {
             // emit('loadmore')
             // emit('post-pag')
           }
-
         })
       }
     }
-
   }
 
   update (el) {
@@ -221,7 +218,7 @@ class texteditor extends nc {
     })
   }
 
-  load(el) {
+  load (el) {
     const textarea = el.querySelector('textarea')
     this.state.components.txe = wf.find(textarea)
   }
@@ -229,7 +226,6 @@ class texteditor extends nc {
   unload (el) {
     const txe = this.state.components.txe
   }
-
 }
 
 module.exports = texteditor
