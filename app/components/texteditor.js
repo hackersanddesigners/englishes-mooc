@@ -161,14 +161,18 @@ class texteditor extends nc {
         msg = document.querySelector('textarea').value
       }
 
-      const post = {
-        title: '',
-        topic_id: state.components.discussion.id,
-        raw: msg
-      }
-
       const user_s = JSON.parse(localStorage.getItem('user_data'))
       const user = ok(users).filter(user => user === user_s.user.username)
+
+      const post_opts = {
+        title: '',
+        disc_tab: state.disc_tab,
+        disc_id: state.components.discussion.id,
+        ass_id: state.components.assignment.id,
+        raw: msg,
+        user_k: users[user],
+        user_v: user
+      }
 
       if (body.website !== '') {
         bot.classList.remove('dn')
