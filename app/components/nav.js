@@ -2,7 +2,7 @@ var html = require('choo/html')
 var ov = require('object-values')
 
 function nav (state, emit) {
-  const pages = data.children
+  const pages = ov(data.children).filter(page => page.id !== 'hkw')
 
   return html`
     <nav class="c12 x xdc sm-pt0 md-pt4-7 pb1 pr1 pl1 tac">
