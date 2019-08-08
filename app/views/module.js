@@ -84,7 +84,7 @@ function view (state, emit) {
           </div>
 
           <div class="pb2">
-          ${ vvideo(state, item.content.video_url, emit) }
+          ${ item.content.video_url !== '' ? vvideo(state, item.content.video_url, emit) : '' }
           </div>
 
           ${ raw(md.render(item.content.text)) }
@@ -92,7 +92,7 @@ function view (state, emit) {
       `
 
       function attachment () {
-        if(item.content.attachment !== undefined) {
+        if(item.files.length > 0 && item.content.attachment !== undefined) {
           return html`
             <a href="${ item.files[item.content.attachment].url }" target="_blank" rel="noopener noreferrer">${ item.content.attachment_lab || 'Transcript' }</a>
           `
