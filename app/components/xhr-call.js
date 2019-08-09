@@ -2,7 +2,7 @@ const xhr = require('xhr')
 
 const url_root = 'https://forum.englishes-mooc.org'
 
-function getPosts (opts, cb) {
+function get_posts (opts, cb) {
   xhr({
     method: 'get',
     headers: { 'Content-Type': 'multipart/form-data' },
@@ -11,7 +11,7 @@ function getPosts (opts, cb) {
   }, cb)
 }
 
-function getTopic (opts, cb) {
+function get_topic (opts, cb) {
   xhr({
     method: 'get',
     headers: { 'Content-Type': 'multipart/form-data' },
@@ -32,6 +32,21 @@ function login (opts, cb) {
         opts.send.value = '...'
       }
     }
+  }, cb)
+}
+
+function logout (opts, cb) {
+  xhr({
+    method: 'post',
+    body: opts.auth,
+    headers: { 'Content-Type': 'multipart/form-data' },
+    url: `${url_root}/admin/users/${opts.user_id}/log_out?api_key=${opts.user_k}&api_username=${opts.user_v}`,
+    json: true
+    // beforeSend: (xhrObject) => {
+    //   xhrObject.onprogress = () => {
+    //     opts.send.value = '...'
+    //   }
+    // }
   }, cb)
 }
 
@@ -84,9 +99,10 @@ function post_delete (opts, cb) {
 }
 
 module.exports = {
-  getPosts: getPosts,
-  getTopic: getTopic,
+  getPosts: get_posts,
+  getTopic: get_topic,
   login: login,
+  logout: logout,
   signup: signup,
   fileUpload: file_upload,
   postUpload: post_upload,
