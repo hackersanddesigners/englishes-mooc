@@ -11,9 +11,7 @@ const Statusbar = require('../components/statusbar')
 const statusbar = new Statusbar()
 const Forum = require('../components/forum')
 const forum = new Forum()
-// const vvideo = require('../components/video-player')
 const VVideo = require('../components/video')
-const vvideo = new VVideo()
 
 function view (state, emit) {
   emit(state.events.DOMTITLECHANGE, data.content.title)
@@ -57,6 +55,7 @@ function view (state, emit) {
   function modules () {
     const modules = data.children.course.children
     return ov(modules).map(function (module, i) {
+      const vvideo = state.cache(VVideo, i)
       return html`
         <div class="c12 md-c6 lg-c4 pr1 pl1 pb1 z1">
           ${vvideo.render(state, emit, module.content.pitch_url, i)}

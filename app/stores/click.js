@@ -174,26 +174,22 @@ function clickhandle (state, emitter) {
     state.videos.push(false)
   })
 
-  emitter.on('video-toggle', (video) => {
-    const vplayer = state.components.vplayer
-    if (vplayer !== undefined) {
-      if (state.player_toggle !== true) {
-        vplayer.play().then(() => {
-          console.log('PLAYING!')
-          state.videos[video] = true
-          emitter.emit('render')
-        }).catch((error) => {
-          console.log(error)
-        })
-      } else {
-        vplayer.pause().then(() => {
-          console.log('PAUSING!')
-          state.videos[video] = false
-          emitter.emit('render')
-        }).catch((error) => {
-          console.log(error)
-        })
-      }
+  emitter.on('video-toggle', (i, vplayer) => {
+    console.log(i, vplayer)
+    if (state.videos[i] !== true) {
+      vplayer.play().then(() => {
+        state.videos[i] = true
+        emitter.emit('render')
+      }).catch((error) => {
+        console.log(error)
+      })
+    } else {
+      vplayer.pause().then(() => {
+        state.videos[i] = false
+        emitter.emit('render')
+      }).catch((error) => {
+        console.log(error)
+      })
     }
   })
 }
