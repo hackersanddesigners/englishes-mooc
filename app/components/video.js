@@ -28,7 +28,7 @@ class video extends nc {
     return html`
       <div class="iframe-container psr">
         <iframe src="${embed}?title=0&byline=0&portrait=0&api=1&background=0&controls=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> 
-        <button onclick=${this.player_toggle(this.i, this.vplayer, this.emit)} class="controls z5 psa curp bgc-wh">Play</button>
+        <button onclick=${this.player_toggle(this.i, this.vplayer, this.emit)} class="controls z5 psa curp bgc-wh">${this.state.videos[i] ? 'Pause' : 'Play'}</button>
       </div>
     `
   }
@@ -39,7 +39,7 @@ class video extends nc {
   }
 
   update (el) {
-    return false
+    return true
   }
 
   player_toggle (i, video, emit) {

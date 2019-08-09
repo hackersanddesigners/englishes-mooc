@@ -175,7 +175,6 @@ function clickhandle (state, emitter) {
   })
 
   emitter.on('video-toggle', (i, vplayer) => {
-    console.log(i, vplayer)
     if (state.videos[i] !== true) {
       vplayer.play().then(() => {
         state.videos[i] = true
