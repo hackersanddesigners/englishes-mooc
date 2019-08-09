@@ -14,9 +14,10 @@ function clickhandle (state, emitter) {
   state.nav_toggle = true
   state.status_toggle = false
   state.editor_toggle = true
+  state.videos = []
 
   const modules = data.children.course.children
-  ov(modules).map(function (module) {
+  ov(modules).map((module) => {
     state.modules.push(true)
   })
 
@@ -91,44 +92,37 @@ function clickhandle (state, emitter) {
 
   emitter.on('log-out', () => {
     const user_s = JSON.parse(localStorage.getItem('user_data'))
-    const user = ok(users).filter(user => user === user_s.user.username)
+    const user = ok(users).filter(user => user === 'system')
     const user_id = user_s.user.id
 
-    const auth = {'login': user, 'password': users[user]}
-
-    localStorage.setItem('user_login', 'false');
-    localStorage.removeItem('user_data');
+    localStorage.setItem('user_login', 'false')
+    localStorage.removeItem('user_data')
     state.status_toggle = false
 
     state.login = true
     state.components.login = undefined
 
+    const opts = {
+      user_id: user_id,
+      user_k: users[user],
+      user_v: user
+    }
+
     emitter.emit('render')
 
-    // xhr({
-    //   method: 'post',
-    //   body: auth,
-    //   headers: {'Content-Type': 'multipart/form-data'},
-    //   url: `https://forum.englishes-mooc.org/admin/users/${user_id}/log_out?api_key=${users[user]}&api_username=${user}`,
-    //   json: true,
-    //   beforeSend: function(xhrObject){
-    //     xhrObject.onprogress = function(){
-    //       // send.value = '...'
-    //     }
-    //   }
-    // }, function (err, resp, body) {
-    //   if (err) throw err
-    //   console.log(body)
+    xhr_call.logout(opts, (err, resp, body) => {
+      if (err) throw err
+      console.log(body)
 
-    //   localStorage.setItem('user_login', 'false');
-    //   localStorage.removeItem('user_data');
-    //   state.status_toggle = false
+      localStorage.setItem('user_login', 'false');
+      localStorage.removeItem('user_data');
+      state.status_toggle = false
 
-    //   state.login = true
-    //   state.components.login = undefined
+      state.login = true
+      state.components.login = undefined
 
-    //   emitter.emit('render')
-    // })
+      emitter.emit('pushState', '/')
+    })
 
   })
 
@@ -175,6 +169,33 @@ function clickhandle (state, emitter) {
     emitter.emit('render')
   })
 
+  const videos = data.children.course.children
+  ov(videos).map((module) => {
+    state.videos.push(false)
+  })
+
+  emitter.on('video-toggle', (video) => {
+    const vplayer = state.components.vplayer
+    if (vplayer !== undefined) {
+      if (state.player_toggle !== true) {
+        vplayer.play().then(() => {
+          console.log('PLAYING!')
+          state.videos[video] = true
+          emitter.emit('render')
+        }).catch((error) => {
+          console.log(error)
+        })
+      } else {
+        vplayer.pause().then(() => {
+          console.log('PAUSING!')
+          state.videos[video] = false
+          emitter.emit('render')
+        }).catch((error) => {
+          console.log(error)
+        })
+      }
+    }
+  })
 }
 
 module.exports = clickhandle

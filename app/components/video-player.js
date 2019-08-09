@@ -4,7 +4,7 @@ var Markdown = require('markdown-it')
 var md = new Markdown()
 var vimeo = require('@vimeo/player')
 
-function vvideo (state, data, emit) {
+function vvideo (state, emit, data) {
   // console.log(data)
 
   var url_split = data.split('://')
