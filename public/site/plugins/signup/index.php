@@ -37,7 +37,21 @@ Kirby::plugin('mooc/signup', [
             'send_welcome' => false
           ]);
 
-          return response::json($response);
+          if ($response['title'] === 'Member Exists') {
+            $subscriber_hash = $mc::subscriberHash($mc_data['email']);
+            $resp = $mc->patch('lists/' . $mc_listid . '/members/' . $subscriber_hash, [
+              'email_address' => $mc_data['email'],
+              'merge_fields' => (object) $mc_fields,
+              'interests' => $interest,
+              'status' => 'pending',
+              'double_optin' => false,
+              'update_existing' => true,
+              'send_welcome' => false
+            ]);
+            return response::json($resp);
+          } else {
+            return response::json($response);
+          }
         }
       }
     ]

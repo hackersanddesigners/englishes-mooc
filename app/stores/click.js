@@ -164,8 +164,7 @@ function clickhandle (state, emitter) {
       cat_id = page.content.cat_id
     }
 
-    return fetch_topic(state, emitter, page, cat_id)
-
+    fetch_topic(state, emitter, page, cat_id)
     emitter.emit('render')
   })
 
