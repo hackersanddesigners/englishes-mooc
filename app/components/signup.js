@@ -90,6 +90,16 @@ function signup () {
           box.firstChild.innerHTML = msg
 
           send.value = 'Error!'
+        } else if (body.title === 'Forgotten Email Not Subscribed') {
+          const box = form.querySelector('.error-box')
+          box.classList.remove('dn')
+          box.classList.add('dib')
+
+          const msg = `The address ${email} has been deleted permanently. Please contact us.`
+
+          box.firstChild.innerHTML = msg
+
+          send.value = 'Error!'
         } else if (body.title === null || body.title === undefined) {
           const box = form.querySelector('.success-box')
           box.classList.remove('dn')
