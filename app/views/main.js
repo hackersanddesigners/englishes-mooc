@@ -55,6 +55,7 @@ function view (state, emit) {
   function modules () {
     const modules = data.children.course.children
     return ov(modules).map(function (module, i) {
+      i = i + 'mp'
       const video = state.cache(Video, i)
       return html`
         <div class="c12 md-c6 lg-c4 pr1 pl1 pb1 z1">

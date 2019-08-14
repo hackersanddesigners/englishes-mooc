@@ -27,6 +27,7 @@ class statusbar extends nc {
 
     function items () {
       return ov(data.children).map(function (item, i) {
+        i = i + 'sb'
         const video = state.cache(Video, i)
         return html`
           <div class="x xdr xjb pt1">

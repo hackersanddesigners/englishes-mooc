@@ -73,6 +73,7 @@ function view (state, emit) {
 
   function items () {
     return ov(page.children).map(function (item, i) {
+      i = i + 'md'
       const video = state.cache(Video, i)
       return html`
         <div class="copy">
