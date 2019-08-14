@@ -109,6 +109,8 @@ function signup () {
           box.firstChild.innerHTML = msg
 
           send.value = 'Sent!'
+
+          form.reset()
         }
       })
     }
