@@ -103,7 +103,7 @@ function view (state, emit) {
         if (err) throw err
         console.log('request ok!', body)
 
-        if (body.title === "Member Exists") {
+        if (body.title === 'Member Exists') {
           const box = form.querySelector('.error-box')
           box.classList.remove('dn')
           box.classList.add('dib')
