@@ -14,17 +14,17 @@ class sidepage extends nc {
     this.section = { }
   }
 
-  createElement(state, section, emit) {
+  createElement (state, section, emit) {
     this.state = state
     this.section = section
     this.emit = emit
 
     return html`
       <div class="c12 pt1 pr2 pb1 pl2 copy">
-        <button class="psf t0 r0 pr1 ft-mn fs2-4 curp" onclick=${ close(emit) }>x</button>
-        <h2 class="ft-mn fs2 tac">${ section.content.title }</h2> 
-        ${ raw(md.render(section.content.text)) }
-        ${ signup_field() }
+        <button class="psf t0 r0 pr1 ft-mn fs2-4 curp" onclick=${close(emit)}>x</button>
+        <h2 class="ft-mn fs2 tac">${section.content.title}</h2> 
+        ${raw(md.render(section.content.text))}
+        ${signup_field()}
       </div>
     `
 
@@ -33,17 +33,15 @@ class sidepage extends nc {
     }
 
     function signup_field () {
-      if(section.id === 'signup') {
+      if (section.id === 'signup') {
         return signup()
       }
     }
-
   }
 
   update () {
     return true
   }
-
 }
 
 module.exports = sidepage
