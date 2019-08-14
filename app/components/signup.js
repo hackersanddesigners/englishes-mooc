@@ -100,12 +100,12 @@ function signup () {
           box.firstChild.innerHTML = msg
 
           send.value = 'Error!'
-        } else if (body.title === null || body.title === undefined) {
+        } else if (body.status === 'pending') {
           const box = form.querySelector('.success-box')
           box.classList.remove('dn')
           box.classList.add('dib')
 
-          const msg = 'Thank you, your registration has been sent.'
+          const msg = "Thank you, your registration has been sent. You'll receive a confirmation email soon."
           box.firstChild.innerHTML = msg
 
           send.value = 'Sent!'
