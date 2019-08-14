@@ -86,7 +86,7 @@ function signup () {
           box.classList.remove('dn')
           box.classList.add('dib')
 
-          const msg = 'The address ' + email + ' is already in use. Please contact us.'
+          const msg = 'The address ' + email + ' is already subscribed. Check your inbox for a confirmation email, or contact us.'
           box.firstChild.innerHTML = msg
 
           send.value = 'Error!'
