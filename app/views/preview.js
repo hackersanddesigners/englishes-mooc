@@ -1,13 +1,13 @@
-var ov = require('object-values')
-var html = require('choo/html')
-var raw = require('choo/html/raw')
-var Markdown = require('markdown-it')
-var md = new Markdown()
+const ov = require('object-values')
+const html = require('choo/html')
+const raw = require('choo/html/raw')
+const Markdown = require('markdown-it')
+const md = new Markdown()
 
 module.exports = view
 
 function view (state, emit) {
-  const page = state.page 
+  const page = state.page
   const title = data.content.title + ' / ' + page.content.title 
 
   emit(state.events.DOMTITLECHANGE, title)
@@ -32,10 +32,10 @@ function view (state, emit) {
       // from simple vimeo url like https://vimeo.com/308769495
       // to https://player.vimeo.com/video/308769495
 
-      var url = item.content.video_url
-      var url_split = url.split('://')
-      var vcode = url_split[1].split('/')
-      var embed = url_split[0] + '://player.' + vcode[0] + '/video/' + vcode[1]
+      const url = item.content.video_url
+      const url_split = url.split('://')
+      const vcode = url_split[1].split('/')
+      const embed = url_split[0] + '://player.' + vcode[0] + '/video/' + vcode[1]
 
       return html`
         <div class="pr2 pl2 pb2">

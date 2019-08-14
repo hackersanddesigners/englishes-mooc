@@ -1,9 +1,9 @@
-var nc = require('nanocomponent')
-var html = require('choo/html')
-var raw = require('choo/html/raw')
-var Markdown = require('markdown-it')
-var md = new Markdown()
-var signup = require('./signup')
+const nc = require('nanocomponent')
+const html = require('choo/html')
+const raw = require('choo/html/raw')
+const Markdown = require('markdown-it')
+const md = new Markdown()
+const signup = require('./signup')
 
 class sidepage extends nc {
   constructor (state, emit) {

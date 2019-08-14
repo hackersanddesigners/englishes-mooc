@@ -1,5 +1,5 @@
-var html = require('choo/html')
-var ov = require('object-values')
+const html = require('choo/html')
+const ov = require('object-values')
 
 function nav (state, emit) {
   const pages = ov(data.children).filter(page => page.id !== 'hkw')

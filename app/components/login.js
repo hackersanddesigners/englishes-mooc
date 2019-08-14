@@ -52,8 +52,8 @@ function login (state, emit) {
 
   function storageAvailable (type) {
     try {
-      var storage = window[type]
-      var x = '__storage_test__'
+      let storage = window[type]
+      let x = '__storage_test__'
       storage.setItem(x, x)
       storage.removeItem(x)
       return true
@@ -103,12 +103,12 @@ function login (state, emit) {
   function onsubmit (e) {
     e.preventDefault()
     const form = e.currentTarget
-    const data = new FormData(form)
+    let data = new FormData(form)
     const bot = document.querySelector('.bot')
     const send = form.querySelector('.send')
 
     const body = {}
-    for (var pair of data.entries()) body[pair[0]] = pair[1]
+    for (let pair of data.entries()) body[pair[0]] = pair[1]
 
     const name = body.name
     const pw = body.password

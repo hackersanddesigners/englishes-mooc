@@ -1,4 +1,4 @@
-var ov = require('object-values')
+const ov = require('object-values')
 
 function redirect (state, emitter) {
   emitter.on('DOMContentLoaded', () => {

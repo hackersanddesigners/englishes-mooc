@@ -1,10 +1,10 @@
-var ov = require('object-values')
-var Markdown = require('markdown-it')
-var html = require('choo/html')
-var raw = require('choo/html/raw')
-var nav = require('../components/nav')
-var md = new Markdown()
-var xhr_call = require('../components/xhr-call.js')
+const ov = require('object-values')
+const Markdown = require('markdown-it')
+const html = require('choo/html')
+const raw = require('choo/html/raw')
+const nav = require('../components/nav')
+const md = new Markdown()
+const xhr_call = require('../components/xhr-call.js')
 
 module.exports = view
 
@@ -79,13 +79,13 @@ function view (state, emit) {
 
   function onsubmit (e) {
     e.preventDefault()
-    var form = e.currentTarget
-    var data = new FormData(form)
-    var bot = document.querySelector('.bot')
-    var send = form.querySelector('.send')
+    const form = e.currentTarget
+    let data = new FormData(form)
+    const bot = document.querySelector('.bot')
+    const send = form.querySelector('.send')
 
-    var body = {}
-    for (var pair of data.entries()) body[pair[0]] = pair[1]
+    let body = {}
+    for (let pair of data.entries()) body[pair[0]] = pair[1]
 
     const email = body.email
 

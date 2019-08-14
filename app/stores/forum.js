@@ -1,8 +1,5 @@
-var ok = require('object-keys')
-var ov = require('object-values')
-var xhr = require('xhr')
-var users = require('./users.json')
-var fetch_topic = require('../components/fetch-topic')
+const ov = require('object-values')
+const fetch_topic = require('../components/fetch-topic')
 
 function forum (state, emitter) {
   emitter.on('DOMContentLoaded', () => {
@@ -36,7 +33,6 @@ function forum (state, emitter) {
 
     return fetch_topic(state, emitter, page, cat_id)
   })
-
 }
 
 module.exports = forum

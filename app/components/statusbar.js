@@ -65,7 +65,7 @@ class statusbar extends nc {
           }
 
           let random_clock = (obj) => {
-            var keys = ok(obj)
+            let keys = ok(obj)
             return obj[ keys[ keys.length * Math.random() << 0 ] ]
           }
 

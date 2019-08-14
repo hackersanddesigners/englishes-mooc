@@ -151,7 +151,7 @@ class texteditor extends nc {
       const retry = document.querySelector('.retry')
 
       const body = {}
-      for (var pair of data.entries()) body[pair[0]] = pair[1]
+      for (let pair of data.entries()) body[pair[0]] = pair[1]
 
       const txe = state.components.txe
       let msg

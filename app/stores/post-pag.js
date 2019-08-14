@@ -1,7 +1,7 @@
-var ok = require('object-keys')
-var ov = require('object-values')
-var xhr_call = require('../components/xhr-call.js')
-var users = require('./users.json')
+const ok = require('object-keys')
+const ov = require('object-values')
+const xhr_call = require('../components/xhr-call.js')
+const users = require('./users.json')
 
 function post_pag (state, emitter) {
   const user_s = JSON.parse(localStorage.getItem('user_data'))

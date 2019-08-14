@@ -1,10 +1,10 @@
-var choo = require('choo')
-var devtools = require('choo-devtools')
-var css = require('sheetify')
+const choo = require('choo')
+const devtools = require('choo-devtools')
+const css = require('sheetify')
 css('./design/index.js')
 css('./design/design.css')
 
-var app = choo()
+const app = choo()
 app.use(devtools())
 
 app.use(require('./stores/click'))

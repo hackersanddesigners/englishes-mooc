@@ -1,9 +1,6 @@
-var nc = require('nanocomponent')
-var html = require('choo/html')
-var raw = require('choo/html/raw')
-var Markdown = require('markdown-it')
-var md = new Markdown()
-var Vimeo = require('@vimeo/player')
+const nc = require('nanocomponent')
+const html = require('choo/html')
+const Vimeo = require('@vimeo/player')
 
 class video extends nc {
   constructor (state, emit) {
@@ -21,9 +18,9 @@ class video extends nc {
     this.url = url
     this.i = i
 
-    var url_split = url.split('://')
-    var vcode = url_split[1].split('/')
-    var embed = url_split[0] + '://player.' + vcode[0] + '/video/' + vcode[1]
+    const url_split = url.split('://')
+    const vcode = url_split[1].split('/')
+    const embed = url_split[0] + '://player.' + vcode[0] + '/video/' + vcode[1]
 
     return html`
       <div class="iframe-container psr">

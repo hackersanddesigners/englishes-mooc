@@ -58,13 +58,13 @@ function signup () {
 
   function onsubmit (e) {
     e.preventDefault()
-    var form = e.currentTarget
-    var data = new FormData(form)
-    var bot = document.querySelector('.bot')
-    var send = form.querySelector('.send')
+    const form = e.currentTarget
+    const data = new FormData(form)
+    const bot = document.querySelector('.bot')
+    const send = form.querySelector('.send')
 
-    var body = {}
-    for (var pair of data.entries()) body[pair[0]] = pair[1]
+    let body = {}
+    for (let pair of data.entries()) body[pair[0]] = pair[1]
 
     const email = body.email
 
