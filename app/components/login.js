@@ -115,14 +115,16 @@ function login (state, emit) {
     const user = ok(users).filter(user => user === name)
 
     const opts = {
+      // name: name, 
+      // auth: { 'login': name, 'password': pw },
+      // user: ok(users).filter(user => user === name),
+      // key: user[0],
       name: name,
       pw: pw,
-      auth: { 'login': name, 'password': pw },
-      user: ok(users).filter(user => user === name),
-      user_k: users[user],
-      user_v: user[0],
       send: send
     }
+
+    console.log(opts)
 
     if (body.website !== '') {
       bot.classList.remove('dn')
@@ -144,7 +146,7 @@ function login (state, emit) {
           retry.classList.remove('dn')
           retry.classList.add('dib')
 
-          const msg = 'Wrong combination of username and password. Try again. In case of further assistance, please <a href="mailto:engsmooc@gmail.com">contact us</a>.'
+          const msg = 'Wrong combination of username and password. Try again. In case of further assistance, please <a href="mailto:englishes.mooc@gmail.com">contact us</a>.'
           box.firstChild.innerHTML = msg
 
           send.classList.add('dn')

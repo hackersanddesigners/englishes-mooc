@@ -23,9 +23,8 @@ function get_topic (opts, cb) {
 function login (opts, cb) {
   xhr({
     method: 'post',
-    body: opts.auth,
-    headers: { 'Content-Type': 'multipart/form-data' },
-    url: `${url_root}/session?api_key=${opts.user_k}&api_username=${opts.user_v}&login=${opts.name}&password=${opts.pw}`,
+    body: opts,
+    uri: 'apilogin',
     json: true,
     beforeSend: (xhrObject) => {
       xhrObject.onprogress = () => {

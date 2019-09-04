@@ -1,0 +1,7 @@
+type: pages
+headline: Forum User
+parent: site.index.findBy('intendedTemplate', 'forum')
+info: "{{ page.title }}"
+template: forum-user
+empty: No module yet
+sortBy: title desc

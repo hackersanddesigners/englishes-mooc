@@ -1,0 +1,20 @@
+title: Users
+
+columns:
+  - width: 1/1
+    fields:
+      users:
+        label: Forum Users List
+        type: structure
+        columns:
+          user:
+            width: 1/3
+          key:
+            width: 2/3
+        fields:
+          user:
+            label: Username
+            type: text
+          key:
+            label: API Key
+            type: text
