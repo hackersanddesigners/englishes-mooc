@@ -27,11 +27,6 @@ function signup () {
           <label class="dib w-50 ft-mn">${page[0].content.info}</label>
           <input id="info" name="info" type="text" class="dib w-50 bb-bl">
         </div>
-
-        <div class="pb1">
-          <label class="dib w-50 ft-mn">${page[0].content.pilot}</label>
-          <input id="pilot" value="1" name="pilot" type="checkbox">
-        </div>
       </div>
 
       <div class="x xafs">

@@ -22,9 +22,6 @@ tabs:
           info:
             label: Info
             type: text
-          pilot:
-            label: Pilot Box
-            type: text
     
       - width: 1/3
         sections:

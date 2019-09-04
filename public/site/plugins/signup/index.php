@@ -20,12 +20,6 @@ Kirby::plugin('mooc/signup', [
 
           $mc_fields = [ 'MMERGE1' => $mc_data['name'], 'MMERGE3' => $mc_data['info']];
 
-          if (isset($mc_data['pilot'])) {
-            $interest = ['9dac282576' => true];
-          } else {
-            $interest = ['9dac282576' => false];
-          };
-
           // mc subscribe new user
           $response = $mc->post('lists/' . $mc_listid . '/members', [
             'email_address' => $mc_data['email'],
