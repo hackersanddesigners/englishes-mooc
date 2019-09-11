@@ -1,5 +1,5 @@
 module.exports = {
-  module: require("./module"),
-  preview: require("./preview"),
-  error: require("./notfound")
+  module: require('./module'),
+  preview: require('./preview'),
+  error: require('./notfound')
 }
