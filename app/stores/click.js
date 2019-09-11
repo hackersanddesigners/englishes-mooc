@@ -15,6 +15,7 @@ function clickhandle (state, emitter) {
   state.status_toggle = false
   state.editor_toggle = true
   state.videos = []
+  state.videos_fullscreen = []
 
   const modules = data.children.course.children
   ov(modules).map((module) => {
@@ -123,7 +124,6 @@ function clickhandle (state, emitter) {
 
       emitter.emit('pushState', '/')
     })
-
   })
 
   emitter.on('delete_post', (id) => {
@@ -171,6 +171,7 @@ function clickhandle (state, emitter) {
   const videos = data.children.course.children
   ov(videos).map((module) => {
     state.videos.push(false)
+    state.videos_fullscreen.push(false)
   })
 
   emitter.on('video-toggle', (i, vplayer) => {
@@ -190,6 +191,76 @@ function clickhandle (state, emitter) {
       })
     }
   })
+
+  emitter.on('fullscreen-toggle', (i, videoWrapper) => {
+    if (state.videos_fullscreen[i] !== true) {
+      state.videos_fullscreen[i] = true
+      console.log(videoWrapper)
+      toggleFullscreen(videoWrapper)
+      emitter.emit('render')
+    } else {
+      state.videos_fullscreen[i] = false
+      toggleFullscreen(videoWrapper)
+      emitter.emit('render')
+    }
+  })
+
+  function toggleFullscreen (videoWrapper) {
+    let fullscreenChange = null
+
+    // Check for fullscreen support
+    if (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
+      // If there's currently an element fullscreen, exit fullscreen
+      if (document.exitFullscreen) {
+        document.exitFullscreen()
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen()
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen()
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen()
+      }
+    } else {
+      // Otherwise, enter fullscreen
+      if (videoWrapper.requestFullscreen) {
+        videoWrapper.requestFullscreen()
+      } else if (videoWrapper.mozRequestFullScreen) {
+        videoWrapper.mozRequestFullScreen()
+      } else if (videoWrapper.webkitRequestFullscreen) {
+        videoWrapper.webkitRequestFullscreen()
+      } else if (videoWrapper.msRequestFullscreen) {
+        videoWrapper.msRequestFullscreen()
+      }
+    }
+
+    fullscreenChange = () => {
+      console.log('video is fullscreen')
+      // Do something on fullscreen change event
+      // …
+    }
+
+    document.onfullscreenchange = () => {
+      if (!document.fullscreenElement) {
+        fullscreenChange()
+      }
+    }
+    document.onwebkitfullscreenchange = () => {
+      if (!document.webkitFullscreenElement) {
+        fullscreenChange()
+      }
+    }
+    document.onmozfullscreenchange = () => {
+      if (!document.mozFullScreenElement) {
+        fullscreenChange()
+      }
+    }
+    document.onmsfullscreenchange = () => {
+      if (!document.msFullscreenElement) {
+        fullscreenChange()
+      }
+    }
+  }
+
 }
 
 module.exports = clickhandle

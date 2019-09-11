@@ -23,9 +23,10 @@ class video extends nc {
     const embed = url_split[0] + '://player.' + vcode[0] + '/video/' + vcode[1]
 
     return html`
-      <div class="iframe-container psr p1">
-        <iframe src="${embed}?title=0&byline=0&portrait=0&api=1&background=0&controls=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> 
-        <button onclick=${this.player_toggle(this.i, this.vplayer, this.emit)} class="controls z5 psa curp fc-wh txsh-t">${this.state.videos[i] ? 'Pause' : 'Play'}</button>
+      <div class="iframe-container psr ${this.state.videos_fullscreen[i] ? ' c12 bg-bk' : ''}">
+        <iframe src="${embed}?title=0&byline=0&portrait=0&api=1&background=0&controls=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay; fullscreen"></iframe> 
+        <button onclick=${this.playerToggle(this.i, this.vplayer, this.emit)} class="controls z5 psa t0-75 l0-75 curp fc-wh txsh-t">${this.state.videos[i] ? 'Pause' : 'Play'}</button>
+        <button onclick=${this.fullscreenToggle(this.i, this.vplayer, this.emit)} class="controls z5 psa b0-75 r0-75 curp fc-wh txsh-t">${this.state.videos_fullscreen[i] ? 'EX' : 'FS'}</button>
       </div>
     `
   }
@@ -39,8 +40,12 @@ class video extends nc {
     return true
   }
 
-  player_toggle (i, video, emit) {
+  playerToggle (i, video, emit) {
     return () => { emit('video-toggle', i, this.vplayer) }
+  }
+
+  fullscreenToggle (i, video, emit) {
+    return () => { emit('fullscreen-toggle', i, this.vplayer.element.parentNode) }
   }
 }
 

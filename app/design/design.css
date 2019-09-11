@@ -253,8 +253,20 @@ input[type=checkbox]:checked {
   max-height: 80vh;
 }
 
-.t0-5 {
-  top: 0.5rem;
+.t0-75 {
+  top: 0.75rem;
+}
+
+.r0-75 {
+  right: 0.75rem;
+}
+
+.b0-75 {
+  bottom: 0.75rem;
+}
+
+.l0-75 {
+  left: 0.75rem;
 }
 
 .t2-7 {
