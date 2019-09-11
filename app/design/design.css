@@ -38,6 +38,7 @@
   --c-wh: #ffffff;
   --c-gy: #e6e5e6;
   --c-gk: #807f80;
+  --c-gkk: #393939;
   --c-bk: #1a1a1a;
   --c-gr: #0d8f5c;
   --c-rd: #d8252a;
@@ -328,6 +329,10 @@ input[type=checkbox]:checked {
   .md-ttx0 {
     transform: translate(0);
   }
+}
+
+.txsh-t {
+  text-shadow: 0 -2px 3px var(--c-gkk);
 }
 
 .bxsh-a {

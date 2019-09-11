@@ -23,9 +23,9 @@ class video extends nc {
     const embed = url_split[0] + '://player.' + vcode[0] + '/video/' + vcode[1]
 
     return html`
-      <div class="iframe-container psr">
+      <div class="iframe-container psr p1">
         <iframe src="${embed}?title=0&byline=0&portrait=0&api=1&background=0&controls=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> 
-        <button onclick=${this.player_toggle(this.i, this.vplayer, this.emit)} class="controls z5 psa curp bgc-wh">${this.state.videos[i] ? 'Pause' : 'Play'}</button>
+        <button onclick=${this.player_toggle(this.i, this.vplayer, this.emit)} class="controls z5 psa curp fc-wh txsh-t">${this.state.videos[i] ? 'Pause' : 'Play'}</button>
       </div>
     `
   }
