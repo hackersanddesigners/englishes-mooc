@@ -55,11 +55,12 @@ function view (state, emit) {
   function modules () {
     const modules = data.children.course.children
     return ov(modules).map(function (module, i) {
-      i = i + 'mp'
-      const video = state.cache(Video, i)
+      // `vi`: build custom index-naming for the video component
+      const vi = i + 'mp'
+      const video = state.cache(Video, vi)
       return html`
         <div class="c12 md-c6 lg-c4 pr1 pl1 pb1 z1">
-          ${video.render(state, emit, module.content.pitch_url, i)}
+          ${video.render(state, emit, module.content.pitch_url, vi)}
           <h2 class="fs1 fw-r ft-mn pt1">${module.content.title}</h2>
           <p class="pb0 fs0-8">Opens ${module.content.opening}</p>
           <p class="fs0-8">Live classroom ${module.content.liveclass}</p>
