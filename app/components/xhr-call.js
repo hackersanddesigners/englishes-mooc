@@ -23,7 +23,7 @@ function login (opts, cb) {
   xhr({
     method: 'post',
     body: opts,
-    uri: '/apilogin',
+    uri: '/api-login',
     json: true,
     beforeSend: (xhrObject) => {
       xhrObject.onprogress = () => {

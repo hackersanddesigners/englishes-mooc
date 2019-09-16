@@ -52,11 +52,11 @@ Kirby::plugin('mooc/forum', [
       // login
       
       'method' => 'POST',
-      'pattern' => '/apilogin',
+      'pattern' => '/api-login',
       'action' => function () {
         $data = r::data();
 
-        $usr_name = $data['name'];
+        $usr_name = $data['user'];
         $usr_pw = $data['pw'];
         $usr_key = page('forum-users')->users()->toStructure()->findBy('user', $usr_name)->key();
 
