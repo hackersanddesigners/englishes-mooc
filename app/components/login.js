@@ -1,7 +1,5 @@
-const ok = require('object-keys')
 const html = require('choo/html')
 const xhr_call = require('./xhr-call')
-const users = require('../stores/users.json')
 
 function login (state, emit) {
   return html`
@@ -112,19 +110,12 @@ function login (state, emit) {
 
     const name = body.name
     const pw = body.password
-    const user = ok(users).filter(user => user === name)
 
     const opts = {
-      // name: name, 
-      // auth: { 'login': name, 'password': pw },
-      // user: ok(users).filter(user => user === name),
-      // key: user[0],
       name: name,
       pw: pw,
       send: send
     }
-
-    console.log(opts)
 
     if (body.website !== '') {
       bot.classList.remove('dn')
@@ -151,7 +142,6 @@ function login (state, emit) {
 
           send.classList.add('dn')
         } else {
-          // console.log('request ok!', body)
           localStorage.setItem('user_data', JSON.stringify(body))
 
           state.components.login = body

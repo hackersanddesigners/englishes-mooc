@@ -1,13 +1,15 @@
 const ok = require('object-keys')
 const ov = require('object-values')
 const xhr_call = require('../components/xhr-call.js')
-const users = require('./users.json')
 
 function post_pag (state, emitter) {
-  const user_s = JSON.parse(localStorage.getItem('user_data'))
-  if (user_s !== null) {
-    const user = ok(users).filter(user => user === user_s.user.username)
-
+  if (JSON.parse(localStorage.getItem('user_data')) !== null) {
+    const user_s = JSON.parse(localStorage.getItem('user_data')).user
+    const user = {
+      id: user_s.id,
+      username: user_s.username,
+      name: user_s.name
+    }
     emitter.on('post-pag', (post_id, topic_n) => {
       let page
       let cat_id
@@ -26,20 +28,18 @@ function post_pag (state, emitter) {
 
         if (topic.length > 0) {
           const opts = {
-            topic_id: `${topic[0].id }/${post_id || 20}`,
-            user_k: users[user],
-            user_v: user[0]
+            topic_id: `${topic[0].id}/${post_id || 20}`,
+            user: user
           }
 
           xhr_call.getTopic(opts, (err, resp, body) => {
             if (err) throw err
             console.log(body)
+            state.components.post_pag = body
 
             if (body.errors) {
               console.log(body.errors[0])
             }
-
-            state.components.post_pag = body
 
             if (topic_n === 'discussion') {
               state.components.discussion_pag = body
@@ -68,6 +68,8 @@ function post_pag (state, emitter) {
     emitter.on('loadmore', () => {
       emitter.emit('render')
     })
+  } else {
+    console.log('no localStorage')
   }
 }
 

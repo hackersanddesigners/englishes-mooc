@@ -1,7 +1,6 @@
 const ok = require('object-keys')
 const nc = require('nanocomponent')
 const html = require('choo/html')
-const users = require('../stores/users.json')
 const Discussion = require('./discussion')
 const discussion = new Discussion()
 const Reading = require('./reading')
@@ -23,14 +22,17 @@ class forum extends nc {
     this.emit = emit
     this.data = data
 
-    const user_s = JSON.parse(localStorage.getItem('user_data'))
-    const user = ok(users).filter(user => user === user_s.user.username)
+    const user = {
+      id: data.id,
+      username: data.username,
+      name: data.name
+    }
 
     return html`
       <div class="psr c12 pt1 pr1 pb1 pl1 copy">
         <div class="z3 psf t0 r0 c6 br-bldb pt1 pr1 pb1 pl1 copy bgc-gy">
           <div class="c12 x xdr xjb pb2">
-            <button class="fs1 tdu">${data.user.name}</button> 
+            <button class="fs1 tdu">${user.name}</button> 
             <button class="curp" onclick=${logout(emit)}>Log out</button>
           </div>
 

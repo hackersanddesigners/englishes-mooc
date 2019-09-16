@@ -9,7 +9,6 @@ const day = require('dayjs')
 const rt = require('dayjs/plugin/relativeTime')
 const Txe = require('./texteditor')
 const txe = new Txe()
-const users = require('../stores/users')
 
 class assignment extends nc {
   constructor (state, emit) {
@@ -24,8 +23,12 @@ class assignment extends nc {
     this.emit = emit
 
     const course = ov(state.content).filter(page => page.uid === 'course')[0]
-    const user_s = JSON.parse(localStorage.getItem('user_data'))
-    const user = ok(users).filter(user => user === user_s.user.username)
+    const user_s = JSON.parse(localStorage.getItem('user_data')).user
+    const user = {
+      id: user_s.id,
+      username: user_s.username,
+      name: user_s.name
+    }
 
     return html`
       <div class="psr c12 pt1 pb1 copy">
@@ -89,7 +92,7 @@ class assignment extends nc {
           `
 
           function delbutt () {
-            if (post.username === user[0]) {
+            if (post.username === user) {
               return html`
                 <button onclick=${delete_post(emit)} class="fs0-8 tdu curp">delete</button>
               `

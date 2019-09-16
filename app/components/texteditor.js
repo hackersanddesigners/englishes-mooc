@@ -6,7 +6,6 @@ const wf = require('woofmark')
 const mm = require('megamark')
 const dm = require('domador')
 const xhr_call = require('./xhr-call')
-const users = require('../stores/users.json')
 const api = require('../stores/api.json')
 
 class texteditor extends nc {
@@ -161,17 +160,21 @@ class texteditor extends nc {
         msg = document.querySelector('textarea').value
       }
 
-      const user_s = JSON.parse(localStorage.getItem('user_data'))
-      const user = ok(users).filter(user => user === user_s.user.username)
+      const user_s = JSON.parse(localStorage.getItem('user_data')).user
+      const user = {
+        id: user_s.id,
+        username: user_s.username,
+        name: user_s.name
+      }
 
       const post_opts = {
         title: '',
         disc_tab: state.disc_tab,
         disc_id: state.components.discussion.id,
-        ass_id: state.components.assignment.id,
+        // ass_id: state.components.assignment.id,
         raw: msg,
-        user_k: users[user],
-        user_v: user
+        user: user.username,
+        send: send
       }
 
       if (body.website !== '') {
@@ -180,7 +183,7 @@ class texteditor extends nc {
         form.childNodes[0].childNodes[0].value = 'Type something before sending a message'
         form.childNodes[0].childNodes[0].classList.remove('tdu curp')
       } else {
-        xhr_call.upload_post(post_opts, (err, resp, body) => {
+        xhr_call.postUpload(post_opts, (err, resp, body) => {
           if (err) throw err
 
           if (body.errors) {
@@ -188,8 +191,8 @@ class texteditor extends nc {
             box.classList.remove('dn')
             box.classList.add('dib')
 
-            const text = 'Something went wrong, try again.'
-            box.firstChild.innerHTML = text
+            // const text = 'Something went wrong, try again.'
+            box.firstChild.innerHTML = body.errors[0]
 
             cancel.classList.add('dn')
             retry.classList.remove('dn')
