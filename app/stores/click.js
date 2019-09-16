@@ -92,9 +92,7 @@ function clickhandle (state, emitter) {
   })
 
   emitter.on('log-out', () => {
-    const user_s = JSON.parse(localStorage.getItem('user_data'))
-    const user = ok(users).filter(user => user === 'system')
-    const user_id = user_s.user.id
+    const user_s = JSON.parse(localStorage.getItem('user_data')).user
 
     localStorage.setItem('user_login', 'false')
     localStorage.removeItem('user_data')
@@ -104,10 +102,10 @@ function clickhandle (state, emitter) {
     state.components.login = undefined
 
     const opts = {
-      user_id: user_id,
-      user_k: users[user],
-      user_v: user
+      user_id: user_s.id,
     }
+
+    console.log(opts)
 
     emitter.emit('render')
 
@@ -128,7 +126,6 @@ function clickhandle (state, emitter) {
 
   emitter.on('delete_post', (id) => {
     const user_s = JSON.parse(localStorage.getItem('user_data')).user
-
     const opts = {
       id: id,
       user: user_s.username

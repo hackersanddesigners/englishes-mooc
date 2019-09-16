@@ -36,9 +36,8 @@ function login (opts, cb) {
 function logout (opts, cb) {
   xhr({
     method: 'post',
-    body: opts.auth,
-    headers: { 'Content-Type': 'multipart/form-data' },
-    url: `${url_root}/admin/users/${opts.user_id}/log_out?api_key=${opts.user_k}&api_username=${opts.user_v}`,
+    body: opts,
+    uri: '/api-logout',
     json: true
     // beforeSend: (xhrObject) => {
     //   xhrObject.onprogress = () => {

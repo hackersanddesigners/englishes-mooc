@@ -73,17 +73,19 @@ Kirby::plugin('mooc/forum', [
       // logout
       
       'method' => 'POST',
-      'pattern' => 'apilogin',
+      'pattern' => 'api-logout',
       'action' => function () {
         $data = r::data();
 
-        $usr_name = $data['name'];
-        $usr_pw = $data['pw'];
-        $usr_key = page('forum-users')->users()->toStructure()->findBy('user', $usr_name)->key();
+        // to logout from the forum, we need:
+        // - the id of the user we want to logout
+        // - the system's username and api key
+
+        $usr_id = $data['user_id'];
+        $usr_key = page('forum-users')->users()->toStructure()->findBy('user', 'system')->key();
 
         $url_root = 'https://forum.englishes-mooc.org/';
-
-        $url = $url_root . 'session?api_key=' . $usr_key . '&api_username=' . $usr_name . '&login=' . $usr_name . '&password=' . $usr_pw;
+        $url = $url_root . 'admin/users/' . $usr_id . '/log_out?api_key=' . $usr_key . '&api_username=system';
         $result = [];
         $request = Remote::post($url);
         $result = $request->json();
