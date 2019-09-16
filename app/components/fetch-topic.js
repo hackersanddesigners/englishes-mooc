@@ -57,19 +57,19 @@ function fetch_topic (state, emitter, page, cat_id) {
             user: user.username
           }
 
-          xhr_call.getTopic(todo_opts, (err, resp, body) => {
-            if (err) throw err
-            state.components.assignment = body
+          // xhr_call.getTopic(todo_opts, (err, resp, body) => {
+          //   if (err) throw err
+          //   state.components.assignment = body
 
-            let posts = body.post_stream.posts
-            posts.forEach(function (post) {
-              if (ov(state.components.todo_posts).filter(item => item.id !== post.id)) {
-                state.components.todo_posts.push(post)
-              }
-            })
+          //   let posts = body.post_stream.posts
+          //   posts.forEach(function (post) {
+          //     if (ov(state.components.todo_posts).filter(item => item.id !== post.id)) {
+          //       state.components.todo_posts.push(post)
+          //     }
+          //   })
 
-            emitter.emit('render')
-          })
+          //   emitter.emit('render')
+          // })
         }
 
       }
