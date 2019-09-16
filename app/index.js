@@ -8,13 +8,10 @@ const app = choo()
 app.use(devtools())
 
 app.use(require('./stores/click'))
-
 app.use(require('./stores/forum'))
 app.use(require('./stores/post-pag'))
-
-app.use(require('./stores/content')(data.children))
-
 app.use(require('./stores/redirect'))
+app.use(require('./stores/content')(data.children))
 
 app.route('/', require('./views/main'))
 app.route('*', require('./views/notfound'))
