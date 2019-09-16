@@ -1,21 +1,20 @@
 const xhr = require('xhr')
-
 const url_root = 'https://forum.englishes-mooc.org'
 
 function get_posts (opts, cb) {
   xhr({
-    method: 'get',
-    headers: { 'Content-Type': 'multipart/form-data' },
-    url: `${url_root}/c/${opts.cat_id}.json?api_key=${opts.user_k}&api_username=${opts.user_v}`,
+    method: 'post',
+    body: opts,
+    uri: '/apipost',
     json: true
   }, cb)
 }
 
 function get_topic (opts, cb) {
   xhr({
-    method: 'get',
-    headers: { 'Content-Type': 'multipart/form-data' },
-    url: `${url_root}/t/${opts.topic_id}.json?api_key=${opts.user_k}&api_username=${opts.user_v}`,
+    method: 'post',
+    body: opts,
+    uri: '/apitopic',
     json: true
   }, cb)
 }
@@ -24,7 +23,7 @@ function login (opts, cb) {
   xhr({
     method: 'post',
     body: opts,
-    uri: 'apilogin',
+    uri: '/apilogin',
     json: true,
     beforeSend: (xhrObject) => {
       xhrObject.onprogress = () => {
@@ -77,8 +76,8 @@ function file_upload (opts, cb) {
 function post_upload (opts, cb) {
   xhr({
     method: 'post',
-    headers: { 'Content-Type': 'multipart/form-data' },
-    url: `${url_root}/posts.json?api_key=${opts.user_k}&api_username=${opts.user_v}&title='what?'&topic_id=${opts.disc_tab ? opts.disc_id : opts.ass_id}&raw=${opts.msg}`,
+    uri: '/apimsg',
+    body: opts,
     json: true,
     beforeSend: (xhrObject) => {
       xhrObject.onprogress = () => {
@@ -90,9 +89,9 @@ function post_upload (opts, cb) {
 
 function post_delete (opts, cb) {
   xhr({
-    method: 'delete',
-    headers: { 'Content-Type': 'multipart/form-data' },
-    url: `${url_root}/posts/${opts.id}?api_key=${opts.user_k}&api_username=${opts.user_v}`,
+    method: 'post',
+    uri: '/apimsgdel',
+    body: opts,
     json: true
   }, cb)
 }

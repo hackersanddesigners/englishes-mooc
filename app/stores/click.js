@@ -1,8 +1,8 @@
 const ok = require('object-keys')
 const ov = require('object-values')
 const xhr_call = require('../components/xhr-call.js')
-const users = require('./users.json')
 const fetch_topic = require('../components/fetch-topic')
+const users = require('../stores/users')
 
 function clickhandle (state, emitter) {
   state.sidebar = false
@@ -81,7 +81,7 @@ function clickhandle (state, emitter) {
   })
 
   emitter.on('log-in', () => {
-    localStorage.setItem('user_login', 'true');
+    localStorage.setItem('user_login', 'true')
     state.status_toggle = true
 
     // redirect to current module page
@@ -115,8 +115,8 @@ function clickhandle (state, emitter) {
       if (err) throw err
       console.log(body)
 
-      localStorage.setItem('user_login', 'false');
-      localStorage.removeItem('user_data');
+      localStorage.setItem('user_login', 'false')
+      localStorage.removeItem('user_data')
       state.status_toggle = false
 
       state.login = true
@@ -127,20 +127,18 @@ function clickhandle (state, emitter) {
   })
 
   emitter.on('delete_post', (id) => {
-    const user_s = JSON.parse(localStorage.getItem('user_data'))
-    const user = ok(users).filter(user => user === user_s.user.username)
+    const user_s = JSON.parse(localStorage.getItem('user_data')).user
 
     const opts = {
       id: id,
-      user_k: users[user],
-      user_v: user
+      user: user_s.username
     }
 
-    xhr_call.delete_post(opts, (err, resp, body) => {
+    xhr_call.postDelete(opts, (err, resp, body) => {
       if (err) throw err
       console.log(body)
+      emitter.emit('render')
     })
-    emitter.emit('render')
   })
 
   emitter.on('section', (section) => {
