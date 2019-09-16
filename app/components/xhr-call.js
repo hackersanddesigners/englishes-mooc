@@ -75,7 +75,7 @@ function file_upload (opts, cb) {
 function post_upload (opts, cb) {
   xhr({
     method: 'post',
-    uri: '/apimsg',
+    uri: '/api-post-msg',
     body: opts,
     json: true,
     beforeSend: (xhrObject) => {

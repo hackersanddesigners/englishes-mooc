@@ -97,7 +97,7 @@ Kirby::plugin('mooc/forum', [
       // post_upload
       
       'method' => 'POST',
-      'pattern' => 'apimsg',
+      'pattern' => 'api-post-msg',
       'action' => function () {
         $data = r::data();
 

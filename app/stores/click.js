@@ -133,6 +133,7 @@ function clickhandle (state, emitter) {
 
     xhr_call.postDelete(opts, (err, resp, body) => {
       if (err) throw err
+      console.log('MSG DELETED!!')
       console.log(body)
       emitter.emit('render')
     })
