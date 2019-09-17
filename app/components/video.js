@@ -26,7 +26,21 @@ class video extends nc {
       <div class="iframe-container psr ${this.state.videos_fullscreen[i] ? ' c12 bg-bk' : ''}">
         <iframe src="${embed}?title=0&byline=0&portrait=0&api=1&background=0&controls=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay; fullscreen"></iframe> 
         <button onclick=${this.playerToggle(this.i, this.vplayer, this.emit)} class="controls z5 psa t0-75 l0-75 curp fc-wh txsh-t">${this.state.videos[i] ? 'Pause' : 'Play'}</button>
-        <button onclick=${this.fullscreenToggle(this.i, this.vplayer, this.emit)} class="controls z5 psa b0-75 r0-75 curp fc-wh txsh-t">${this.state.videos_fullscreen[i] ? 'EX' : 'FS'}</button>
+        <button onclick=${this.fullscreenToggle(this.i, this.vplayer, this.emit)} class="controls z5 psa${this.state.videos_fullscreen[i] ? ' t0-75' : ' b0-75'} r0-75 curp fc-wh txsh-t">
+          <svg width="26" height="25" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <filter x="-37.5%" y="-36.1%" width="170%" height="177.8%" filterUnits="objectBoundingBox" id="a">
+                <feOffset in="SourceAlpha" result="shadowOffsetOuter1"/>
+                <feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"/>
+                <feColorMatrix values="0 0 0 0 0.101960784 0 0 0 0 0.101960784 0 0 0 0 0.101960784 0 0 0 1 0" in="shadowBlurOuter1" result="shadowMatrixOuter1"/>
+                <feMerge><feMergeNode in="shadowMatrixOuter1"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <g filter="url(#a)" transform="translate(3 3)" fill="#FFF" stroke="#FFF" fill-rule="evenodd">
+              <path d="M18.466 7.062V1.748h-2.278V.99h3.037v6.073zM1.246 11.67v5.314h2.277v.76H.487V11.67zM1.211 7.166h-.76V1.093h3.037v.759H1.211zM18.43 11.774h.76v6.073h-3.037v-.759h2.278z"/>
+            </g>
+          </svg>
+        </button>
       </div>
     `
   }
