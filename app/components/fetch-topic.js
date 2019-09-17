@@ -4,8 +4,9 @@ const xhr = require('xhr')
 const xhr_call = require('./xhr-call')
 
 function fetch_topic (state, emitter, page, cat_id) {
-  const user_s = JSON.parse(localStorage.getItem('user_data')).user
-  if (user_s !== null) {
+  // const user_s = JSON.parse(localStorage.getItem('user_data')).user
+  if (JSON.parse(localStorage.getItem('user_data')) !== null) {
+    const user_s = JSON.parse(localStorage.getItem('user_data')).user
     const user = {
       id: user_s.id,
       username: user_s.username,
