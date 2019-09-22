@@ -6,7 +6,7 @@ function nav (state, emit) {
 
   return html`
     <nav class="c12 x xdc sm-pt0 md-pt4-7 pb1 pr1 pl1 tac">
-      <button class="ft-bd fs2-4 pb1 md-dn curp " onclick=${nav_toggle(emit)}>Menu</button>
+      <button class="ft-bd fs2-4 pb1 md-dn curp ${state.nav_toggle ? 'ft-mn ' : 'ft-mn '}" onclick=${nav_toggle(emit)}>${state.nav_toggle ? 'Menu' : 'x'}</button>
       <div class="${state.nav_toggle ? 'dn' : 'db'} md-db">
         ${list()}
       </div>

@@ -51,7 +51,7 @@ function view (state, emit) {
           ${localStorage.getItem('user_login') === 'false' || localStorage.getItem('user_login') === null && state.sidebar === false ? 'md-c9 ' : 'md-c6 '}
           os h100 md-bl-grdb md-br-rddb pt1 pr1 pb1 pl1 xdl">
           <h1 class="ft-bd fs2-4 c12 tac md-pb2">${ data.content.title }</h1>
-          <section class="${state.sidebar ? 'md-c6 psf t70 l0 r0 b0 z4 md-psr bl-rddb br-bldb' : 'md-c3'} db md-dn os xdl bgc-wh">
+          <section class="${state.sidebar ? 'md-c6 psf t70 l0 r0 b0 z4 md-psr bl-rddb br-bldb bgc-wh' : 'md-c3'} db md-dn os xdl">
             ${sidebar(state, emit)}
           </section>
           <div class="x xw xdr xjb">
