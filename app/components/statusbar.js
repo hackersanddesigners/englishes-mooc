@@ -17,7 +17,7 @@ class statusbar extends nc {
   createElement (state, data, emit) {
     this.state = state
     this.emit = emit
-    this.data = data
+    this.data = data 
 
     return html`
       <div class="${state.status_toggle ? 'md-db c12 ' : 'dn '}pt1 pr1 pb1 pl1">
@@ -27,31 +27,37 @@ class statusbar extends nc {
 
     function items () {
       return ov(data.children).map(function (item, i) {
-        i = i + 'sb'
-        const video = state.cache(Video, i)
+        const progress_cover = item.content.progress_cover.replace('- ', '')
+        const cover = ov(item.files).filter(file => file.filename === progress_cover)[0]
+
         return html`
           <div class="x xdr xjb pt1">
             <div class="video tac pb1 c12${item.content.status === 'upcoming' ? ' op50' : ''}">
-              ${videoitem(video, i)}
+              ${m_item(i)}
               <p class="ft-mn fs0-8 pt0-5 pb0">${item.content.duration}</p>
             </div>
             ${status()}
           </div>
         `
 
-        function videoitem (video, i) {
+        function m_item (i) {
           if (item.content.status === 'upcoming') {
             return html`
               <div class="pen">
-                ${video.render(state, emit, item.content.pitch_url, i)}
-                <p class="ft-mn fs0-8 fc-bk tdn">${item.content.title}</p>
+                <figure><img src="${cover.url}">
+                  <figcaption class="ft-mn fs0-8 fc-bk tdn">${item.content.title}</figcaption>
+                </figure>
               </div>
             `
           } else {
             return html`
               <div>
-                ${video.render(state, emit, item.content.pitch_url, i)}
-                <a href="${item.url}" class="ft-mn fs0-8 fc-bk tdn">${item.content.title}</a>
+                <a href="${item.url}" class="ft-mn fs0-8 fc-bk tdn">
+                  <figure>
+                    <img src="${cover.url}">
+                    <figcaption>${item.content.title}</figcaption>
+                  </figure>
+                </a>
               </div>
             `
           }
