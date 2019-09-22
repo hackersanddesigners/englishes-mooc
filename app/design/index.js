@@ -24,6 +24,7 @@ var basic = gr8({
   lineHeight: [1],
   zIndex: [1, 2],
   breakpoints: {
+    sm: 540,
     md: 600,
     bg: 800,
     lg: 1024

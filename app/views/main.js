@@ -78,7 +78,7 @@ function view (state, emit) {
       const video = state.cache(Video, vi)
       const txt = md.render(module.content.text)
       return html`
-        <div class="c12 md-w-49-5 lg-w-32-8 mb0-35 bgc-wh h-21 os z1">
+        <div class="c12 md-w-49-5 lg-w-32-8 xmr0-3 mb0-75 md-mb0-35 bgc-wh h-24 md-h-18 lg-h-21 os z1">
           <div style="position: sticky; top: 0" class="bgc-wh pt0-2 pr0-2 pl0-2">
             ${video.render(state, emit, module.content.pitch_url, vi)}
           </div>
