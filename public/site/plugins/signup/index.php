@@ -20,11 +20,24 @@ Kirby::plugin('mooc/signup', [
 
           $mc_fields = [ 'MMERGE1' => $mc_data['name'], 'MMERGE3' => $mc_data['info']];
 
+          $interests = [];
+          if (isset($mc_data['cycle_2019-10'])) {
+            $interests['02f4f0ff05'] = true;
+          } else {
+            $interests['02f4f0ff05'] = false;
+          };
+
+          if (isset($mc_data['cycle_2020-02'])) {
+            $interests['b10fa8aea6'] = true;
+          } else {
+            $interests['b10fa8aea6'] = false;
+          };
+
           // mc subscribe new user
           $response = $mc->post('lists/' . $mc_listid . '/members', [
             'email_address' => $mc_data['email'],
             'merge_fields' => (object) $mc_fields,
-            'interests' => $interest,
+            'interests' => $interests,
             'status' => 'pending',
             'double_optin' => false,
             'update_existing' => true,

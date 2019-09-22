@@ -27,6 +27,16 @@ function signup () {
           <label class="dib w-50 ft-mn">${page[0].content.info}</label>
           <input id="info" name="info" type="text" class="dib w-50 bb-bl">
         </div>
+
+        <div class="pb1 x xab">
+          <input id="cycle_2019-10" name="cycle_2019-10" type="checkbox">
+          <label class="dib w-95 ft-mn pl1">Cycle starting October 22, 2019 </label>
+        </div>
+
+        <div class="pb1 x xab">
+          <input id="cycle_2020-02" name="cycle_2020-02" type="checkbox">
+          <label class="dib w-95 ft-mn pl1">Cycle starting February 25, 2020</label>
+        </div>
       </div>
 
       <div class="x xafs">
@@ -67,6 +77,8 @@ function signup () {
       body: body,
       send: send
     }
+
+    console.log(body)
 
     if (body.website !== '') {
       bot.classList.remove('dn')
