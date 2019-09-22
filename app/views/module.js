@@ -2,7 +2,27 @@ const ov = require('object-values')
 const html = require('choo/html')
 const raw = require('choo/html/raw')
 const Markdown = require('markdown-it')
-const md = new Markdown()
+const md = require('markdown-it')()
+md.use(require('markdown-it-container'), 'wrap', {
+  validate: function(params) {
+    return params.trim().match(/^wrap/)
+  },
+
+  render: function (tokens, idx) {
+    var m = tokens[idx].info.trim().match(/^wrap/)
+
+    if (tokens[idx].nesting === 1) {
+      // opening tag
+      return '<div class="wrap pb1">\n'
+
+    } else {
+      // closing tag
+      return '</div>\n'
+    }
+  }
+})
+  .use(require('markdown-it-implicit-figures'))
+
 const nav = require('../components/nav')
 const Sidepage = require('../components/sidepage')
 const sp = new Sidepage()
@@ -22,6 +42,7 @@ function view (state, emit) {
   console.log(state)
 
   const page = state.page
+  const txt = md.render(page.content.text)
 
   return html`
     <body>
@@ -48,7 +69,7 @@ function view (state, emit) {
             <p>with ${page.content.tutor}</p>
           </div>
           <div class="pb2">
-            ${raw(md.render(page.content.text))}
+            ${raw(txt)}
           </div>
 
           ${items()}
