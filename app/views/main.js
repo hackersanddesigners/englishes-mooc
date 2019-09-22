@@ -1,8 +1,26 @@
 const ov = require('object-values')
 const html = require('choo/html')
 const raw = require('choo/html/raw')
-const Markdown = require('markdown-it')
-const md = new Markdown()
+const md = require('markdown-it')()
+md.use(require('markdown-it-container'), 'wrap', {
+  validate: function(params) {
+    return params.trim().match(/^wrap/)
+  },
+
+  render: function (tokens, idx) {
+    var m = tokens[idx].info.trim().match(/^wrap/)
+
+    if (tokens[idx].nesting === 1) {
+      // opening tag
+      return '<div class="wrap pb1">\n'
+
+    } else {
+      // closing tag
+      return '</div>\n'
+    }
+  }
+})
+  .use(require('markdown-it-implicit-figures'))
 const nav = require('../components/nav')
 const sidepage = require('../components/sidepage')
 const sp = new sidepage()
@@ -19,7 +37,7 @@ function view (state, emit) {
 
   return html`
     <body>
-      <main class="x xdc md-xdr vh100">
+      <main class="x xdc md-xdr vh100 bgi-main">
         <section class="
           ${localStorage.getItem('user_login') === 'false' ? 'dn ' : ''}
           ${state.status_toggle ? 'md-w-15 ' : ''}
@@ -36,7 +54,7 @@ function view (state, emit) {
           <section class="${state.sidebar ? 'md-c6 psf t70 l0 r0 b0 z4 md-psr bl-rddb br-bldb' : 'md-c3'} db md-dn os xdl bgc-wh">
             ${sidebar(state, emit)}
           </section>
-          <div class="x xw xdr">
+          <div class="x xw xdr xjb">
             ${modules()}
           </div>
         </section>
@@ -58,16 +76,19 @@ function view (state, emit) {
       // `vi`: build custom index-naming for the video component
       const vi = i + 'mp'
       const video = state.cache(Video, vi)
+      const txt = md.render(module.content.text)
       return html`
-        <div class="c12 md-c6 lg-c4 pr1 pl1 pb1 z1">
-          ${video.render(state, emit, module.content.pitch_url, vi)}
-          <h2 class="fs1 fw-r ft-mn pt1">${module.content.title}</h2>
-          <p class="pb0 fs0-8">Opens ${module.content.opening}</p>
-          <p class="fs0-8">Live classroom ${module.content.liveclass}</p>
-
-          <button class="fs0-8 tdu curp" onclick=${toggle(emit, i)}>Read ${state.modules[i] ? 'more' : 'less'}</button>
-          <div class="${state.modules[i] ? 'dn ' : 'db pt1 '}fs0-8">
-            ${raw(md.render(module.content.text))}
+        <div class="c12 md-w-49-5 lg-w-32-8 mb0-35 bgc-wh h-21 os z1">
+          <div style="position: sticky; top: 0" class="bgc-wh pt0-2 pr0-2 pl0-2">
+            ${video.render(state, emit, module.content.pitch_url, vi)}
+          </div>
+          <div class="pl1 pr1">
+            <h2 class="fs1 fw-r ft-mn pt1">${module.content.title}</h2>
+            <p class="pb0 fs0-8">Opens ${module.content.opening}</p>
+            <p class="fs0-8">Live classroom ${module.content.liveclass}</p>
+            <div class="fs0-8">
+              ${raw(txt)}
+            </div>
           </div>
         </div>
       `

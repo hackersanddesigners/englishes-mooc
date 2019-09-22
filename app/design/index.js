@@ -1,6 +1,5 @@
 var gr8 = require('gr8')
 
-
 var root = `
 :root {
   --ft-rg: 'Graphik-Regular';
@@ -20,7 +19,7 @@ var root = `
 `
 
 var basic = gr8({
-  spacing: [0, 0.25, 0.5, 0.75, 1, 2, 4, 4.7 ,5, 15],
+  spacing: [0, 0.15, 0.2, 0.25, 0.3, 0.35, 0.5, 0.75, 1, 2, 4, 4.7 ,5, 15],
   fontSize: [0.8, 1, 1.3, 1.5, 2, 2.4],
   lineHeight: [1],
   zIndex: [1, 2],
@@ -55,7 +54,7 @@ var size = {
       h: 'height'
     }
   ],
-  vals: [15, 30, 35, 50, 70, 90, 100],
+  vals: [15, 30, 32.8, 33, 35, 49.5, 50, 70, 90, 95, 100],
   join: '-',
   unit: '%'
 }

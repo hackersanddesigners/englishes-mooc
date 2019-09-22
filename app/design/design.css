@@ -225,6 +225,17 @@ input[type=checkbox]:checked {
   padding-left: 1rem;
 }
 
+@media screen and (min-width: 540px) {
+  .wrap {
+    display: flex;
+    flex-wrap:wrap;
+    justify-content: space-around;
+  }
+  .wrap figure {
+    width: 45%;
+  }
+}
+
 .ty-w {
   width: 2rem;
 }
@@ -379,6 +390,14 @@ input[type=checkbox]:checked {
   -moz-transition-property: width, height;
   -o-transition-property: width, height;
   transition-property: width, height;
+}
+
+.bgi-main {
+  background: url('../imgs/ipa.jpg');
+}
+
+.h-21 {
+  max-height: 21rem;
 }
 
 /* woofmark text-editor */
