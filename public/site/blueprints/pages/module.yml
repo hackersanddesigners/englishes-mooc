@@ -59,17 +59,24 @@ tabs:
             label: Duration
             type:  text
 
-      - width: 1/2
+      - width: 2/3
         fields:
           text:
             label: Text
-            type:  textarea 
+            type:  textarea  
+      - width: 1/3
+        sections:
+          files:
+            type: files
+            layout: list
 
       - width: 1/2
         fields:
           reading:
             label: More Material
             type:  textarea
+
+
       - width: 1/2
         fields:
           feedback:

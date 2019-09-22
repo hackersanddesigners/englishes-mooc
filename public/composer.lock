@@ -152,16 +152,16 @@
         },
         {
             "name": "getkirby/cms",
-            "version": "3.0.0",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getkirby/kirby.git",
-                "reference": "72f01eac0a7db59360894e0cfb44680276260174"
+                "reference": "52e21a48f32b8edf7bc0a2bd630b41b8dab5561c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getkirby/kirby/zipball/72f01eac0a7db59360894e0cfb44680276260174",
-                "reference": "72f01eac0a7db59360894e0cfb44680276260174",
+                "url": "https://api.github.com/repos/getkirby/kirby/zipball/52e21a48f32b8edf7bc0a2bd630b41b8dab5561c",
+                "reference": "52e21a48f32b8edf7bc0a2bd630b41b8dab5561c",
                 "shasum": ""
             },
             "require": {
@@ -169,7 +169,7 @@
                 "ext-ctype": "*",
                 "ext-mbstring": "*",
                 "filp/whoops": "2.3.1",
-                "getkirby/composer-installer": "*",
+                "getkirby/composer-installer": "^1.0",
                 "michelf/php-smartypants": "1.8.1",
                 "mustangostang/spyc": "0.6.2",
                 "php": ">=7.1.0",
@@ -209,7 +209,7 @@
                 "core",
                 "kirby"
             ],
-            "time": "2019-01-15T08:15:26+00:00"
+            "time": "2019-03-26T09:52:09+00:00"
         },
         {
             "name": "getkirby/composer-installer",
