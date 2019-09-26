@@ -54,7 +54,7 @@ function view (state, emit) {
           <section class="${state.sidebar ? 'md-c6 psf t70 l0 r0 b0 z4 md-psr bl-rddb br-bldb bgc-wh' : 'md-c3'} db md-dn os xdl">
             ${sidebar(state, emit)}
           </section>
-          <div class="x xw xdr xjb">
+          <div class="x xw xdr xjb mb1 oh">
             ${modules()}
           </div>
         </section>
@@ -78,11 +78,11 @@ function view (state, emit) {
       const video = state.cache(Video, vi)
       const txt = md.render(module.content.text)
       return html`
-        <div class="c12 md-w-49-5 lg-w-32-8 xmr0-3 mb0-75 md-mb0-35 bgc-wh h-24 md-h-18 lg-h-21 os z1">
-          <div style="position: sticky; top: 0" class="bgc-wh pt0-2 pr0-2 pl0-2">
+        <div class="c12 md-w-49-5 lg-w-32-8 xmr0-3 mb0-75 md-mb0-35 bgc-wh z1">
+          <div class="bgc-wh pt0-2 pr0-2 pl0-2">
             ${video.render(state, emit, module.content.pitch_url, vi)}
           </div>
-          <div class="pl1 pr1">
+          <div class="pl1 pr1 os h-11">
             <h2 class="fs1 fw-r ft-mn pt1">${module.content.title}</h2>
             <p class="pb0 fs0-8">Opens ${module.content.opening}</p>
             <p class="fs0-8">Live classroom ${module.content.liveclass}</p>

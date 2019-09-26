@@ -396,20 +396,8 @@ input[type=checkbox]:checked {
   background: url('../imgs/ipa.jpg');
 }
 
-.h-24 {
-  max-height: 24rem;
-}
-
-@media screen and (min-width: 540px) {
-  .md-h-18 {
-    max-height: 18rem;
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .lg-h-21 {
-    max-height: 21rem;
-  }
+.h-11 {
+  max-height: 11rem;
 }
 
 /* woofmark text-editor */
