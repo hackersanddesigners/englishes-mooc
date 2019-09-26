@@ -11,7 +11,7 @@ Kirby::plugin('mooc/forum', [
         $data = r::data();
 
         $cat_id = $data['cat_id'];
-        $usr_name = $data['user'];
+        $usr_name = $data['username'];
 
         // add if-clause?
         $usr_key = page('forum-users')->users()->toStructure()->findBy('user', $usr_name)->key();
@@ -35,7 +35,7 @@ Kirby::plugin('mooc/forum', [
         $data = r::data();
 
         $topic_id = $data['topic_id'];
-        $usr_name = $data['user'];
+        $usr_name = $data['username'];
         $usr_key = page('forum-users')->users()->toStructure()->findBy('user', $usr_name)->key();
 
         $url_root = 'https://forum.englishes-mooc.org/';
@@ -56,7 +56,7 @@ Kirby::plugin('mooc/forum', [
       'action' => function () {
         $data = r::data();
 
-        $usr_name = $data['user'];
+        $usr_name = $data['username'];
         $usr_pw = $data['pw'];
         $usr_key = page('forum-users')->users()->toStructure()->findBy('user', $usr_name)->key();
 
@@ -106,7 +106,7 @@ Kirby::plugin('mooc/forum', [
         $disc_id = $data['disc_id'];
         /* $ass_id = $data['ass_id']; */
         $msg = $data['raw'];
-        $usr_name = $data['user'];
+        $usr_name = $data['username'];
         $usr_key = page('forum-users')->users()->toStructure()->findBy('user', $usr_name)->key();
 
         $url_root = 'https://forum.englishes-mooc.org/';
@@ -129,7 +129,7 @@ Kirby::plugin('mooc/forum', [
         $data = r::data();
 
         $post_id = $data['id'];
-        $usr_name = $data['user'];
+        $usr_name = $data['username'];
         $usr_key = page('forum-users')->users()->toStructure()->findBy('user', $usr_name)->key();
 
         $url_root = 'https://forum.englishes-mooc.org/';

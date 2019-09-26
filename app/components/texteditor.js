@@ -173,7 +173,7 @@ class texteditor extends nc {
         disc_id: state.components.discussion.id,
         // ass_id: state.components.assignment.id,
         raw: msg,
-        user: user.username,
+        username: user.username,
         send: send
       }
 

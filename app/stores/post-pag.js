@@ -29,7 +29,7 @@ function post_pag (state, emitter) {
         if (topic.length > 0) {
           const opts = {
             topic_id: `${topic[0].id}/${post_id || 20}`,
-            user: user
+            username: user.username
           }
 
           xhr_call.getTopic(opts, (err, resp, body) => {

@@ -18,7 +18,7 @@ function fetch_topic (state, emitter, page, cat_id) {
 
     const posts_opts = {
       cat_id: cat_id,
-      user: user.username
+      username: user.username
     }
 
     xhr_call.getPosts(posts_opts, (err, resp, body) => {
@@ -34,7 +34,7 @@ function fetch_topic (state, emitter, page, cat_id) {
         if (disc.length > 0) {
           const disc_opts = {
             topic_id: disc[0].id,
-            user: user.username
+            username: user.username
           }
 
           xhr_call.getTopic(disc_opts, (err, resp, body) => {
