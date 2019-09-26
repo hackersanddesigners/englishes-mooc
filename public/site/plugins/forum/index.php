@@ -21,7 +21,10 @@ Kirby::plugin('mooc/forum', [
 
         $result = [];
         $request = Remote::get($url);
-        $result = $request->json();
+
+        if ($request->code() === 200) {
+          $result = $request->json();
+        };
 
         return $result;
       }
@@ -43,7 +46,10 @@ Kirby::plugin('mooc/forum', [
 
         $result = [];
         $request = Remote::get($url);
-        $result = $request->json();
+
+        if ($request->code() === 200) {
+          $result = $request->json();
+        };
 
         return $result;
       }
