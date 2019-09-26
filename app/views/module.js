@@ -22,7 +22,6 @@ md.use(require('markdown-it-container'), 'wrap', {
   }
 })
   .use(require('markdown-it-implicit-figures'))
-
 const nav = require('../components/nav')
 const Sidepage = require('../components/sidepage')
 const sp = new Sidepage()
@@ -147,11 +146,7 @@ function view (state, emit) {
 
   function sidebar (state, emit) {
     if (localStorage.getItem('user_data') !== undefined && localStorage.getItem('user_login') === 'true') {
-      if (state.href === '/' + state.route) {
-        return topic.render(state, JSON.parse(localStorage.getItem('user_data')), emit)
-      } else {
-        return forum.render(state, JSON.parse(localStorage.getItem('user_data')), emit)
-      }
+      return forum.render(state, JSON.parse(localStorage.getItem('user_data')), emit)
     } else if (state.login === true) {
       return login(state, emit)
     } else if (state.sidebar === false) {
