@@ -9,7 +9,6 @@ function clickhandle (state, emitter) {
   state.login = false
   state.disc_tab = true
   state.read_tab = false
-  state.todo_tab = false
   state.modules = []
   state.nav_toggle = true
   state.status_toggle = false
@@ -50,21 +49,12 @@ function clickhandle (state, emitter) {
   emitter.on('disc-tab', () => {
     state.disc_tab = true
     state.read_tab = false
-    state.todo_tab = false
     emitter.emit('render')
   })
 
   emitter.on('read-tab', () => {
     state.read_tab = true
     state.disc_tab = false
-    state.todo_tab = false
-    emitter.emit('render')
-  })
-
-  emitter.on('todo-tab', () => {
-    state.todo_tab = true
-    state.disc_tab = false
-    state.read_tab = false
     emitter.emit('render')
   })
 
@@ -102,7 +92,7 @@ function clickhandle (state, emitter) {
     state.components.login = undefined
 
     const opts = {
-      user_id: user_s.id,
+      user_id: user_s.id
     }
 
     console.log(opts)
@@ -256,7 +246,6 @@ function clickhandle (state, emitter) {
       }
     }
   }
-
 }
 
 module.exports = clickhandle

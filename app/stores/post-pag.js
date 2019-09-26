@@ -10,6 +10,7 @@ function post_pag (state, emitter) {
       username: user_s.username,
       name: user_s.name
     }
+
     emitter.on('post-pag', (post_id, topic_n) => {
       let page
       let cat_id
@@ -39,24 +40,20 @@ function post_pag (state, emitter) {
 
             if (body.errors) {
               console.log(body.errors[0])
-            }
-
-            if (topic_n === 'discussion') {
-              state.components.discussion_pag = body
-            } else if (topic_n === 'assignment'){
-              state.components.assignment_pag = body
-            }
-
-            const posts = ov(body.post_stream.posts).filter(post => post.user_deleted === false)
-            const post_tot = posts.length - 1
-            const post_n_l = posts[post_tot].post_number
-            const stream = ov(body.post_stream.stream)
-            const stream_tot = stream.length - 1
-
-            if (post_n_l < stream_tot) {
-              state.components.loadmore = true
             } else {
-              state.components.loadmore = false
+              state.components.discussion_pag = body
+
+              const posts = ov(body.post_stream.posts).filter(post => post.user_deleted === false)
+              const post_tot = posts.length - 1
+              const post_n_l = posts[post_tot].post_number
+              const stream = ov(body.post_stream.stream)
+              const stream_tot = stream.length - 1
+
+              if (post_n_l < stream_tot) {
+                state.components.loadmore = true
+              } else {
+                state.components.loadmore = false
+              }
             }
           })
 
