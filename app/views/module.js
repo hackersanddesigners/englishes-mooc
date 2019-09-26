@@ -30,8 +30,6 @@ const Statusbar = require('../components/statusbar')
 const statusbar = new Statusbar()
 const Forum = require('../components/forum')
 const forum = new Forum()
-const Topic = require('../components/topic')
-const topic = new Topic()
 const Video = require('../components/video')
 
 module.exports = view
