@@ -44,7 +44,8 @@ class statusbar extends nc {
           if (item.content.status === 'upcoming') {
             return html`
               <div class="pen">
-                <figure><img src="${cover.url}">
+                <figure>
+                  ${cover_url()}
                   <figcaption class="ft-mn fs0-8 fc-bk tdn">${item.content.title}</figcaption>
                 </figure>
               </div>
@@ -54,12 +55,18 @@ class statusbar extends nc {
               <div>
                 <a href="${item.url}" class="ft-mn fs0-8 fc-bk tdn">
                   <figure>
-                    <img src="${cover.url}">
+                    ${cover_url()}
                     <figcaption>${item.content.title}</figcaption>
                   </figure>
                 </a>
               </div>
             `
+          }
+        }
+
+        function cover_url() {
+          if (cover !== undefined) {
+            return html`<img src="${cover.url}">`
           }
         }
 
