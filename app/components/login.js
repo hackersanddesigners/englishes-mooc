@@ -112,7 +112,7 @@ function login (state, emit) {
     const pw = body.password
 
     const opts = {
-      user: name,
+      username: name,
       pw: pw,
       send: send
     }
