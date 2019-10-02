@@ -33,6 +33,12 @@ Kirby::plugin('mooc/signup', [
             $interests['b10fa8aea6'] = false;
           };
 
+          if (isset($mc_data['pre_cycle_2020-ss'])) {
+            $interests['badb42eca0'] = true;
+          } else {
+            $interests['badb42eca0'] = false;
+          };
+
           // mc subscribe new user
           $response = $mc->post('lists/' . $mc_listid . '/members', [
             'email_address' => $mc_data['email'],

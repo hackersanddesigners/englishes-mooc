@@ -29,13 +29,18 @@ function signup () {
         </div>
 
         <div class="pb1 x xab">
-          <input id="cycle_2019-10" name="cycle_2019-10" type="checkbox">
-          <label class="dib w-95 ft-mn pl1">Cycle starting October 22, 2019 </label>
+          <input id="cycle_2019-10" name="cycle_2019-10" type="checkbox" disabled="disabled" class="op25 pen">
+          <label class="dib w-95 ft-mn pl1"><span class="tdlt">Cycle starting October 22, 2019</span> <strong>FULL</strong></label>
         </div>
 
         <div class="pb1 x xab">
           <input id="cycle_2020-02" name="cycle_2020-02" type="checkbox">
           <label class="dib w-95 ft-mn pl1">Cycle starting February 25, 2020</label>
+        </div>
+
+        <div class="pb1 x xab">
+          <input id="pre_cycle_2020-ss" name="pre_cycle_2020-ss" type="checkbox">
+          <label class="dib w-95 ft-mn pl1">Notify me when the signup for the Spring/Summer 2020 cycle opens</label>
         </div>
       </div>
 
