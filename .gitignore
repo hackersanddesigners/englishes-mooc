@@ -16,7 +16,7 @@ public/content/
 public/assets/
 
 #---
-/app/node_modules
+node_modules
 /app/stores/users.json
 /app/stores/api.json
 
