@@ -41,7 +41,8 @@ function view (state, emit) {
   const page = state.page
   const txt = md.render(page.content.text)
 
-  return html`
+  if (localStorage.getItem('user_login') !== false) {
+    return html`
     <body>
       <main class="x xdc md-xdr vh100">
         <section class="
@@ -89,11 +90,11 @@ function view (state, emit) {
     </body>
   `
 
-  function items () {
-    return ov(page.children).map(function (item, i) {
-      i = i + 'md'
-      const video = state.cache(Video, i)
-      return html`
+    function items () {
+      return ov(page.children).map(function (item, i) {
+        i = i + 'md'
+        const video = state.cache(Video, i)
+        return html`
         <div class="copy">
           <div class="p2">
             <h2 class="ft-mn fs2">${item.content.title}</h2>
@@ -111,46 +112,48 @@ function view (state, emit) {
         </div>
       `
 
-      function attachment () {
-        if (item.files.length > 0 && item.content.attachment !== undefined) {
-          return html`
+        function attachment () {
+          if (item.files.length > 0 && item.content.attachment !== undefined) {
+            return html`
             <a href="${item.files[item.content.attachment].url}" target="_blank" rel="noopener noreferrer">${item.content.attachment_lab || 'Transcript'}</a>
           `
+          }
         }
-      }
-    })
-  }
+      })
+    }
 
-  function cover () {
-    return ov(page.children).map(function (item) {
-      return html`
+    function cover () {
+      return ov(page.children).map(function (item) {
+        return html`
         <figure>
           <img src="${ov(item.files)[0].url}">
         </figure>
       `
-    })
-  }
-
-  function status () {
-    const modules = ov(state.content).filter(page => page.uid === 'course')[0]
-    if (localStorage.getItem('user_data') !== undefined && localStorage.getItem('user_login') === 'true') {
-      return statusbar.render(state, modules, emit)
+      })
     }
-  }
 
-  function status_toggle (emit) {
-    return function () { emit('status_toggle') }
-  }
-
-  function sidebar (state, emit) {
-    if (localStorage.getItem('user_data') !== undefined && localStorage.getItem('user_login') === 'true') {
-      return forum.render(state, JSON.parse(localStorage.getItem('user_data')), emit)
-    } else if (state.login === true) {
-      return login(state, emit)
-    } else if (state.sidebar === false) {
-      return nav(state, emit)
-    } else {
-      return sp.render(state, state.components.sidepage, emit)
+    function status () {
+      const modules = ov(state.content).filter(page => page.uid === 'course')[0]
+      if (localStorage.getItem('user_data') !== undefined && localStorage.getItem('user_login') === 'true') {
+        return statusbar.render(state, modules, emit)
+      }
     }
+
+    function status_toggle (emit) {
+      return function () { emit('status_toggle') }
+    }
+
+    function sidebar (state, emit) {
+      if (localStorage.getItem('user_data') !== undefined && localStorage.getItem('user_login') === 'true') {
+        return forum.render(state, JSON.parse(localStorage.getItem('user_data')), emit)
+      } else if (state.login === true) {
+        return login(state, emit)
+      } else if (state.sidebar === false) {
+        return nav(state, emit)
+      } else {
+        return sp.render(state, state.components.sidepage, emit)
+      }
+    }
+
   }
 }
