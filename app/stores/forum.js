@@ -6,9 +6,10 @@ function forum (state, emitter) {
     let page
     let cat_id
 
+    // check if not null
     const user_data = JSON.parse(localStorage.getItem('user_data'))
 
-    if (state.href !== '/hkw' && user_data.user.username !== 'vu' && localStorage.getItem('user_login') === 'false') {
+    if (state.href !== '/hkw' && user_data.user.username !== 'vu') {
       if (state.route !== '/') {
         page = ov(state.content).filter(page => page.uri === state.route)[0]
         cat_id = page.content.cat_id
@@ -27,10 +28,9 @@ function forum (state, emitter) {
   emitter.on('log-in', () => {
     let page
     let cat_id
-
     const user_data = JSON.parse(localStorage.getItem('user_data'))
 
-    if (user_data.user.username !== 'vu' && localStorage.getItem('user_login') === 'false') { 
+    if (user_data.user.username !== 'vu') {
       if (state.route !== '/') {
         page = ov(state.content).filter(page => page.uri === state.route)[0]
         cat_id = page.content.cat_id
@@ -39,7 +39,6 @@ function forum (state, emitter) {
         cat_id = page.content.cat_id
       }
     } else if (user_data.user.username === 'vu') {
-      console.log('vu vu vu')
       page = ov(state.content).filter(page => page.uid === 'module-03')[0]
       cat_id = page.content.cat_id
     }
