@@ -5,6 +5,7 @@
   "main": "forum-user-generator.js",
   "dependencies": {
     "dotenv": "^8.1.0",
+    "generate-password": "^1.4.2",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {},
