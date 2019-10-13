@@ -75,36 +75,72 @@ function forum_user_generator () {
     return response
   }
 
+  async function generateUserAPIk (id) {
+    let response = await fetch(`https://forum.englishes-mooc.org/admin/users/${id}/generate_api_key.json?api_key=${process.env.API_KEY_S}&api_username=${process.env.API_USR_S}`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    return response.json()
+  }
+
+  let fy_users = [
+    {
+      name: 'Tasa',
+      username: 'tasa',
+      email: 'tasa@gva.de',
+      password: 'xx-yyyy-a-tt--c',
+      active: true,
+      approved: true
+    }, {
+      name: 'beka',
+      username: 'beka',
+      email: 'beka@gva.de',
+      password: 'oo-yyyy-a-tt--c',
+      active: true,
+      approved: true
+    }]
+
   getMembers()
     .then(response => {
       let data = processMembers(response.members, users)
       return data
     }).then(data => {
-      const ud = {
-        name: 'Masa',
-        username: 'masa',
-        email: 'masa@gva.de',
-        password: 'xx-yyyy-a-tt--c',
-        active: true,
-        approved: true
-      }
+      fy_users.map(user => {
+        // create-user
+        createForumUser(user).then(response => {
+          console.log(response)
 
-      createForumUser(ud).then(response => {
-        console.log(response)
+          let id = response.user_id
 
-        let id = response.user_id
-        deactivateForumUser(id)
-          .then(response => {
-            console.log('deactive-forum-user: status', response.statusText)
-            if (response.status === 200) {
-              reactivateForumUser(id)
-                .then(response => {
-                  console.log('reactive-forum-user: status', response.statusText)
-                })
-            }
-          })
-      }).catch(e => {
-        throw e
+          // deactivate-user
+          deactivateForumUser(id)
+            .then(response => {
+              console.log('deactive-forum-user: status', response.statusText)
+              if (response.status === 200) {
+                // reactivate-user
+                reactivateForumUser(id)
+                  .then(response => {
+                    console.log('reactive-forum-user: status', response.statusText)
+                    return response
+                  }).then(response => {
+                    if (response.status === 200) {
+                      // generate-user-api-k
+                      generateUserAPIk(id)
+                        .then(response => {
+                          console.log('user-API-key: done')
+                          user['api_key'] = response.api_key.key
+                          console.log(fy_users)
+                        })
+                    }
+                  })
+              }
+            })
+        }).catch(e => {
+          throw e
+        })
       })
     })
 }
