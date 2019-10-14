@@ -1,4 +1,5 @@
 require('dotenv').config()
+const fs = require('fs')
 const fetch = require('node-fetch')
 const args = process.argv
 const pw_gen = require('generate-password')
@@ -86,18 +87,27 @@ function forum_user_generator () {
     return response.json()
   }
 
+  // convert writeFile to async / await func?
+  // https://stackoverflow.com/a/52094177
+  function writeFile (path, data) {
+    fs.writeFile(path, data, (err) => {
+      if (err) throw err
+      console.log('File has been written successfully!')
+    })
+  }
+
   let fy_users = [
     {
-      name: 'Tasa',
-      username: 'tasa',
-      email: 'tasa@gva.de',
+      name: 'Yasa',
+      username: 'yasa',
+      email: 'yasa@gva.de',
       password: 'xx-yyyy-a-tt--c',
       active: true,
       approved: true
     }, {
-      name: 'beka',
-      username: 'beka',
-      email: 'beka@gva.de',
+      name: 'Yeka',
+      username: 'yeka',
+      email: 'yeka@gva.de',
       password: 'oo-yyyy-a-tt--c',
       active: true,
       approved: true
@@ -108,7 +118,9 @@ function forum_user_generator () {
       let data = processMembers(response.members, users)
       return data
     }).then(data => {
-      fy_users.map(user => {
+      // call `create-user` for batches of 10 items, then wait 50 sec
+
+      data.map(user => {
         // create-user
         createForumUser(user).then(response => {
           console.log(response)
@@ -132,7 +144,12 @@ function forum_user_generator () {
                         .then(response => {
                           console.log('user-API-key: done')
                           user['api_key'] = response.api_key.key
-                          console.log(fy_users)
+                          console.log(data)
+                          return data 
+                        }).then((data) => {
+                          // write-file-to-disk
+                          const new_users= JSON.stringify(data)
+                          writeFile('./new-forum-users.json', new_users)
                         })
                     }
                   })
