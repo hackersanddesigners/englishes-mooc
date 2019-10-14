@@ -2,6 +2,7 @@ require('dotenv').config()
 const fs = require('fs')
 const fetch = require('node-fetch')
 const args = process.argv
+const slugify = require('@sindresorhus/slugify')
 const pw_gen = require('generate-password')
 
 // USAGE:
@@ -33,7 +34,7 @@ function forum_user_generator () {
     const members = data.filter(member => member.interests[args[2]] === true)
 
     members.map(member => {
-      const usr = member.merge_fields.MMERGE1.replace(' ', '.').toLowerCase()
+      const usr = slugify(member.merge_fields.MMERGE1, { separator: '.' })
       const pw = pw_gen.generate({ length: 19, numbers: false }).match(/.{1,7}/g).join('-')
 
       const user = {
@@ -113,53 +114,132 @@ function forum_user_generator () {
       approved: true
     }]
 
+  function user_batch (data, size) {
+    let counter = 0
+
+    data.map((item, i) => {
+      if (counter === size) {
+        counter = 0
+        console.log('---')
+        console.log('counter', counter)
+        console.log('--- breaking every 10 items ---')
+        console.log('--- waited for 10 sec ---')
+      } else {
+        counter++
+        console.log(counter, i, item)
+      }
+    })
+  }
+
+  async function f (t) {
+    let promise = new Promise((resolve, reject) => {
+      setTimeout(() => resolve(`waiting for ${t}ms before making new API call`), t)
+    })
+
+    let result = await promise
+    console.log(result)
+  }
+
   getMembers()
     .then(response => {
       let data = processMembers(response.members, users)
       return data
     }).then(data => {
-      // call `create-user` for batches of 10 items, then wait 50 sec
-
+      // call `create-user` and check whether we have to wait to make new API calls
       data.map(user => {
         // create-user
         createForumUser(user).then(response => {
-          console.log(response)
+          if ('error_type' in response && response.error_type === 'rate_limit') {
+            const time = response.extras.wait_seconds
+            const t = time * 1000
+            f(t)
+          } else {
+            console.log(response)
+            let id = response.user_id
 
-          let id = response.user_id
-
-          // deactivate-user
-          deactivateForumUser(id)
-            .then(response => {
-              console.log('deactive-forum-user: status', response.statusText)
-              if (response.status === 200) {
-                // reactivate-user
-                reactivateForumUser(id)
-                  .then(response => {
-                    console.log('reactive-forum-user: status', response.statusText)
-                    return response
-                  }).then(response => {
-                    if (response.status === 200) {
-                      // generate-user-api-k
-                      generateUserAPIk(id)
-                        .then(response => {
-                          console.log('user-API-key: done')
-                          user['api_key'] = response.api_key.key
-                          console.log(data)
-                          return data 
-                        }).then((data) => {
-                          // write-file-to-disk
-                          const new_users= JSON.stringify(data)
-                          writeFile('./new-forum-users.json', new_users)
-                        })
-                    }
-                  })
-              }
-            })
+            // deactivate-user
+            deactivateForumUser(id)
+              .then(response => {
+                console.log(response)
+                if ('error_type' in response && response.error_type === 'rate_limit') {
+                  const time = response.extras.wait_seconds
+                  const t = time * 1000
+                  f(t)
+                } else {
+                  console.log('deactive-forum-user: status', response.statusText)
+                  if (response.status === 200) {
+                    // reactivate-user
+                    reactivateForumUser(id)
+                      .then(response => {
+                        console.log('reactive-forum-user: status', response.statusText)
+                        return response
+                      }).then(response => {
+                        if (response.status === 200) {
+                          // generate-user-api-k
+                          generateUserAPIk(id)
+                            .then(response => {
+                              console.log('user-API-key: done')
+                              user['api_key'] = response.api_key.key
+                              console.log(data)
+                              return data
+                            }).then((data) => {
+                              // write-file-to-disk
+                              const new_users= JSON.stringify(data)
+                              const fn = `./new-forum-users.json${new Date().toISOString}`
+                              writeFile(fn, new_users)
+                            })
+                        }
+                      })
+                  }
+                }
+              }) // -- end of deactivate-forum-user
+          }
         }).catch(e => {
           throw e
-        })
-      })
+        }) // -- end of create-forum-user
+      }) // end of data.map
     })
 }
 
 forum_user_generator()
+
+
+
+// ----
+data.map(user => {
+  let new_user = await createForumUser()
+
+  if ('error_type' in new_user && new_user.error_type === 'rate_limit') {
+    const time = new_user.extras.wait_seconds
+    const t = time * 1000
+    waitSomeTime(t)
+    new_user = await createForumUser() // ?
+  } else {
+    console.log(new_user) 
+  }
+
+  let id = response.user_id
+  let du = await deactivateForumUser(id)
+
+  if ('error_type' in du && du.error_type === 'rate_limit') {
+    const time = du.extras.wait_seconds
+    const t = time * 1000
+    waitSomeTime(t)
+    new_user = await deactivateForumUser() // ?
+  } else {
+    console.log(du) 
+  }
+
+  let id = response.user_id
+  let ru = await reactivateForumUser(id)
+
+  if ('error_type' in ru && ru.error_type === 'rate_limit') {
+    const time = ru.extras.wait_seconds
+    const t = time * 1000
+    waitSomeTime(t)
+    new_user = await reactivateForumUser() // ?
+  } else {
+    console.log(ru) 
+  }
+
+})

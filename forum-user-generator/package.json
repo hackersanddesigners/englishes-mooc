@@ -4,6 +4,7 @@
   "description": "englishes mooc ==============",
   "main": "forum-user-generator.js",
   "dependencies": {
+    "@sindresorhus/slugify": "^0.9.1",
     "dotenv": "^8.1.0",
     "generate-password": "^1.4.2",
     "node-fetch": "^2.6.0"
