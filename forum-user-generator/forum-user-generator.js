@@ -26,10 +26,14 @@ function forum_user_generator () {
         Authorization: `Basic ${authorization}`
       }
     })
-    return response.json()
+
+    if (response.status === 200) {
+      let json = await response.json()
+      return json
+    }
+    throw new Error(response.status)
   }
 
-  let users = []
   function processMembers (data, users) {
     const members = data.filter(member => member.interests[args[2]] === true)
 
@@ -60,21 +64,54 @@ function forum_user_generator () {
       },
       body: JSON.stringify(data)
     })
-    return response.json()
+
+    try {
+      if (response.status === 200) {
+        let json = await response.json()
+        console.log('success create-user')
+        return json
+      } else {
+        console.log('error create-user')
+        let json = await response.json()
+        return json
+      }
+    } catch (err) {
+      console.log('error create-user')
+      let json = await err.json()
+      return json
+    } 
   }
 
   async function deactivateForumUser (id) {
     let response = await fetch(`https://forum.englishes-mooc.org/admin/users/${id}/deactivate.json?api_key=${process.env.API_KEY_S}&api_username=${process.env.API_USR_S}`, {
       method: 'PUT'
     })
-    return response
+
+    try {
+      let json = await response.json()
+      console.log('success deactivate-user')
+      return json
+    } catch (err) {
+      console.log('error deactivate-user')
+      let json = await err.json()
+      return json
+    }
   }
 
   async function reactivateForumUser (id) {
     let response = await fetch(`https://forum.englishes-mooc.org/admin/users/${id}/activate.json?api_key=${process.env.API_KEY_S}&api_username=${process.env.API_USR_S}`, {
       method: 'PUT'
     })
-    return response
+
+    try {
+      let json = await response.json()
+      console.log('success reactivate-user')
+      return json
+    } catch (err) {
+      console.log('error reactivate-user')
+      let json = await err.json()
+      return json
+    }
   }
 
   async function generateUserAPIk (id) {
@@ -85,7 +122,17 @@ function forum_user_generator () {
         'Content-Type': 'application/json'
       }
     })
-    return response.json()
+
+    try {
+      let json = await response.json()
+      console.log('success generate-user-k')
+      return json
+    } catch (err) {
+      console.log('error generate-user-k')
+      let json = await err.json()
+      return json
+    }
+
   }
 
   // convert writeFile to async / await func?
@@ -97,33 +144,21 @@ function forum_user_generator () {
     })
   }
 
-  let fy_users = [
-    {
-      name: 'Yasa',
-      username: 'yasa',
-      email: 'yasa@gva.de',
-      password: 'xx-yyyy-a-tt--c',
-      active: true,
-      approved: true
-    }, {
-      name: 'Yeka',
-      username: 'yeka',
-      email: 'yeka@gva.de',
-      password: 'oo-yyyy-a-tt--c',
-      active: true,
-      approved: true
-    }]
-
-  function user_batch (data, size) {
+  function user_batch (data, size, t) {
     let counter = 0
 
-    data.map((item, i) => {
+    data.map(async (item, i) => {
+      let turn = 0
       if (counter === size) {
         counter = 0
+        turn++
         console.log('---')
         console.log('counter', counter)
         console.log('--- breaking every 10 items ---')
-        console.log('--- waited for 10 sec ---')
+
+        const t = 10000 * turn
+        await sleep(t)
+        console.log(`--- waited for ${t}ms ---`)
       } else {
         counter++
         console.log(counter, i, item)
@@ -131,115 +166,68 @@ function forum_user_generator () {
     })
   }
 
-  async function f (t) {
-    let promise = new Promise((resolve, reject) => {
-      setTimeout(() => resolve(`waiting for ${t}ms before making new API call`), t)
-    })
+  const sleep = require('util').promisify(setTimeout)
 
-    let result = await promise
-    console.log(result)
+  async function waitSomeTime (fn, t) {
+    console.log(`wait for ${t}ms`)
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(fn, t))
+    })
   }
 
-  getMembers()
-    .then(response => {
-      let data = processMembers(response.members, users)
-      return data
-    }).then(data => {
-      // call `create-user` and check whether we have to wait to make new API calls
-      data.map(user => {
-        // create-user
-        createForumUser(user).then(response => {
-          if ('error_type' in response && response.error_type === 'rate_limit') {
-            const time = response.extras.wait_seconds
-            const t = time * 1000
-            f(t)
-          } else {
-            console.log(response)
-            let id = response.user_id
+  ;
 
-            // deactivate-user
-            deactivateForumUser(id)
-              .then(response => {
-                console.log(response)
-                if ('error_type' in response && response.error_type === 'rate_limit') {
-                  const time = response.extras.wait_seconds
-                  const t = time * 1000
-                  f(t)
-                } else {
-                  console.log('deactive-forum-user: status', response.statusText)
-                  if (response.status === 200) {
-                    // reactivate-user
-                    reactivateForumUser(id)
-                      .then(response => {
-                        console.log('reactive-forum-user: status', response.statusText)
-                        return response
-                      }).then(response => {
-                        if (response.status === 200) {
-                          // generate-user-api-k
-                          generateUserAPIk(id)
-                            .then(response => {
-                              console.log('user-API-key: done')
-                              user['api_key'] = response.api_key.key
-                              console.log(data)
-                              return data
-                            }).then((data) => {
-                              // write-file-to-disk
-                              const new_users= JSON.stringify(data)
-                              const fn = `./new-forum-users.json${new Date().toISOString}`
-                              writeFile(fn, new_users)
-                            })
-                        }
-                      })
-                  }
-                }
-              }) // -- end of deactivate-forum-user
-          }
-        }).catch(e => {
-          throw e
-        }) // -- end of create-forum-user
-      }) // end of data.map
-    })
+  (async() => {
+    // fire this off
+    if (args[3] === 'create') {
+      // get member-list
+      let members = await getMembers()
+      console.log('--- *members* anon-async bitch ---')
+
+      // get only users from <> group
+      let filtered_members = []
+      let users = processMembers(members.members, filtered_members)
+      console.log(users)
+      console.log('--- *users* anon-async bitch ---')
+
+      // map over each user and do create-user-workflow
+      users.map(async (user, i) => {
+        let create_user = await createForumUser(user)
+        console.log(create_user)
+
+        // if ('error_type' in create_user && create_user.error_type === 'rate_limit') {
+        //   const time = create_user.extras.wait_seconds
+        //   const t = time * 1000 * i
+        //   let tt = await waitSomeTime(t)
+        //   console.log(tt)
+        //   create_user = await createForumUser(user)
+        //   console.log(create_user)
+        // } else {
+        //   console.log(create_user)
+        // }
+
+        let id = create_user.user_id
+        let deactivate_user = await deactivateForumUser(id)
+
+        let reactivate_user = await reactivateForumUser(id)
+
+        let user_k = await generateUserAPIk(id)
+        user['api_key'] = user_k.api_key.key
+
+        const new_users = JSON.stringify(users)
+        const fn = `./new-forum-users.json${new Date().toISOString()}`
+        writeFile(fn, new_users)
+      })
+    } else if (args[3] === 'list') {
+      // get member-list
+      let members = await getMembers()
+      let filtered_members = []
+      let users = processMembers(members.members, filtered_members)
+      console.log(users)
+      console.log(`list-size: ${users.length}`)
+    }
+  })()
 }
 
+// fire this off
 forum_user_generator()
-
-
-
-// ----
-data.map(user => {
-  let new_user = await createForumUser()
-
-  if ('error_type' in new_user && new_user.error_type === 'rate_limit') {
-    const time = new_user.extras.wait_seconds
-    const t = time * 1000
-    waitSomeTime(t)
-    new_user = await createForumUser() // ?
-  } else {
-    console.log(new_user) 
-  }
-
-  let id = response.user_id
-  let du = await deactivateForumUser(id)
-
-  if ('error_type' in du && du.error_type === 'rate_limit') {
-    const time = du.extras.wait_seconds
-    const t = time * 1000
-    waitSomeTime(t)
-    new_user = await deactivateForumUser() // ?
-  } else {
-    console.log(du) 
-  }
-
-  let id = response.user_id
-  let ru = await reactivateForumUser(id)
-
-  if ('error_type' in ru && ru.error_type === 'rate_limit') {
-    const time = ru.extras.wait_seconds
-    const t = time * 1000
-    waitSomeTime(t)
-    new_user = await reactivateForumUser() // ?
-  } else {
-    console.log(ru) 
-  }
-
-})
