@@ -12,8 +12,9 @@ public/site/accounts/index.html
 public/vendor/
 
 public/content/
-
 public/assets/
+
+forum-user-generator/output
 
 #---
 node_modules
