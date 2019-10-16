@@ -99,7 +99,6 @@ function view (state, emit) {
           <div class="p2">
             <h2 class="ft-mn fs2">${item.content.title}</h2>
             <div class="x xdr">
-              <p class="pr1">${item.content.video_length}</p>
               ${attachment()}
             </div>
           </div>

@@ -17,7 +17,7 @@ tabs:
             headline: Published
             status: listed
 
-      - width: 1/4
+      - width: 1/3
         fields:
           status:
             label: Status
@@ -27,22 +27,22 @@ tabs:
               done: done
               current: current
               upcoming: upcoming
-      - width: 1/4
+      - width: 1/3
         fields:
           tutor:
             label: Tutor
             type:  text
-      - width: 1/4
+      - width: 1/3
         fields:
           pitch_url:
             label: Video Pitch
             type: url
-      - width: 1/4
+
+      - width: 1/3
         fields:
           cat_id:
             label: Category ID (Discourse)
             type: text
-
       - width: 1/3
         fields:
           opening:
@@ -52,11 +52,6 @@ tabs:
         fields:
           liveclass:
             label: Live Classroom
-            type:  text
-      - width: 1/3
-        fields:
-          duration:
-            label: Duration
             type:  text
 
       - width: 1/2
