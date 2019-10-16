@@ -96,13 +96,13 @@ class forum extends nc {
 
     function blob (state, emit) {
       if (state.disc_tab === true) {
-        return discussion.render(state, emit)
+        return discussion.render(state, emit, page, module)
       }
       if (state.group_tab === true) {
-        return group_list.render(state, emit)
+        return group_list.render(state, emit, page, module)
       }
       if (state.read_tab === true) {
-        return reading.render(state, emit)
+        return reading.render(state, emit, page, module)
       }
     }
   }
