@@ -170,21 +170,34 @@ function clickhandle (state, emitter) {
 
   const videos = data.children.course.children
   ov(videos).map((module) => {
-    state.videos.push(false)
+    const status = {
+      ready: false,
+      play: false
+    }
+    state.videos.push(status)
+
     state.videos_fullscreen.push(false)
   })
 
   emitter.on('video-toggle', (i, vplayer) => {
-    if (state.videos[i] !== true) {
+    if (state.videos[i].play !== true) {
+      vplayer.ready().then(() => {
+        state.videos[i].ready = true
+        emitter.emit('render')
+      }).catch((error) => {
+        console.log(error)
+      })
+
       vplayer.play().then(() => {
-        state.videos[i] = true
+        state.videos[i].play = true
+        state.videos[i].ready = false
         emitter.emit('render')
       }).catch((error) => {
         console.log(error)
       })
     } else {
       vplayer.pause().then(() => {
-        state.videos[i] = false
+        state.videos[i].play = false
         emitter.emit('render')
       }).catch((error) => {
         console.log(error)

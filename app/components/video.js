@@ -16,17 +16,29 @@ class video extends nc {
     this.state = state
     this.emit = emit
     this.url = url
-    this.i = i
+    this.i = i.replace(/_(.*)/, '')
 
     const url_split = url.split('://')
     const vcode = url_split[1].split('/')
     const embed = url_split[0] + '://player.' + vcode[0] + '/video/' + vcode[1]
 
+    function video_status (status) {
+      if (status.ready === true) {
+        return 'Loading'
+      } else if (status.play === true) {
+        return 'Pause'
+      } else {
+        return 'Play'
+      }
+    }
+
     return html`
       <div class="iframe-container psr ${this.state.videos_fullscreen[i] ? ' c12 bg-bk' : ''}">
         <iframe src="${embed}?title=0&byline=0&portrait=0&api=1&background=0&controls=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay; fullscreen"></iframe> 
-        <button onclick=${this.playerToggle(this.i, this.vplayer, this.emit)} class="controls z5 psa t0-75 l0-75 curp fc-wh txsh-t">${this.state.videos[i] ? 'Pause' : 'Play'}</button>
-        <button onclick=${this.fullscreenToggle(this.i, this.vplayer, this.emit)} class="controls z5 psa${this.state.videos_fullscreen[i] ? ' t0-75' : ' b0-75'} r0-75 curp fc-wh txsh-t">
+        <button onclick=${this.playerToggle(this.i, this.vplayer, this.emit)} class="controls z5 psa t0-75 l0-75 curp fc-wh txsh-t">
+         ${video_status(this.state.videos[this.i])}
+        </button>
+        <button onclick=${this.fullscreenToggle(this.i, this.vplayer, this.emit)} class="controls z5 psa${this.state.videos_fullscreen[this.i] ? ' t0-75' : ' b0-75'} r0-75 curp fc-wh txsh-t">
           <svg width="26" height="25">
             <defs>
               <filter x="-37.5%" y="-36.1%" width="170%" height="177.8%" filterUnits="objectBoundingBox" id="a">
