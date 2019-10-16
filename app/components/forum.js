@@ -32,9 +32,14 @@ class forum extends nc {
     }
 
     const page = ov(state.content).filter(page => page.uid === 'course')[0]
+    let module
+    if (state.route !== '/') {
+      module = state.page
+    } else {
+      module = ov(page.children).filter(module => module.content.status === 'current')[0]
+    }
 
     if (state.components.discussion !== undefined && state.components.discussion === null) {
-
       return html`
         <div class="psr c12 pt1 pr1 pb1 pl1 copy">
           <div class="c12 x xdr xjb pb2">
