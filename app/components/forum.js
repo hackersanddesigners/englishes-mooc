@@ -1,5 +1,9 @@
 const nc = require('nanocomponent')
 const html = require('choo/html')
+const raw = require('choo/html/raw')
+const Markdown = require('markdown-it')
+const md = require('markdown-it')()
+const ov = require('object-values')
 const Discussion = require('./discussion')
 const discussion = new Discussion()
 const Reading = require('./reading')
@@ -28,6 +32,7 @@ class forum extends nc {
     }
 
     if (state.components.discussion !== undefined && state.components.discussion === null) {
+      const page = ov(state.content).filter(page => page.uid === 'course')[0]
       return html`
         <div class="psr c12 pt1 pr1 pb1 pl1 copy">
           <div class="c12 x xdr xjb pb2">
@@ -35,7 +40,7 @@ class forum extends nc {
              <button class="curp" onclick=${logout(emit)}>Log out</button>
           </div>
           <div class="x xdr xjb">
-            <p>Your login works. From 22 October at 08.00 am CET you can access Module 1 and the discussion forum.</p>
+            ${raw(md.render(page.content.no_module))}
           </div>
         </div>
       `

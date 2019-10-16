@@ -16,6 +16,11 @@ tabs:
             extends: sections/course
             headline: Published
             status: listed
+      - width: 1/1
+        fields:
+          no_module:
+            label: Message when all Modules are closed
+            type: textarea
   forum:
     label: Forum
     columns:
