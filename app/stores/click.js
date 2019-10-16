@@ -76,7 +76,11 @@ function clickhandle (state, emitter) {
 
     // redirect to current module page
     const page = ov(state.content).filter(page => page.content.status === 'current')[0]
-    emitter.emit('pushState', page.url)
+    if (page !== undefined) {
+      emitter.emit('pushState', page.url)
+    } else {
+      console.log('click log-in doin wat?')
+    }
 
     emitter.emit('render')
   })

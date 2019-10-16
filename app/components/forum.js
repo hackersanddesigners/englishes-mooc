@@ -14,36 +14,57 @@ class forum extends nc {
     this.data = { }
   }
 
-  createElement (state, data, emit) {
+  createElement (state, emit, data) {
     this.state = state
     this.emit = emit
     this.data = data
 
+    console.log(data)
+
     const user = {
-      id: data.id,
-      username: data.username,
-      name: data.name
+      id: data.user.id,
+      username: data.user.username,
+      name: data.user.name
     }
 
-    return html`
-      <div class="psr c12 pt1 pr1 pb1 pl1 copy">
-        <div class="z3 psf t0 r0 c6 br-bldb pt1 pr1 pb1 pl1 copy bgc-gy">
+    if (state.components.discussion !== undefined && state.components.discussion === null) {
+      return html`
+        <div class="psr c12 pt1 pr1 pb1 pl1 copy">
           <div class="c12 x xdr xjb pb2">
-            <button class="fs1 tdu">${user.name}</button> 
-            <button class="curp" onclick=${logout(emit)}>Log out</button>
+             <button class="fs1 tdu">${user.username}</button> 
+             <button class="curp" onclick=${logout(emit)}>Log out</button>
           </div>
-
           <div class="x xdr xjb">
-            <button class="${state.disc_tab ? 'tdu ' : ''}ft-mn curp" onclick=${disc_tab(emit)}>Discussion</button>
-            <button class="${state.read_tab ? 'tdu ' : ''}ft-mn curp" onclick=${read_tab(emit)}>More Material</button>
+            <p>Your login works. From 22 October at 08.00 am CET you can access Module 1 and the discussion forum.</p>
           </div>
         </div>
+      `
+    } else if (state.components.discussion !== undefined) {
+      return html`
+        <div class="psr c12 pt1 pr1 pb1 pl1 copy">
+          <div class="z3 psf t0 r0 c6 br-bldb pt1 pr1 pb1 pl1 copy bgc-gy">
+            <div class="c12 x xdr xjb pb2">
+              <button class="fs1 tdu">${user.username}</button> 
+              <button class="curp" onclick=${logout(emit)}>Log out</button>
+            </div>
 
-        <div class="posts pt5 pb15">
-         ${blob(state, emit)}
+            <div class="x xdr xjb">
+              <button class="${state.disc_tab ? 'tdu ' : ''}ft-mn curp" onclick=${disc_tab(emit)}>Discussion</button>
+              <button class="${state.read_tab ? 'tdu ' : ''}ft-mn curp" onclick=${read_tab(emit)}>More Material</button>
+            </div>
+          </div>
+
+          <div class="posts pt5 pb15">
+           ${blob(state, emit)}
+          </div>
         </div>
-      </div>
-    `
+      `
+    } else {
+      return html`
+        <div class="psr c12 pt1 pr1 pb1 pl1 copy">
+        </div>
+      `
+    }
 
     function logout (emit) {
       return function () { emit('log-out') }
