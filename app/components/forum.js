@@ -74,7 +74,9 @@ class forum extends nc {
       `
     } else {
       return html`
-        <div class="psr c12 pt1 pr1 pb1 pl1 copy"></div>
+        <div class="psr c12 pt1 pr1 pb1 pl1 copy">
+          <p>loading...</p>
+        </div>
       `
     }
 

@@ -31,10 +31,8 @@ class reading extends nc {
     `
 
     function reading_links (data) {
-      // replace malformatted `href`,
-      // eg <a href="<filename>"> by
-      // matching <filename> to page.files[i].filename
-      // and replace old href w/ new, correct one
+      // replace partial file-urls added by kirby drag'n'drop md,
+      // w/ absolute urls
 
       const md_file = require('markdown-it')({
         replaceLink: function (link, env) {
