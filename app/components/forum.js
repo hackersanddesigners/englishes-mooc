@@ -2,10 +2,12 @@ const nc = require('nanocomponent')
 const html = require('choo/html')
 const raw = require('choo/html/raw')
 const Markdown = require('markdown-it')
-const md = require('markdown-it')()
+const md = new Markdown()
 const ov = require('object-values')
 const Discussion = require('./discussion')
 const discussion = new Discussion()
+const GroupList = require('./group-list')
+const group_list = new GroupList()
 const Reading = require('./reading')
 const reading = new Reading()
 
@@ -55,6 +57,7 @@ class forum extends nc {
 
             <div class="x xdr xjb">
               <button class="${state.disc_tab ? 'tdu ' : ''}ft-mn curp" onclick=${disc_tab(emit)}>Discussion</button>
+              <button class="${state.group_tab ? 'tdu ' : ''}ft-mn curp" onclick=${group_tab(emit)}>Group</button>
               <button class="${state.read_tab ? 'tdu ' : ''}ft-mn curp" onclick=${read_tab(emit)}>More Material</button>
             </div>
           </div>
@@ -78,6 +81,10 @@ class forum extends nc {
       return function () { emit('disc-tab') }
     }
 
+    function group_tab (emit) {
+      return function () { emit('group-tab') }
+    }
+
     function read_tab (emit) {
       return function () { emit('read-tab') }
     }
@@ -85,6 +92,9 @@ class forum extends nc {
     function blob (state, emit) {
       if (state.disc_tab === true) {
         return discussion.render(state, emit)
+      }
+      if (state.group_tab === true) {
+        return group_list.render(state, emit)
       }
       if (state.read_tab === true) {
         return reading.render(state, emit)

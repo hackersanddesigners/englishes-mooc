@@ -8,6 +8,7 @@ function clickhandle (state, emitter) {
   state.sidebar = false
   state.login = false
   state.disc_tab = true
+  state.group_tab = false
   state.read_tab = false
   state.modules = []
   state.nav_toggle = true
@@ -48,12 +49,21 @@ function clickhandle (state, emitter) {
 
   emitter.on('disc-tab', () => {
     state.disc_tab = true
+    state.group_tab = false
+    state.read_tab = false
+    emitter.emit('render')
+  })
+
+  emitter.on('group-tab', () => {
+    state.group_tab = true
+    state.disc_tab = false
     state.read_tab = false
     emitter.emit('render')
   })
 
   emitter.on('read-tab', () => {
     state.read_tab = true
+    state.group_tab = false
     state.disc_tab = false
     emitter.emit('render')
   })
