@@ -10,7 +10,7 @@ function redirect (state, emitter) {
           emitter.emit('render')
         }
       } else if (state.route !== '/') {
-        if (localStorage.getItem('user_data') !== null && localStorage.getItem('user_login') === 'true') {
+        if (localStorage.getItem('user_data') === null && localStorage.getItem('user_login') === 'true') {
           emitter.emit('pushState', '/')
           emitter.emit('render')
         }
@@ -27,7 +27,7 @@ function redirect (state, emitter) {
         emitter.emit('render')
       }
     } else if (state.route !== '/') {
-      if (localStorage.getItem('user_data') === null && localStorage.getItem('user_login') === 'false') {
+      if (localStorage.getItem('user_data') === null && localStorage.getItem('user_login') === 'true') {
         emitter.emit('pushState', '/')
         emitter.emit('render')
       }
