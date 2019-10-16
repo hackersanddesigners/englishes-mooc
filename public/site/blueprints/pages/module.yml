@@ -59,14 +59,13 @@ tabs:
             label: Duration
             type:  text
 
-      - width: 2/3
+      - width: 1/2
         fields:
           progress_cover:
             label: Progress bar cover
             type: files
             query: page.images
             layout: list
-
       - width: 1/2
         sections:
           file_upload:
@@ -79,17 +78,14 @@ tabs:
           text:
             label: Text
             type:  textarea  
-      - width: 1/3
-        sections:
-          files:
-            type: files
-            layout: list
+            size: medium
 
       - width: 1/2
         fields:
           reading:
             label: More Material
             type:  textarea
+            size: medium
 
 
       - width: 1/2
