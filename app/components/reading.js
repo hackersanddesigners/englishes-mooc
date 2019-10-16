@@ -25,11 +25,31 @@ class reading extends nc {
           ${raw(md.render(course.content.material))}
         </div>
         <div class="pt1">
-        ${raw(md.render(module.content.reading))}
+        ${reading_links(module.content.reading)}
         </div>
       </div>
     `
-  }
+
+    function reading_links (data) {
+      // replace malformatted `href`,
+      // eg <a href="<filename>"> by
+      // matching <filename> to page.files[i].filename
+      // and replace old href w/ new, correct one
+
+      const md_file = require('markdown-it')({
+        replaceLink: function (link, env) {
+          const fn = ov(module.files).filter(file => file.filename === link)[0]
+          if (fn !== undefined) {
+            return fn.url
+          }
+        }
+      }).use(require('markdown-it-replace-link'))
+
+      return html`
+        ${raw(md_file.render(data))}
+    `
+    }
+  } 
 
   update () {
     return true

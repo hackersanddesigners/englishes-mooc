@@ -41,6 +41,7 @@
     "markdown-it": "^8.4.2",
     "markdown-it-container": "^2.0.0",
     "markdown-it-implicit-figures": "^0.9.0",
+    "markdown-it-replace-link": "^1.0.1",
     "megamark": "^3.3.0",
     "object-keys": "^1.1.1",
     "object-values": "^2.0.0",
