@@ -55,7 +55,7 @@ function view (state, emit) {
             ${sidebar(state, emit)}
           </section>
           <div class="x xw xdr xjb mb1 oh">
-            ${modules()}
+            ${modules(state, emit)}
           </div>
         </section>
 
@@ -70,11 +70,11 @@ function view (state, emit) {
     </body>
   `
 
-  function modules () {
+  function modules (state, emit) {
     const modules = data.children.course.children
     return ov(modules).map(function (module, i) {
       // `vi`: build custom index-naming for the video component
-      const vi = i + 'mp'
+      const vi = i + '_mp'
       const video = state.cache(Video, vi)
       const txt = md.render(module.content.text)
       return html`

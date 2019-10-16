@@ -22,10 +22,10 @@ class video extends nc {
     const vcode = url_split[1].split('/')
     const embed = url_split[0] + '://player.' + vcode[0] + '/video/' + vcode[1]
 
-    function video_status (status) {
-      if (status.ready === true) {
+    function video_status (video_state) {
+      if (video_state.ready === true) {
         return 'Loading'
-      } else if (status.play === true) {
+      } else if (video_state.play === true) {
         return 'Pause'
       } else {
         return 'Play'
