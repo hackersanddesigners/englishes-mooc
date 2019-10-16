@@ -51,7 +51,7 @@ function forum (state, emitter) {
     }
 
     // if all modules are close, do not run fetch_topic
-    // and set `state.components.disc_posts = []`
+    // and set `state.components.discussion = []`
     if (cat_id !== null) {
       return fetch_topic(state, emitter, page, cat_id)
     } else {

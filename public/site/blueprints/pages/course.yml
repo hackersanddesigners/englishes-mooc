@@ -29,8 +29,8 @@ tabs:
           discussion:
             label: Discussion
             type: textarea
-          assignment:
-            label: Assignment
+          group_list:
+            label: Group List
             type: textarea
           material:
             label: More Material
