@@ -158,7 +158,7 @@ class texteditor extends nc {
                 disc_tab: state.disc_tab,
                 disc_id: state.components.discussion.id,
                 raw: msg,
-                username: user.username,
+                username: user.username
               }
 
               xhr_call.postUpload(post_opts, (err, resp, body) => {
