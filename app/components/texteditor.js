@@ -7,6 +7,7 @@ const mm = require('megamark')
 const dm = require('domador')
 const xhr_call = require('./xhr-call')
 const api = require('../stores/api.json')
+const xhr = require('xhr')
 
 class texteditor extends nc {
   constructor (state, emit) {
@@ -104,6 +105,7 @@ class texteditor extends nc {
 
       let formData = new FormData()
       formData.append('file', file)
+      formData.append('template', 'assignment')
 
       const email = ok(api)
       const password = ov(api)[0]
@@ -121,20 +123,63 @@ class texteditor extends nc {
       box.classList.remove('dn')
       box.firstChild.innerHTML = 'Uploading...'
 
-      const file_opts = {
-        auth: auth,
-        page_id: page.id.replace('/', '+'),
-        form_data: formData
+      const user_s = JSON.parse(localStorage.getItem('user_data')).user
+      const user = {
+        username: user_s.username
       }
 
-      xhr_call.upload_file(file_opts, (err, resp, body) => {
-        if (err) throw err
-        // console.log(resp)
-        const bd = JSON.parse(body)
+      let file_opts = {
+        auth: auth,
+        page_id: page.id.replace('/', '+'),
+        form_data: formData,
+        user: JSON.stringify(user)
+      }
 
-        if (bd.status === 'error') {
+      console.log(file_opts)
+
+      xhr_call.fileUpload(file_opts, (err, resp, body) => {
+        if (err) throw err
+        const bd = JSON.parse(body)
+        file_opts['filename'] = bd.data.filename
+
+        if (resp.statusCode !== 200) {
           box.firstChild.innerHTML = bd.message + '. Try again!'
         } else {
+          xhr_call.fileTxtUpload(file_opts, (err, resp, body) => {
+            if (err) throw err
+
+            if (resp.statusCode !== 200) {
+              console.log('error: file-txt upload')
+            } else {
+              const msg = `[${bd.data.filename}](${bd.data.url})`
+
+              const post_opts = {
+                title: '',
+                disc_tab: state.disc_tab,
+                disc_id: state.components.discussion.id,
+                raw: msg,
+                username: user.username,
+              }
+
+              xhr_call.postUpload(post_opts, (err, resp, body) => {
+                if (err) throw err
+
+                if (body.errors) {
+                  const box = form.querySelector('.error-box')
+                  box.classList.remove('dn')
+                  box.classList.add('dib')
+
+                  box.firstChild.innerHTML = body.errors[0]
+                } else {
+                  emit('msg-posted')
+                  emit('loadmore')
+                  emit('post-pag')
+                }
+              })
+
+              console.log('file text uploaded')
+            }
+          })
           box.firstChild.innerHTML = 'File uploaded!'
         }
       })
@@ -202,8 +247,8 @@ class texteditor extends nc {
             send.value = 'posted'
 
             emit('msg-posted')
-            // emit('loadmore')
-            // emit('post-pag')
+            emit('loadmore')
+            emit('post-pag')
           }
         })
       }

@@ -63,12 +63,14 @@ tabs:
             layout: list
       - width: 1/2
         sections:
-          file_upload:
-            headline: File upload
+          cover_upload:
+            headline: References
             type: files
+            query: page.images.filterBy('template', 'cover')
             layout: list
+            template: cover
 
-      - width: 1/2
+      - width: 1/1
         fields:
           text:
             label: Text
@@ -81,6 +83,14 @@ tabs:
             label: More Material
             type:  textarea
             size: medium
+      - width: 1/2
+        sections:
+          file_upload:
+            headline: References
+            type: files
+            query: page.files.filterBy('template', 'references')
+            layout: list
+            template: references
 
 
       - width: 1/2
@@ -100,4 +110,6 @@ tabs:
       files:
         headline: Assignment
         type: files
+        query: page.files.filterBy('template', 'assignment')
         layout: list
+        template: assignment

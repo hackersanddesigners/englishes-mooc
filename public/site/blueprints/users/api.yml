@@ -1,48 +1,12 @@
 title: API
-# permissions:
-#   access:
-#     panel: true
-#     site: true
-#     settings: false
-#   files:
-#     *: true
-#   site:
-#     update: false
-#   pages:
-#     *: false
-#   user:
-#     *: false
-#   users:
-#     *: false
 permissions:
   access:
     panel: true
-    users: false
-    site: false
+    site: true
+    settings: false
   site:
     update: false
-  pages:
-    create: false
-    changeTemplate: false
-    changeTitle: false
-    changeURL: false
-    hide: false
-    sort: false
-    update: false
-    delete: false
-  users:
-    create: false
-    createAvatar: false
-    deleteAvatar: false
-    changeName: false
-    changeEmail: false
-    changePassword: false
-    changeRole: false
-    delete: false
-    update: false
-  files:
-    create: false
-    changeName: false
-    delete: false
-    replace: false
-    update: false
+  files: true
+  pages: true
+  user: false
+  users: false
