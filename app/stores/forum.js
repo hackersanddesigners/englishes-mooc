@@ -7,7 +7,7 @@ function forum (state, emitter) {
     let cat_id
 
     let user_data = JSON.parse(localStorage.getItem('user_data'))
-    if (user_data !== null) {
+   if (user_data !== null) {
       if (state.href !== '/hkw' && user_data.user.username !== 'vu') {
         if (state.route !== '/') {
           page = ov(state.content).filter(page => page.uri === state.route)[0]
@@ -22,7 +22,7 @@ function forum (state, emitter) {
       }
     }
 
-    // if all modules are close, do not run fetch_topic
+    // if all modules are closed, do not run fetch_topic
     // and set `state.components.disc_posts = []`
     if (cat_id !== null) {
       return fetch_topic(state, emitter, page, cat_id)
@@ -50,7 +50,7 @@ function forum (state, emitter) {
       cat_id = page !== undefined ? page.content.cat_id : null
     }
 
-    // if all modules are close, do not run fetch_topic
+    // if all modules are closed, do not run fetch_topic
     // and set `state.components.discussion = []`
     if (cat_id !== null) {
       return fetch_topic(state, emitter, page, cat_id)

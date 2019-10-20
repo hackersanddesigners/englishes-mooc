@@ -1,0 +1,7 @@
+title: Assignment
+
+fields:
+  username:
+    label: Username
+    type: text
+    width: 1/2
