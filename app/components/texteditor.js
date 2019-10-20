@@ -102,6 +102,7 @@ class texteditor extends nc {
       e.preventDefault()
       const form = e.currentTarget
       const file = form.files[0]
+      const send = form.parentNode.parentNode.parentNode.querySelector('.send')
 
       let formData = new FormData()
       formData.append('file', file)
@@ -135,8 +136,6 @@ class texteditor extends nc {
         user: JSON.stringify(user)
       }
 
-      console.log(file_opts)
-
       xhr_call.fileUpload(file_opts, (err, resp, body) => {
         if (err) throw err
         const bd = JSON.parse(body)
@@ -158,14 +157,16 @@ class texteditor extends nc {
                 disc_tab: state.disc_tab,
                 disc_id: state.components.discussion.id,
                 raw: msg,
-                username: user.username
+                username: user.username,
+                send: send
               }
 
               xhr_call.postUpload(post_opts, (err, resp, body) => {
                 if (err) throw err
 
+                console.log(body)
+
                 if (body.errors) {
-                  const box = form.querySelector('.error-box')
                   box.classList.remove('dn')
                   box.classList.add('dib')
 
@@ -221,6 +222,8 @@ class texteditor extends nc {
         username: user.username,
         send: send
       }
+
+      console.log('POST_OPTS', post_opts)
 
       if (body.website !== '') {
         bot.classList.remove('dn')
