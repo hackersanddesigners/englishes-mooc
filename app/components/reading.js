@@ -36,9 +36,16 @@ class reading extends nc {
 
       const md_file = require('markdown-it')({
         replaceLink: function (link, env) {
-          const fn = ov(module.files).filter(file => file.filename === link)[0]
-          if (fn !== undefined) {
-            return fn.url
+          if (link.includes('http') === false) {
+            console.log(link)
+            const fn = ov(module.files).filter(file => file.filename === link)
+            console.log(fn, fn.length)
+
+            if (fn.length > 0) {
+              return fn[0].url
+            }
+          } else {
+            return link
           }
         }
       }).use(require('markdown-it-replace-link'))
