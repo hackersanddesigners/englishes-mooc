@@ -139,18 +139,19 @@ class texteditor extends nc {
       xhr_call.fileUpload(file_opts, (err, resp, body) => {
         if (err) throw err
         const bd = JSON.parse(body)
-        file_opts['filename'] = bd.data.filename
 
-        if (resp.statusCode !== 200) {
-          box.firstChild.innerHTML = bd.message + '. Try again!'
+        if (bd.status === 'error') {
+          box.firstChild.innerHTML = bd.message '.'
         } else {
+          file_opts['filename'] = bd.data.filename
           xhr_call.fileTxtUpload(file_opts, (err, resp, body) => {
             if (err) throw err
 
             if (resp.statusCode !== 200) {
               console.log('error: file-txt upload')
             } else {
-              const msg = `[${bd.data.filename}](${bd.data.url})`
+              let msg = `[${bd.data.filename}](${bd.data.url})`
+              // msg = encodeURI(msg)
 
               const post_opts = {
                 title: '',
