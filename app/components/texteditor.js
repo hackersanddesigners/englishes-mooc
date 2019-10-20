@@ -141,7 +141,7 @@ class texteditor extends nc {
         const bd = JSON.parse(body)
 
         if (bd.status === 'error') {
-          box.firstChild.innerHTML = bd.message '.'
+          box.firstChild.innerHTML = bd.message + '.'
         } else {
           file_opts['filename'] = bd.data.filename
           xhr_call.fileTxtUpload(file_opts, (err, resp, body) => {
