@@ -201,11 +201,16 @@ class texteditor extends nc {
 
       const txe = state.components.txe
       let msg
-      if (txe.parseMarkdown(txe.value()) !== '') {
-        msg = txe.parseMarkdown(txe.value())
-      } else {
-        msg = document.querySelector('textarea').value
-      }
+      // if (txe.parseMarkdown(txe.value()) !== '') {
+      //   msg = txe.parseMarkdown(txe.value())
+      // } else {
+      //   msg = document.querySelector('textarea').value
+      // }
+
+      // did discourse change APIs for this?
+      // or is it bc im POSTing the msg through PHP now?
+      // anyway i can send directly md and need to encode (makes sense)
+      msg = encodeURI(document.querySelector('textarea').value)
 
       const user_s = JSON.parse(localStorage.getItem('user_data')).user
       const user = {
