@@ -63,14 +63,21 @@ Kirby::plugin('mooc/forum', [
         $data = r::data();
 
         $usr_name = $data['username'];
-        $usr_pw = $data['pw'];
-        $usr_key = page('forum-users')->users()->toStructure()->findBy('user', $usr_name)->key();
+        $usr_pw = $data['pw']; 
 
-        $url_root = 'https://forum.englishes-mooc.org/';
-        $url = $url_root . 'session?api_key=' . $usr_key . '&api_username=' . $usr_name . '&login=' . $usr_name . '&password=' . $usr_pw;
+        $usr = page('forum-users')->users()->toStructure()->findBy('user', $usr_name);
         $result = [];
-        $request = Remote::post($url);
-        $result = $request->json();
+
+        if ($usr !== null) {
+          $usr_key = $usr->key();
+          $url_root = 'https://forum.englishes-mooc.org/';
+          $url = $url_root . 'session?api_key=' . $usr_key . '&api_username=' . $usr_name . '&login=' . $usr_name . '&password=' . $usr_pw;
+
+          $request = Remote::post($url);
+          $result = $request->json();
+        } else {
+          $result = ['error' => 'Check your username and / or password'];
+        }
 
         return $result;
       }

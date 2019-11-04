@@ -3,7 +3,7 @@ const ov = require('object-values')
 const xhr_call = require('../components/xhr-call.js')
 
 function post_pag (state, emitter) {
-  if (JSON.parse(localStorage.getItem('user_data')) !== null) {
+  if (localStorage.getItem('user_data') !== null && typeof localStorage.getItem('user_data') !== 'string') {
     const user_s = JSON.parse(localStorage.getItem('user_data')).user
     const user = {
       id: user_s.id,
