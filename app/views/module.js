@@ -99,7 +99,6 @@ function view (state, emit) {
           <div class="p2">
             <h2 class="ft-mn fs2">${item.content.title}</h2>
             <div class="x xdr">
-              ${attachment()}
             </div>
           </div>
 
@@ -107,14 +106,18 @@ function view (state, emit) {
           ${item.content.video_url !== '' ? video.render(state, emit, item.content.video_url, i) : ''}
           </div>
 
-          ${raw(md.render(item.content.text))}
+          ${attachment()}
+
+          <div class="pt2">
+            ${raw(md.render(item.content.text))}
+          </div>
         </div>
       `
 
         function attachment () {
-          if (item.files.length > 0 && item.content.attachment !== undefined) {
+          if (ov(item.files).length > 0 && item.files[item.content.attachment] !== undefined) {
             return html`
-            <a href="${item.files[item.content.attachment].url}" target="_blank" rel="noopener noreferrer">${item.content.attachment_lab || 'Transcript'}</a>
+            <a href="${item.files[item.content.attachment].url}" target="_blank" rel="noopener noreferrer">${item.content.attachment_lab || 'Video Transcript'}</a>
           `
           }
         }
