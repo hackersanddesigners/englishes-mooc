@@ -50,11 +50,15 @@ class reading extends nc {
         }
       }).use(require('markdown-it-replace-link'))
 
-      return html`
-        ${raw(md_file.render(data))}
-    `
+      console.log('DATA', data)
+
+      if (data !== '') {
+        return html`
+          <div>${raw(md_file.render(data))}</div>
+        `
+      }
     }
-  } 
+  }
 
   update () {
     return true
