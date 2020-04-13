@@ -44,7 +44,7 @@ function view (state, emit) {
           os x md-vh100 z3 xdl bgc-wh">
           ${status(state, emit)}
         </section>
-        <button class="psf t0-5${localStorage.getItem('user_login') === 'false' || localStorage.getItem('user_login') === null ? ' dn ' : ' '}${state.status_toggle ? ' l16 ' : ' l0-75 '}curp z4" onclick=${status_toggle(emit)}>${state.status_toggle ? '⇇ ' : '⇉'}</button>
+        <button class="psf t0-5 ft-sr fs1-5 fc-wh txsh-c${localStorage.getItem('user_login') === 'false' || localStorage.getItem('user_login') === null ? ' dn ' : ' '}${state.status_toggle ? ' l16 ' : ' l0-75 '}curp z4" onclick=${status_toggle(emit)}>${state.status_toggle ? raw('&#8592;') : raw('&#8594;')}</button>
 
         <section class="
           ${state.status_toggle ? 'md-w-35 ' : ''}
