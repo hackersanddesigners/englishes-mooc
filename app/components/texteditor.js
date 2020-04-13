@@ -124,10 +124,7 @@ class texteditor extends nc {
       box.classList.remove('dn')
       box.firstChild.innerHTML = 'Uploading...'
 
-      const user_s = JSON.parse(localStorage.getItem('user_data')).user
-      const user = {
-        username: user_s.username
-      }
+      const users = JSON.parse(localStorage.getItem('user_data'))
 
       let file_opts = {
         auth: auth,
@@ -212,12 +209,7 @@ class texteditor extends nc {
       // anyway i can send directly md and need to encode (makes sense)
       msg = encodeURI(document.querySelector('textarea').value)
 
-      const user_s = JSON.parse(localStorage.getItem('user_data')).user
-      const user = {
-        id: user_s.id,
-        username: user_s.username,
-        name: user_s.name
-      }
+      const user = JSON.parse(localStorage.getItem('user_data'))
 
       const post_opts = {
         title: '',

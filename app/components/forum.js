@@ -20,16 +20,10 @@ class forum extends nc {
     this.data = { }
   }
 
-  createElement (state, emit, data) {
+  createElement (state, emit, user) {
     this.state = state
     this.emit = emit
-    this.data = data
-
-    const user = {
-      id: data.user.id,
-      username: data.user.username,
-      name: data.user.name
-    }
+    this.user = user
 
     const page = ov(state.content).filter(page => page.uid === 'course')[0]
     let module
@@ -76,6 +70,7 @@ class forum extends nc {
       return html`
         <div class="psr c12 pt1 pr1 pb1 pl1 copy">
           <p>loading...</p>
+          <button class="curp" onclick=${logout(emit)}>Log out</button>
         </div>
       `
     }

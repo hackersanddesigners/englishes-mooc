@@ -23,12 +23,7 @@ class discussion extends nc {
     this.emit = emit
 
     const course = ov(state.content).filter(page => page.uid === 'course')[0]
-    const user_s = JSON.parse(localStorage.getItem('user_data')).user
-    const user = {
-      id: user_s.id,
-      username: user_s.username,
-      name: user_s.name
-    }
+    const user = JSON.parse(localStorage.getItem('user_data'))
 
     return html`
       <div class="psr c12 pt1 pb1 copy">

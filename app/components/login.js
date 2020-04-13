@@ -83,7 +83,7 @@ function login (state, emit) {
     const form = document.querySelector('#login')
     form.reset()
 
-    localStorage.clear()
+    localStorage.removeItem('user_data')
 
     const box = form.querySelector('.error-box')
     box.classList.remove('dib')
@@ -126,7 +126,6 @@ function login (state, emit) {
     } else {
       xhr_call.login(opts, (err, resp, body) => {
         if (err) throw err
-        console.log(body)
 
         if (body.error || body.errors) {
           const box = form.querySelector('.error-box')
@@ -142,14 +141,27 @@ function login (state, emit) {
 
           send.classList.add('dn')
         } else {
-          localStorage.setItem('user_data', JSON.stringify(body))
+          // save only what's needed bro:
+          const user = {
+            id: body.user.id,
+            username: body.user.username,
+            name: body.user.name
+          }
 
-          state.components.login = body
-          state.components.user_id = body.user.id
+          // check if old-format `user_data`
+          let user_data = JSON.parse(localStorage.getItem('user_data'))
+          if (user_data !== null && 'user_badges' in user_data) {
+           localStorage.removeItem('user_data') 
+          } else {
+            localStorage.setItem('user_data', JSON.stringify(user))
 
-          send.value = "You're in"
+            state.components.login = user
+            state.components.user_id = body.user.id
 
-          emit('log-in')
+            send.value = "You're in"
+
+            emit('log-in')
+          }
         }
       })
     }

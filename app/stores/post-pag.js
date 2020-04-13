@@ -3,13 +3,8 @@ const ov = require('object-values')
 const xhr_call = require('../components/xhr-call.js')
 
 function post_pag (state, emitter) {
-  if (localStorage.getItem('user_data') !== null && typeof localStorage.getItem('user_data') !== 'string') {
-    const user_s = JSON.parse(localStorage.getItem('user_data')).user
-    const user = {
-      id: user_s.id,
-      username: user_s.username,
-      name: user_s.name
-    }
+  if (localStorage.getItem('user_data') !== null && typeof JSON.parse(localStorage.getItem('user_data')) !== 'string') {
+    const user = JSON.parse(localStorage.getItem('user_data'))
 
     emitter.on('post-pag', (post_id, topic_n) => {
       let page
@@ -66,7 +61,7 @@ function post_pag (state, emitter) {
       emitter.emit('render')
     })
   } else {
-    console.log('no localStorage')
+    console.log('xx no localStorage')
   }
 }
 

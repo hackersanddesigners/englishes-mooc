@@ -96,7 +96,7 @@ function clickhandle (state, emitter) {
   })
 
   emitter.on('log-out', () => {
-    const user_s = JSON.parse(localStorage.getItem('user_data')).user
+    const user = JSON.parse(localStorage.getItem('user_data'))
 
     localStorage.setItem('user_login', 'false')
     localStorage.removeItem('user_data')
@@ -106,17 +106,13 @@ function clickhandle (state, emitter) {
     state.components.login = undefined
 
     const opts = {
-      user_id: user_s.id
+      user_id: user.id
     }
-
-    console.log(opts)
 
     emitter.emit('render')
 
     xhr_call.logout(opts, (err, resp, body) => {
       if (err) throw err
-      console.log(body)
-
       localStorage.setItem('user_login', 'false')
       localStorage.removeItem('user_data')
       state.status_toggle = false
@@ -129,16 +125,14 @@ function clickhandle (state, emitter) {
   })
 
   emitter.on('delete_post', (id) => {
-    const user_s = JSON.parse(localStorage.getItem('user_data')).user
+    const user = JSON.parse(localStorage.getItem('user_data'))
     const opts = {
       id: id,
-      user: user_s.username
+      user: user.username
     }
 
     xhr_call.postDelete(opts, (err, resp, body) => {
       if (err) throw err
-      console.log('MSG DELETED!!')
-      console.log(body)
       emitter.emit('render')
     })
   })
@@ -166,17 +160,6 @@ function clickhandle (state, emitter) {
 
     fetch_topic(state, emitter, page, cat_id)
     emitter.emit('render')
-  })
-
-  const videos = data.children.course.children
-  ov(videos).map((module) => {
-    const status = {
-      ready: false,
-      play: false
-    }
-    state.videos.push(status)
-
-    state.videos_fullscreen.push(false)
   })
 
   emitter.on('video-toggle', (i, vplayer) => {
@@ -208,7 +191,6 @@ function clickhandle (state, emitter) {
   emitter.on('fullscreen-toggle', (i, videoWrapper) => {
     if (state.videos_fullscreen[i] !== true) {
       state.videos_fullscreen[i] = true
-      console.log(videoWrapper)
       toggleFullscreen(videoWrapper)
       emitter.emit('render')
     } else {
@@ -247,7 +229,6 @@ function clickhandle (state, emitter) {
     }
 
     fullscreenChange = () => {
-      console.log('video is fullscreen')
       // Do something on fullscreen change event
       // …
     }

@@ -4,7 +4,7 @@ function redirect (state, emitter) {
   emitter.on('DOMContentLoaded', () => {
     let user_data = JSON.parse(localStorage.getItem('user_data'))
     if (user_data !== null) {
-      if (user_data.user.username === 'vu' && localStorage.getItem('user_login') === 'true') {
+      if (user_data.username === 'vu' && localStorage.getItem('user_login') === 'true') {
         if (state.route !== '/') {
           emitter.emit('pushState', '/course/module-03')
           emitter.emit('render')
@@ -21,7 +21,7 @@ function redirect (state, emitter) {
   emitter.on('log-in', () => {
     const user_data = JSON.parse(localStorage.getItem('user_data'))
 
-    if (user_data.user.username === 'vu' && localStorage.getItem('user_login') === 'true') {
+    if (user_data.username === 'vu' && localStorage.getItem('user_login') === 'true') {
       if (state.route !== '/') {
         emitter.emit('pushState', '/course/module-03')
         emitter.emit('render')

@@ -101,7 +101,7 @@ function view (state, emit) {
 
   function sidebar () {
     // https://stackoverflow.com/a/27013704
-    if (localStorage.getItem('user_data') !== undefined && localStorage.getItem('user_login') === 'true') {
+    if (localStorage.getItem('user_data') !== undefined && localStorage.getItem('user_data') !== null && localStorage.getItem('user_login') === 'true') {
       return forum.render(state, emit, JSON.parse(localStorage.getItem('user_data')))
     } else if (state.login === true) {
       return login(state, emit)

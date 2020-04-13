@@ -10,23 +10,31 @@ Kirby::plugin('mooc/forum', [
       'action' => function () {
         $data = r::data();
 
-        $cat_id = $data['cat_id'];
-        $usr_name = $data['username'];
+        if (array_key_exists('cat_id', $data) AND array_key_exists('username', $data)) {
+          $cat_id = $data['cat_id'];
+          $usr_name = $data['username'];
 
-        // add if-clause?
-        $usr_key = page('forum-users')->users()->toStructure()->findBy('user', $usr_name)->key();
+          $usr = page('forum-users')->users()->toStructure()->findBy('user', $usr_name);
+          $result = [];
 
-        $url_root = 'https://forum.englishes-mooc.org/';
-        $url = $url_root . 'c/'. $cat_id . '.json?api_key=' . $usr_key . '&api_username=' . $usr_name;
+          if ($usr !== null) {
+            $usr_key = $usr->key();
+            $url_root = 'https://forum.englishes-mooc.org/';
+            $url = $url_root . 'c/'. $cat_id . '.json?api_key=' . $usr_key . '&api_username=' . $usr_name;
 
-        $result = [];
-        $request = Remote::get($url);
+            $request = Remote::get($url);
 
-        if ($request->code() === 200) {
-          $result = $request->json();
-        };
+            if ($request->code() === 200) {
+              $result = $request->json();
+            }
+          } else {
+            $result = ['error' => 'wrong wrong'];
+          }
 
-        return $result;
+          return $result;
+        } else {
+          return ['error' => 'missing login info'];
+        }
       }
     ],
     [
