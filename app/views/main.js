@@ -35,6 +35,19 @@ function view (state, emit) {
   emit(state.events.DOMTITLECHANGE, data.content.title)
   console.log(state)
 
+  // set videos-array upfront so the click-store can toggle directly
+  if (state.videos.length !== ov(data.children.course.children).length) {
+    ov(data.children.course.children).map((module) => {
+      const status = {
+        ready: false,
+        play: false
+      }
+      state.videos.push(status)
+
+      state.videos_fullscreen.push(false)
+    })
+  }
+
   return html`
     <body>
       <main class="x xdc md-xdr vh100 bgi-main">

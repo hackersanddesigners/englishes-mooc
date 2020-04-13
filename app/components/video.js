@@ -23,9 +23,9 @@ class video extends nc {
     const embed = url_split[0] + '://player.' + vcode[0] + '/video/' + vcode[1]
 
     function video_status (video_state) {
-      if (video_state.ready === true) {
+      if (video_state !== undefined && video_state.ready === true) {
         return 'Loading'
-      } else if (video_state.play === true) {
+      } else if (video_state !== undefined && video_state.play === true) {
         return 'Pause'
       } else {
         return 'Play'

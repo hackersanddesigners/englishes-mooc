@@ -41,6 +41,19 @@ function view (state, emit) {
   const page = state.page
   const txt = md.render(page.content.text)
 
+  // set videos-array upfront so the click-store can toggle directly
+  if (state.videos.length !== ov(page.children).length) {
+    ov(page.children).map((module) => {
+      const status = {
+        ready: false,
+        play: false
+      }
+      state.videos.push(status)
+
+      state.videos_fullscreen.push(false)
+    })
+  }
+
   if (localStorage.getItem('user_login') !== false) {
     return html`
     <body>
