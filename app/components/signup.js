@@ -1,53 +1,39 @@
 const ov = require('object-values')
 const html = require('choo/html')
+const raw = require('choo/html/raw')
 const xhr_call = require('./xhr-call')
+const yaml = require('js-yaml')
 
-function signup () {
-  const page = ov(data.children).filter(page => page.uid === 'signup')
+function signup (state, emit) {
+  const page = ov(data.children).filter(page => page.uid === 'signup')[0]
+
+  const deadlines = yaml.safeLoad(page.content.deadline)
 
   return html`
     <form id="signup" onsubmit=${onsubmit} method="post" class="pb2 lg-pl2 lg-pr2">
       <div class="fw-r fs1 lh1 pt2 pb2">
         <div class="pb0-5">
-          <label class="dib w-50 ft-mn">${page[0].content.name}*</label>
+          <label class="dib w-50 ft-mn">${page.content.name}*</label>
             <input id="name" name="name" type="text" placeholder="" class="dib w-50 bb-bl" required>
         </div>
 
         <div class="pb0-5">
-          <label class="dib w-50 ft-mn">${page[0].content.email}*</label>
+          <label class="dib w-50 ft-mn">${page.content.email}*</label>
           <input id="email" name="email" type="email" class="dib w-50 bb-bl" required>
         </div>
 
         <div class="pb0-5">
-          <label class="dib w-50 ft-mn">${page[0].content.email2t}*</label>
+          <label class="dib w-50 ft-mn">${page.content.email2t}*</label>
           <input id="email2t" name="email2t" type="email" class="dib w-50 bb-bl" required>
         </div>
 
         <div class="pb1">
-          <label class="dib w-50 ft-mn">${page[0].content.info}</label>
+          <label class="dib w-50 ft-mn">${page.content.info}</label>
           <input id="info" name="info" type="text" class="dib w-50 bb-bl">
         </div>
 
-        <div class="pb1 x xab">
-          <input id="cycle_2019-10" name="cycle_2019-10" type="checkbox" disabled="disabled" class="op25 pen">
-          <label class="dib w-95 ft-mn pl1"><span class="tdlt">Cycle starting October 22, 2019</span> <strong>COMPLETED</strong></label>
-        </div>
-
-        <div class="pb1 x xab">
-          <input id="cycle_2020-02" name="cycle_2020-02" type="checkbox" disabled="disabled" class="op25 pen">
-          <label class="dib w-95 ft-mn pl1"><span class="tdlt">Cycle starting February 25, 2020</span> <strong>FULL</strong></label>
-        </div>
-
-        <div class="pb1 x xab">
-          <input id="cycle_2020-04" name="cycle_2020-spring" type="checkbox">
-          <label class="dib w-95 ft-mn pl1">Cycle starting April 21, 2020</label>
-        </div>
-
-        <div class="pb1 x xab">
-          <input id="pre_cycle_2020-06" name="cycle_2020-summer" type="checkbox">
-          <label class="dib w-95 ft-mn pl1">Cycle starting June 9, 2020</label>
-        </div>
-      </div>
+         ${deadline(deadlines)} 
+       </div>
 
       <div class="x xafs">
         <input type="submit" value="Send" class="send fs1-3 bb-rd curp">
@@ -71,6 +57,28 @@ function signup () {
     </form>
   `
 
+  function deadline (data) {
+    return data.map(due => {
+      return html`
+        <div class="pb1 x xab">
+          <label class="x xdr xab curp">
+            <input id="${due.label}" name="${due.label}" type="checkbox" ${due.use === 'disabled' ? 'disabled' : ''} class="${due.use == 'disabled' ? 'op25 pen' : ''}">
+              <p class="dib ft-mn pl1 pb0"><span class="${ due.status !== '' ? 'tdlt' : '' }">${due.text}</span> ${status(due.status)}</p>
+           </label>
+        </div>
+      `
+
+      function status (data) {
+        if (data !== undefined && data !== '') {
+          return html`
+            <strong>${data}</strong>
+          `
+        }
+      }
+    })
+
+  }
+
   function onsubmit (e) {
     e.preventDefault()
     const form = e.currentTarget
@@ -79,7 +87,13 @@ function signup () {
     const send = form.querySelector('.send')
 
     let body = {}
-    for (let pair of data.entries()) body[pair[0]] = pair[1]
+    for (let pair of data.entries()) {
+      if (pair[0].split('-')[0] === 'cycle') {
+        body['tag'] = pair[0]
+      } else {
+        body[pair[0]] = pair[1]
+      }
+    }
 
     const email = body.email
 
@@ -87,8 +101,6 @@ function signup () {
       body: body,
       send: send
     }
-
-    console.log(body)
 
     if (body.website !== '') {
       bot.classList.remove('dn')

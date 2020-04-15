@@ -7,7 +7,6 @@ function forum (state, emitter, emit) {
     let cat_id
 
     let user_data = JSON.parse(localStorage.getItem('user_data'))
-    console.log(user_data)
     if (user_data !== null) {
       if (state.href !== '/hkw' && user_data.username !== 'vu') {
         if (state.route !== '/') {
@@ -25,7 +24,6 @@ function forum (state, emitter, emit) {
 
     // if all modules are closed, do not run fetch_topic
     // and set `state.components.disc_posts = []`
-    console.log(cat_id)
     if (cat_id !== null) {
       return fetch_topic(state, emitter, emit, page, cat_id)
     } else {

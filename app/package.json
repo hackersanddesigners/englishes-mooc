@@ -38,6 +38,7 @@
     "domador": "^2.4.4",
     "filepond": "^4.4.12",
     "gr8": "^3.1.5",
+    "js-yaml": "^3.13.1",
     "markdown-it": "^8.4.2",
     "markdown-it-container": "^2.0.0",
     "markdown-it-implicit-figures": "^0.9.0",
