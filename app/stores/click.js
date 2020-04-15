@@ -12,7 +12,7 @@ function clickhandle (state, emitter) {
   state.read_tab = false
   state.modules = []
   state.nav_toggle = true
-  state.status_toggle = false
+  state.status_toggle = true
   state.editor_toggle = true
   state.videos = []
   state.videos_fullscreen = []
