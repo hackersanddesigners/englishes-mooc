@@ -128,7 +128,7 @@ function clickhandle (state, emitter) {
     const user = JSON.parse(localStorage.getItem('user_data'))
     const opts = {
       id: id,
-      user: user.username
+      username: user.username
     }
 
     xhr_call.postDelete(opts, (err, resp, body) => {

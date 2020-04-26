@@ -157,13 +157,17 @@ Kirby::plugin('mooc/forum', [
 
         // url: `${url_root}/posts/${opts.id}?api_key=${opts.user_k}&api_username=${opts.user_v}`,
 
-// https://forum.englishes-mooc.org/posts/281?api_key=1b1655f72eeedc2324cfbdd88a24b5a1903150a4a995ee2fed4e503c3bc806e3&api_username=guest click.js:138
+        $url = $url_root . 'posts/' . $post_id;
 
-
-        $url = $url_root . 'posts/' . $post_id . '?api_key=' . $usr_key . '&api_username=' . $usr_name;
 
         $result = [];
-        $request = Remote::delete($url);
+        $request = Remote::delete($url, [
+          'headers' => [
+            "Content-Type: application/json;",
+            "Api-Key: $usr_key",
+            "Api-Username: $usr_name"
+          ]
+        ]);
         $result = $request->json();
 
         return $result;
