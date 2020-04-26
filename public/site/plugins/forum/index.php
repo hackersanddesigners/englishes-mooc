@@ -116,12 +116,19 @@ Kirby::plugin('mooc/forum', [
         // - the system's username and api key
 
         $usr_id = $data['user_id'];
+        $usr_name = page('forum-users')->users()->toStructure()->findBy('user', 'system')->user();
         $usr_key = page('forum-users')->users()->toStructure()->findBy('user', 'system')->key();
 
         $url_root = 'https://forum.englishes-mooc.org/';
-        $url = $url_root . 'admin/users/' . $usr_id . '/log_out?api_key=' . $usr_key . '&api_username=system';
+        $url = $url_root . 'admin/users/' . $usr_id . '/log_out?';
         $result = [];
-        $request = Remote::post($url);
+        $request = Remote::post($url, [
+          'headers' => [
+            "Content-Type: multipart/form-data;",
+            "Api-Key: $usr_key",
+            "Api-Username: $usr_name"
+          ]
+        ]);
         $result = $request->json();
 
         return $result;
