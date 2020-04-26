@@ -128,7 +128,7 @@ Kirby::plugin('mooc/forum', [
       }
     ],
     [
-      // post_upload
+      // post_write
       
       'method' => 'POST',
       'pattern' => 'api-post-msg',
@@ -145,10 +145,16 @@ Kirby::plugin('mooc/forum', [
 
         $url_root = 'https://forum.englishes-mooc.org/';
 
-        $url = $url_root . 'posts.json?api_key=' . $usr_key . '&api_username=' . $usr_name . "&title='" . $title . "'&topic_id=" . $disc_id . '&raw=' . $msg;
+        $url = $url_root . 'posts.json?&title=' . $title . "'&topic_id=" . $disc_id . '&raw=' . $msg;
 
         $result = [];
-        $request = Remote::post($url);
+        $request = Remote::post($url, [
+          'headers' => [
+            "Content-Type: application/json;",
+            "Api-Key: $usr_key",
+            "Api-Username: $usr_name"
+          ]
+        ]);
         $result = $request->json();
 
         return $result;
