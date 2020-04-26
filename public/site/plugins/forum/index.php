@@ -20,9 +20,15 @@ Kirby::plugin('mooc/forum', [
           if ($usr !== null) {
             $usr_key = $usr->key();
             $url_root = 'https://forum.englishes-mooc.org/';
-            $url = $url_root . 'c/'. $cat_id . '.json?api_key=' . $usr_key . '&api_username=' . $usr_name;
+            $url = $url_root . 'c/'. $cat_id . '.json?';
 
-            $request = Remote::get($url);
+            $request = Remote::get($url, [
+              'headers' => [
+                "Content-Type: application/json;",
+                "Api-Key: $usr_key",
+                "Api-Username: $usr_name"
+			        ]
+            ]);
 
             if ($request->code() === 200) {
               $result = $request->json();
