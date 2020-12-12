@@ -3,6 +3,7 @@ const html = require('choo/html')
 const raw = require('choo/html/raw')
 const xhr_call = require('./xhr-call')
 const yaml = require('js-yaml')
+const slugify = require('slugify')
 
 function signup (state, emit) {
   const page = ov(data.children).filter(page => page.uid === 'signup')[0]
@@ -59,10 +60,13 @@ function signup (state, emit) {
 
   function deadline (data) {
     return data.map(due => {
+      // convert label to slugify version, so mailchimp works fine
+      // and label can be written in the CMS a bit more "freely"
+      const label = slugify(due.label.toLowerCase())
       return html`
         <div class="pb1 x xab">
           <label class="x xdr xab curp">
-            <input id="${due.label}" name="${due.label}" type="checkbox" ${due.use === 'disabled' ? 'disabled' : ''} class="${due.use == 'disabled' ? 'op25 pen' : ''}">
+            <input id="${label}" name="${label}" type="checkbox" ${due.use === 'disabled' ? 'disabled' : ''} class="${due.use == 'disabled' ? 'op25 pen' : ''}">
               <p class="dib ft-mn pl1 pb0"><span class="${ due.status !== '' ? 'tdlt' : '' }">${due.text}</span> ${status(due.status)}</p>
            </label>
         </div>
