@@ -3,34 +3,46 @@
 namespace Kirby\Form;
 
 use Kirby\Cms\App;
-use Kirby\Cms\File;
-use Kirby\Cms\Page;
-use Kirby\Cms\Site;
-use Kirby\Cms\StructureObject;
-use Kirby\Cms\User;
-use Kirby\Toolkit\A;
 use Kirby\Toolkit\I18n;
-use Kirby\Toolkit\Obj;
 
 /**
  * Foundation for the Options query
  * classes, that are used to generate
- * options arrays for select fiels,
+ * options arrays for select fields,
  * radio boxes, checkboxes and more.
+ *
+ * @package   Kirby Form
+ * @author    Bastian Allgeier <bastian@getkirby.com>
+ * @link      https://getkirby.com
+ * @copyright Bastian Allgeier GmbH
+ * @license   https://opensource.org/licenses/MIT
  */
 class Options
 {
+    /**
+     * Returns the classes of predefined Kirby objects
+     *
+     * @return array
+     */
     protected static function aliases(): array
     {
         return [
             'Kirby\Cms\File'            => 'file',
             'Kirby\Toolkit\Obj'         => 'arrayItem',
+            'Kirby\Cms\Block'           => 'block',
             'Kirby\Cms\Page'            => 'page',
             'Kirby\Cms\StructureObject' => 'structureItem',
             'Kirby\Cms\User'            => 'user',
         ];
     }
 
+    /**
+     * Brings options through api
+     *
+     * @param $api
+     * @param $model
+     * @return array
+     */
     public static function api($api, $model = null): array
     {
         $model = $model ?? App::instance()->site();
@@ -58,6 +70,10 @@ class Options
         return $optionsApi->options();
     }
 
+    /**
+     * @param $model
+     * @return array
+     */
     protected static function data($model): array
     {
         $kirby = $model->kirby();
@@ -79,6 +95,14 @@ class Options
         return $data;
     }
 
+    /**
+     * Brings options by supporting both api and query
+     *
+     * @param $options
+     * @param array $props
+     * @param null $model
+     * @return array
+     */
     public static function factory($options, array $props = [], $model = null): array
     {
         switch ($options) {
@@ -121,7 +145,9 @@ class Options
             }
 
             // translate the option text
-            $option['text'] = I18n::translate($option['text'], $option['text']);
+            if (is_array($option['text']) === true) {
+                $option['text'] = I18n::translate($option['text'], $option['text']);
+            }
 
             // add the option to the list
             $result[] = $option;
@@ -130,6 +156,13 @@ class Options
         return $result;
     }
 
+    /**
+     * Brings options with query
+     *
+     * @param $query
+     * @param null $model
+     * @return array
+     */
     public static function query($query, $model = null): array
     {
         $model = $model ?? App::instance()->site();
@@ -137,6 +170,7 @@ class Options
         // default text setup
         $text = [
             'arrayItem'     => '{{ arrayItem.value }}',
+            'block'         => '{{ block.type }}: {{ block.id }}',
             'file'          => '{{ file.filename }}',
             'page'          => '{{ page.title }}',
             'structureItem' => '{{ structureItem.title }}',
@@ -146,6 +180,7 @@ class Options
         // default value setup
         $value = [
             'arrayItem'     => '{{ arrayItem.value }}',
+            'block'         => '{{ block.id }}',
             'file'          => '{{ file.id }}',
             'page'          => '{{ page.id }}',
             'structureItem' => '{{ structureItem.id }}',

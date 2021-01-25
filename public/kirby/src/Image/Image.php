@@ -2,12 +2,11 @@
 
 namespace Kirby\Image;
 
-use Exception;
+use Kirby\Exception\Exception;
 use Kirby\Http\Response;
 use Kirby\Toolkit\File;
 use Kirby\Toolkit\Html;
 use Kirby\Toolkit\Mime;
-use Kirby\Toolkit\Str;
 use Kirby\Toolkit\V;
 
 /**
@@ -18,13 +17,12 @@ use Kirby\Toolkit\V;
  *
  * @package   Kirby Image
  * @author    Bastian Allgeier <bastian@getkirby.com>
- * @link      http://getkirby.com
- * @copyright Bastian Allgeier
- * @license   MIT
-*/
+ * @link      https://getkirby.com
+ * @copyright Bastian Allgeier GmbH
+ * @license   https://opensource.org/licenses/MIT
+ */
 class Image extends File
 {
-
     /**
      * optional url where the file is reachable
      * @var string
@@ -32,20 +30,20 @@ class Image extends File
     protected $url;
 
     /**
-     * @var Exif|null
+     * @var \Kirby\Image\Exif|null
      */
     protected $exif;
 
     /**
-     * @var Dimensions|null
+     * @var \Kirby\Image\Dimensions|null
      */
     protected $dimensions;
 
     /**
      * Constructor
      *
-     * @param string       $root
-     * @param string|null  $url
+     * @param string|null $root
+     * @param string|null $url
      */
     public function __construct(string $root = null, string $url = null)
     {
@@ -54,11 +52,11 @@ class Image extends File
     }
 
     /**
-     * Improved var_dump() output
+     * Improved `var_dump` output
      *
      * @return array
      */
-    public function __debuginfo(): array
+    public function __debugInfo(): array
     {
         return array_merge($this->toArray(), [
             'dimensions' => $this->dimensions(),
@@ -80,15 +78,15 @@ class Image extends File
     /**
      * Returns the dimensions of the file if possible
      *
-     * @return Dimensions
+     * @return \Kirby\Image\Dimensions
      */
-    public function dimensions(): Dimensions
+    public function dimensions()
     {
         if ($this->dimensions !== null) {
             return $this->dimensions;
         }
 
-        if (in_array($this->mime(), ['image/jpeg', 'image/png', 'image/gif'])) {
+        if (in_array($this->mime(), ['image/jpeg', 'image/jp2', 'image/png', 'image/gif', 'image/webp'])) {
             return $this->dimensions = Dimensions::forImage($this->root);
         }
 
@@ -114,9 +112,9 @@ class Image extends File
     /**
      * Returns the exif object for this file (if image)
      *
-     * @return Exif
+     * @return \Kirby\Image\Exif
      */
-    public function exif(): Exif
+    public function exif()
     {
         if ($this->exif !== null) {
             return $this->exif;
@@ -128,13 +126,12 @@ class Image extends File
     /**
      * Sends an appropriate header for the asset
      *
-     * @param  boolean          $send
-     * @return Response|string
+     * @param bool $send
+     * @return \Kirby\Http\Response|string
      */
     public function header(bool $send = true)
     {
-        $response = new Response();
-        $response->type($this->mime());
+        $response = new Response('', $this->mime());
         return $send === true ? $response->send() : $response;
     }
 
@@ -149,7 +146,7 @@ class Image extends File
     }
 
     /**
-     * @param  array  $attr
+     * @param array $attr
      * @return string
      */
     public function html(array $attr = []): string
@@ -170,7 +167,7 @@ class Image extends File
     /**
      * Checks if the dimensions of the asset are portrait
      *
-     * @return boolean
+     * @return bool
      */
     public function isPortrait(): bool
     {
@@ -180,7 +177,7 @@ class Image extends File
     /**
      * Checks if the dimensions of the asset are landscape
      *
-     * @return boolean
+     * @return bool
      */
     public function isLandscape(): bool
     {
@@ -190,7 +187,7 @@ class Image extends File
     /**
      * Checks if the dimensions of the asset are square
      *
-     * @return boolean
+     * @return bool
      */
     public function isSquare(): bool
     {
@@ -200,36 +197,73 @@ class Image extends File
     /**
      * Runs a set of validations on the image object
      *
+     * @param array $rules
      * @return bool
+     * @throws \Exception
      */
     public function match(array $rules): bool
     {
-        if (($rules['mime'] ?? null) !== null) {
-            if (Mime::isAccepted($this->mime(), $rules['mime']) !== true) {
-                throw new Exception(sprintf('Invalid mime type: %s', $this->mime()));
+        $rules = array_change_key_case($rules);
+
+        if (is_array($rules['mime'] ?? null) === true) {
+            $mime = $this->mime();
+
+            // determine if any pattern matches the MIME type;
+            // once any pattern matches, `$carry` is `true` and the rest is skipped
+            $matches = array_reduce($rules['mime'], function ($carry, $pattern) use ($mime) {
+                return $carry || Mime::matches($mime, $pattern);
+            }, false);
+
+            if ($matches !== true) {
+                throw new Exception([
+                    'key'  => 'file.mime.invalid',
+                    'data' => compact('mime')
+                ]);
             }
         }
 
-        $rules = array_change_key_case($rules);
+        if (is_array($rules['extension'] ?? null) === true) {
+            $extension = $this->extension();
+            if (in_array($extension, $rules['extension']) !== true) {
+                throw new Exception([
+                    'key'  => 'file.extension.invalid',
+                    'data' => compact('extension')
+                ]);
+            }
+        }
+
+        if (is_array($rules['type'] ?? null) === true) {
+            $type = $this->type();
+            if (in_array($type, $rules['type']) !== true) {
+                throw new Exception([
+                    'key'  => 'file.type.invalid',
+                    'data' => compact('type')
+                ]);
+            }
+        }
 
         $validations = [
-            'maxsize'     => ['size',   'max', 'The file is too large'],
-            'minsize'     => ['size',   'min', 'The file is too small'],
-            'maxwidth'    => ['width',  'max', 'The width of the image must not exceed %s pixels'],
-            'minwidth'    => ['width',  'min', 'The width of the image must be at least %s pixels'],
-            'maxheight'   => ['height', 'max', 'The height of the image must not exceed %s pixels'],
-            'minheight'   => ['height', 'min', 'The height of the image must be at least %s pixels'],
-            'orientation' => ['orientation', 'same', 'The orientation of the image must be "%s"']
+            'maxsize'     => ['size',   'max'],
+            'minsize'     => ['size',   'min'],
+            'maxwidth'    => ['width',  'max'],
+            'minwidth'    => ['width',  'min'],
+            'maxheight'   => ['height', 'max'],
+            'minheight'   => ['height', 'min'],
+            'orientation' => ['orientation', 'same']
         ];
 
         foreach ($validations as $key => $arguments) {
-            if (isset($rules[$key]) === true && $rules[$key] !== null) {
+            $rule = $rules[$key] ?? null;
+
+            if ($rule !== null) {
                 $property  = $arguments[0];
                 $validator = $arguments[1];
-                $message   = $arguments[2];
 
-                if (V::$validator($this->$property(), $rules[$key]) === false) {
-                    throw new Exception(sprintf($message, $rules[$key]));
+                if (V::$validator($this->$property(), $rule) === false) {
+                    throw new Exception([
+                        'key'  => 'file.' . $key,
+                        'data' => [$property => $rule]
+                    ]);
                 }
             }
         }

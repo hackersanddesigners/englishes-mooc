@@ -2,17 +2,21 @@
 
 namespace Kirby\Http;
 
-use Kirby\Toolkit\Obj;
 use Kirby\Toolkit\Str;
 
 /**
  * A wrapper around a URL params
  * that converts it into a Kirby Obj for easier
  * access of each param.
+ *
+ * @package   Kirby Http
+ * @author    Bastian Allgeier <bastian@getkirby.com>
+ * @link      https://getkirby.com
+ * @copyright Bastian Allgeier GmbH
+ * @license   https://opensource.org/licenses/MIT
  */
 class Params extends Query
 {
-
     /**
      * @var null|string
      */
@@ -112,9 +116,15 @@ class Params extends Query
      * Converts the params object to a params string
      * which can then be used in the URL builder again
      *
-     * @param boolean $leadingSlash
-     * @param boolean $trailingSlash
+     * @param bool $leadingSlash
+     * @param bool $trailingSlash
      * @return string|null
+     *
+     * @todo The argument $leadingSlash is incompatible with
+     *       Query::toString($questionMark = false); the Query class
+     *       should be extracted into a common parent class for both
+     *       Query and Params
+     * @psalm-suppress ParamNameMismatch
      */
     public function toString($leadingSlash = false, $trailingSlash = false): string
     {

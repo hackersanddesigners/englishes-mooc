@@ -5,18 +5,18 @@ use Kirby\Cms\Asset;
 use Kirby\Cms\Html;
 use Kirby\Cms\Response;
 use Kirby\Cms\Url;
-use Kirby\Exception\Exception;
-use Kirby\Http\Server;
+use Kirby\Exception\InvalidArgumentException;
 use Kirby\Toolkit\Escape;
 use Kirby\Toolkit\F;
 use Kirby\Toolkit\I18n;
-use Kirby\Toolkit\View;
+use Kirby\Toolkit\Str;
+use Kirby\Toolkit\V;
 
 /**
  * Helper to create an asset object
  *
  * @param string $path
- * @return Asset
+ * @return \Kirby\Cms\Asset
  */
 function asset(string $path)
 {
@@ -44,7 +44,7 @@ function attr(array $attr = null, $before = null, $after = null)
  * Returns the result of a collection by name
  *
  * @param string $name
- * @return Collection|null
+ * @return \Kirby\Cms\Collection|null
  */
 function collection(string $name)
 {
@@ -55,7 +55,7 @@ function collection(string $name)
  * Checks / returns a CSRF token
  *
  * @param string $check Pass a token here to compare it to the one in the session
- * @return string|boolean Either the token or a boolean check result
+ * @return string|bool Either the token or a boolean check result
  */
 function csrf(string $check = null)
 {
@@ -67,16 +67,16 @@ function csrf(string $check = null)
     if (func_num_args() === 0) {
         // no arguments, generate/return a token
 
-        $token = $session->get('csrf');
+        $token = $session->get('kirby.csrf');
         if (is_string($token) !== true) {
             $token = bin2hex(random_bytes(32));
-            $session->set('csrf', $token);
+            $session->set('kirby.csrf', $token);
         }
 
         return $token;
-    } elseif (is_string($check) === true && is_string($session->get('csrf')) === true) {
+    } elseif (is_string($check) === true && is_string($session->get('kirby.csrf')) === true) {
         // argument has been passed, check the token
-        return hash_equals($session->get('csrf'), $check) === true;
+        return hash_equals($session->get('kirby.csrf'), $check) === true;
     }
 
     return false;
@@ -89,7 +89,7 @@ function csrf(string $check = null)
  * @param string|array $options Pass an array of attributes for the link tag or a media attribute string
  * @return string|null
  */
-function css($url, $options = null)
+function css($url, $options = null): ?string
 {
     if (is_array($url) === true) {
         $links = array_map(function ($url) use ($options) {
@@ -105,16 +105,13 @@ function css($url, $options = null)
 
     $kirby = App::instance();
 
-    if ($component = $kirby->component('css')) {
-        $url = $component($kirby, $url, $options);
-    }
-
     if ($url === '@auto') {
         if (!$url = Url::toTemplateAsset('css/templates', 'css')) {
             return null;
         }
     }
 
+    $url  = ($kirby->component('css'))($kirby, $url, $options);
     $url  = Url::to($url);
     $attr = array_merge((array)$options, [
         'href' => $url,
@@ -125,47 +122,58 @@ function css($url, $options = null)
 }
 
 /**
- * Simple object and variable dumper
- * to help with debugging.
+ * Triggers a deprecation warning if debug mode is active
+ * @since 3.3.0
  *
- * @param mixed $variable
- * @param boolean $echo
- * @return string
+ * @param string $message
+ * @return bool Whether the warning was triggered
  */
-function dump($variable, bool $echo = true): string
+function deprecated(string $message): bool
 {
-    if (Server::cli() === true) {
-        $output = print_r($variable, true) . PHP_EOL;
-    } else {
-        $output = '<pre>' . print_r($variable, true) . '</pre>';
+    if (App::instance()->option('debug') === true) {
+        return trigger_error($message, E_USER_DEPRECATED) === true;
     }
 
-    if ($echo === true) {
-        echo $output;
-    }
-
-    return $output;
+    return false;
 }
 
-/**
- * Smart version of echo with an if condition as first argument
- *
- * @param mixed $condition
- * @param mixed $value The string to be echoed if the condition is true
- * @param mixed $alternative An alternative string which should be echoed when the condition is false
- */
-function e($condition, $value, $alternative = null)
-{
-    echo r($condition, $value, $alternative);
+if (function_exists('dump') === false) {
+    /**
+     * Simple object and variable dumper
+     * to help with debugging.
+     *
+     * @param mixed $variable
+     * @param bool $echo
+     * @return string
+     */
+    function dump($variable, bool $echo = true): string
+    {
+        $kirby = App::instance();
+        return ($kirby->component('dump'))($kirby, $variable, $echo);
+    }
+}
+
+if (function_exists('e') === false) {
+    /**
+     * Smart version of echo with an if condition as first argument
+     *
+     * @param mixed $condition
+     * @param mixed $value The string to be echoed if the condition is true
+     * @param mixed $alternative An alternative string which should be echoed when the condition is false
+     */
+    function e($condition, $value, $alternative = null)
+    {
+        echo r($condition, $value, $alternative);
+    }
 }
 
 /**
  * Escape context specific output
  *
- * @param  string  $string  Untrusted data
- * @param  string  $context Location of output
- * @param  boolean $strict  Whether to escape an extended set of characters (HTML attributes only)
- * @return string  Escaped data
+ * @param string $string Untrusted data
+ * @param string $context Location of output
+ * @param bool $strict Whether to escape an extended set of characters (HTML attributes only)
+ * @return string Escaped data
  */
 function esc($string, $context = 'html', $strict = false)
 {
@@ -180,9 +188,9 @@ function esc($string, $context = 'html', $strict = false)
 /**
  * Shortcut for $kirby->request()->get()
  *
- * @param   mixed    $key The key to look for. Pass false or null to return the entire request array.
- * @param   mixed    $default Optional default value, which should be returned if no element has been found
- * @return  mixed
+ * @param mixed $key The key to look for. Pass false or null to return the entire request array.
+ * @param mixed $default Optional default value, which should be returned if no element has been found
+ * @return mixed
  */
 function get($key = null, $default = null)
 {
@@ -209,7 +217,7 @@ function gist(string $url, string $file = null): string
  * Urls can be relative or absolute.
  *
  * @param string $url
- * @param integer $code
+ * @param int $code
  * @return void
  */
 function go(string $url = null, int $code = 302)
@@ -220,11 +228,11 @@ function go(string $url = null, int $code = 302)
 /**
  * Shortcut for html()
  *
- * @param string $text unencoded text
+ * @param string|null $string unencoded text
  * @param bool $keepTags
  * @return string
  */
-function h(string $string = null, bool $keepTags = false)
+function h(?string $string, bool $keepTags = false)
 {
     return Html::encode($string, $keepTags);
 }
@@ -232,11 +240,11 @@ function h(string $string = null, bool $keepTags = false)
 /**
  * Creates safe html by encoding special characters
  *
- * @param string $text unencoded text
+ * @param string|null $string unencoded text
  * @param bool $keepTags
  * @return string
  */
-function html(string $string = null, bool $keepTags = false)
+function html(?string $string, bool $keepTags = false)
 {
     return Html::encode($string, $keepTags);
 }
@@ -249,7 +257,7 @@ function html(string $string = null, bool $keepTags = false)
  * <?= image('some/page/myimage.jpg') ?>
  *
  * @param string $path
- * @return File|null
+ * @return \Kirby\Cms\File|null
  */
 function image(string $path = null)
 {
@@ -264,10 +272,20 @@ function image(string $path = null)
         $uri = null;
     }
 
-    $page = $uri === '/' ? site() : page($uri);
+    switch ($uri) {
+        case '/':
+            $parent = site();
+            break;
+        case null:
+            $parent = page();
+            break;
+        default:
+            $parent = page($uri);
+            break;
+    }
 
-    if ($page) {
-        return $page->image($filename);
+    if ($parent) {
+        return $parent->image($filename);
     } else {
         return null;
     }
@@ -339,11 +357,11 @@ function invalid(array $data = [], array $rules = [], array $messages = [])
 /**
  * Creates a script tag to load a javascript file
  *
- * @param string|array $src
+ * @param string|array $url
  * @param string|array $options
- * @return void
+ * @return string|null
  */
-function js($url, $options = null)
+function js($url, $options = null): ?string
 {
     if (is_array($url) === true) {
         $scripts = array_map(function ($url) use ($options) {
@@ -359,16 +377,13 @@ function js($url, $options = null)
 
     $kirby = App::instance();
 
-    if ($component = $kirby->component('js')) {
-        $url = $component($kirby, $url, $options);
-    }
-
     if ($url === '@auto') {
         if (!$url = Url::toTemplateAsset('js/templates', 'js')) {
             return null;
         }
     }
 
+    $url  = ($kirby->component('js'))($kirby, $url, $options);
     $url  = Url::to($url);
     $attr = array_merge((array)$options, ['src' => $url]);
 
@@ -378,9 +393,9 @@ function js($url, $options = null)
 /**
  * Returns the Kirby object in any situation
  *
- * @return App
+ * @return \Kirby\Cms\App
  */
-function kirby(): App
+function kirby()
 {
     return App::instance();
 }
@@ -391,15 +406,25 @@ function kirby(): App
  * @param string|array $type
  * @param string $value
  * @param array $attr
+ * @param array $data
  * @return string
  */
-function kirbytag($type, string $value = null, array $attr = []): string
+function kirbytag($type, string $value = null, array $attr = [], array $data = []): string
 {
     if (is_array($type) === true) {
-        return App::instance()->kirbytag(key($type), current($type), $type);
+        $kirbytag = $type;
+        $type     = key($kirbytag);
+        $value    = current($kirbytag);
+        $attr     = $kirbytag;
+
+        // check data attribute and separate from attr data if exists
+        if (isset($attr['data']) === true) {
+            $data = $attr['data'];
+            unset($attr['data']);
+        }
     }
 
-    return App::instance()->kirbytag($type, $value, $attr);
+    return App::instance()->kirbytag($type, $value, $attr, $data);
 }
 
 /**
@@ -523,7 +548,7 @@ function option(string $key, $default = null)
  * id or the current page when no id is specified
  *
  * @param string|array ...$id
- * @return Page|null
+ * @return \Kirby\Cms\Page|null
  */
 function page(...$id)
 {
@@ -538,7 +563,7 @@ function page(...$id)
  * Helper to build page collections
  *
  * @param string|array ...$id
- * @return Pages
+ * @return \Kirby\Cms\Pages
  */
 function pages(...$id)
 {
@@ -581,38 +606,9 @@ function r($condition, $value, $alternative = null)
 }
 
 /**
- * Rounds the minutes of the given date
- * by the defined step
+ * Returns the current site object
  *
- * @param string $date
- * @param integer $step
- * @return string|null
- */
-function timestamp(string $date = null, int $step = null): ?string
-{
-    if (V::date($date) === false) {
-        return null;
-    }
-
-    $date = strtotime($date);
-
-    if ($step === null) {
-        return $date;
-    }
-
-    $hours   = date('H', $date);
-    $minutes = date('i', $date);
-    $minutes = floor($minutes / $step) * $step;
-    $minutes = str_pad($minutes, 2, 0, STR_PAD_LEFT);
-    $date    = date('Y-m-d', $date) . ' ' . $hours . ':' . $minutes;
-
-    return strtotime($date);
-}
-
-/**
- * Returns the currrent site object
- *
- * @return Site
+ * @return \Kirby\Cms\Site
  */
 function site()
 {
@@ -628,7 +624,7 @@ function site()
 function size($value): int
 {
     if (is_numeric($value)) {
-        return $value;
+        return (int)$value;
     }
 
     if (is_string($value)) {
@@ -648,6 +644,8 @@ function size($value): int
             return $value->count();
         }
     }
+
+    throw new InvalidArgumentException('Could not determine the size of the given value');
 }
 
 /**
@@ -665,12 +663,12 @@ function smartypants(string $text = null): string
 /**
  * Embeds a snippet from the snippet folder
  *
- * @param string $name
+ * @param string|array $name
  * @param array|object $data
- * @param boolean $return
+ * @param bool $return
  * @return string
  */
-function snippet(string $name, $data = [], bool $return = false)
+function snippet($name, $data = [], bool $return = false)
 {
     if (is_object($data) === true) {
         $data = ['item' => $data];
@@ -689,11 +687,20 @@ function snippet(string $name, $data = [], bool $return = false)
  * Includes an SVG file by absolute or
  * relative file path.
  *
- * @param string $file
- * @return string
+ * @param string|\Kirby\Cms\File $file
+ * @return string|false
  */
-function svg(string $file)
+function svg($file)
 {
+    // support for Kirby's file objects
+    if (is_a($file, 'Kirby\Cms\File') === true && $file->extension() === 'svg') {
+        return $file->read();
+    }
+
+    if (is_string($file) === false) {
+        return false;
+    }
+
     $extension = F::extension($file);
 
     // check for valid svg files
@@ -705,26 +712,17 @@ function svg(string $file)
     if (file_exists($file) === false) {
         $root = App::instance()->root();
         $file = realpath($root . '/' . $file);
-
-        if (file_exists($file) === false) {
-            return false;
-        }
     }
 
-    ob_start();
-    include $file;
-    $svg = ob_get_contents();
-    ob_end_clean();
-
-    return $svg;
+    return F::read($file);
 }
 
 /**
  * Returns translate string for key from translation file
  *
- * @param   string|array $key
- * @param   string|null  $fallback
- * @return  mixed
+ * @param string|array $key
+ * @param string|null $fallback
+ * @return mixed
  */
 function t($key, string $fallback = null)
 {
@@ -734,13 +732,94 @@ function t($key, string $fallback = null)
 /**
  * Translates a count
  *
- * @param   string|array $key
- * @param   int  $count
- * @return  mixed
+ * @param string|array $key
+ * @param int $count
+ * @return mixed
  */
 function tc($key, int $count)
 {
     return I18n::translateCount($key, $count);
+}
+
+/**
+ * Rounds the minutes of the given date
+ * by the defined step
+ *
+ * @param string $date
+ * @param int $step array of `unit` and `size` to round to nearest
+ * @return int|null
+ */
+function timestamp(string $date = null, $step = null): ?int
+{
+    if (V::date($date) === false) {
+        return null;
+    }
+
+    $date = strtotime($date);
+
+    if ($step === null) {
+        return $date;
+    }
+
+    // fallback for pre-3.5.0 usage
+    if (is_int($step) === true) {
+        $step = [
+            'unit' => 'minute',
+            'size' => $step
+        ];
+    }
+
+    if (is_array($step) === false) {
+        return $date;
+    }
+
+    $parts = [
+        'second' => date('s', $date),
+        'minute' => date('i', $date),
+        'hour'   => date('H', $date),
+        'day'    => date('d', $date),
+        'month'  => date('m', $date),
+        'year'   => date('Y', $date),
+    ];
+
+    $current = $parts[$step['unit']];
+    $nearest = round($current / $step['size']) * $step['size'];
+    $parts[$step['unit']] = $nearest;
+
+    foreach ($parts as $part => $value) {
+        if ($part === $step['unit']) {
+            break;
+        }
+
+        $parts[$part] = 0;
+    }
+
+    $timestamp = strtotime(
+        $parts['year'] . '-' .
+        str_pad($parts['month'], 2, 0, STR_PAD_LEFT) . '-' .
+        str_pad($parts['day'], 2, 0, STR_PAD_LEFT) . ' ' .
+        str_pad($parts['hour'], 2, 0, STR_PAD_LEFT) . ':' .
+        str_pad($parts['minute'], 2, 0, STR_PAD_LEFT) . ':' .
+        str_pad($parts['second'], 2, 0, STR_PAD_LEFT)
+    );
+
+    // on error, convert `false` into `null`
+    return $timestamp ? $timestamp : null;
+}
+
+/**
+ * Translate by key and then replace
+ * placeholders in the text
+ *
+ * @param string $key
+ * @param string $fallback
+ * @param array $replace
+ * @param string $locale
+ * @return string
+ */
+function tt(string $key, $fallback = null, array $replace = null, string $locale = null)
+{
+    return I18n::template($key, $fallback, $replace, $locale);
 }
 
 /**
@@ -787,6 +866,36 @@ function url(string $path = null, $options = null): string
 }
 
 /**
+ * Creates a compliant v4 UUID
+ * Taken from: https://github.com/symfony/polyfill
+ *
+ * @return string
+ */
+function uuid(): string
+{
+    $uuid = bin2hex(random_bytes(16));
+
+    return sprintf(
+        '%08s-%04s-4%03s-%04x-%012s',
+        // 32 bits for "time_low"
+        substr($uuid, 0, 8),
+        // 16 bits for "time_mid"
+        substr($uuid, 8, 4),
+        // 16 bits for "time_hi_and_version",
+        // four most significant bits holds version number 4
+        substr($uuid, 13, 3),
+        // 16 bits:
+        // * 8 bits for "clk_seq_hi_res",
+        // * 8 bits for "clk_seq_low",
+        // two most significant bits holds zero and one for variant DCE1.1
+        hexdec(substr($uuid, 16, 4)) & 0x3fff | 0x8000,
+        // 48 bits for "node"
+        substr($uuid, 20, 12)
+    );
+}
+
+
+/**
  * Creates a video embed via iframe for Youtube or Vimeo
  * videos. The embed Urls are automatically detected from
  * the given Url.
@@ -811,7 +920,7 @@ function video(string $url, array $options = [], array $attr = []): string
  */
 function vimeo(string $url, array $options = [], array $attr = []): string
 {
-    return Html::video($url, $options, $attr);
+    return Html::vimeo($url, $options, $attr);
 }
 
 /**
@@ -837,5 +946,5 @@ function widont(string $string = null): string
  */
 function youtube(string $url, array $options = [], array $attr = []): string
 {
-    return Html::video($url, $options, $attr);
+    return Html::youtube($url, $options, $attr);
 }
