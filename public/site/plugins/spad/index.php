@@ -21,7 +21,7 @@ $spad = function () {
     $tree['files'] = $parent->files()->sortBy('sort', 'asc')->toArray();
     $tree['children'] = array_map(function ($n) {
       return buildTree(site()->find($n['id']));
-    }, $parent->children()->visible()->toArray());
+    }, $parent->children()->listed()->toArray());
     return $filterEach($tree);
   }
 
