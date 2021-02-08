@@ -7,6 +7,5 @@ return [
   ],
   'api' => [
     'basicAuth' => true
-  ],
-  'mrflix.cachebuster.active' => false
+  ]
 ];

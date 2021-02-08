@@ -2,7 +2,11 @@
     "name": "getkirby/starterkit",
     "description": "Kirby Starterkit",
     "type": "project",
-    "keywords": ["kirby", "cms", "starterkit"],
+    "keywords": [
+        "kirby",
+        "cms",
+        "starterkit"
+    ],
     "homepage": "https://getkirby.com",
     "authors": [
         {
@@ -20,7 +24,8 @@
     "require": {
         "php": ">=7.1.0",
         "getkirby/cms": "^3.0",
-        "drewm/mailchimp-api": "^2.5"
+        "drewm/mailchimp-api": "^2.5",
+        "bnomei/kirby3-fingerprint": "^3.0"
     },
     "config": {
         "optimize-autoloader": true
