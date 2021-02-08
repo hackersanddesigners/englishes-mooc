@@ -85,34 +85,39 @@ Kirby::plugin('mooc/forum', [
         $usr_name = $data['username'];
         $usr_pw = $data['pw']; 
 
-        $usr = page('forum-users')->users()->toStructure()->findBy('user', $usr_name);
-        $result = [];
+        try {
+            $usr = page('forum-users')->users()->toStructure()->findBy('user', $usr_name);
+            $result = [];
 
-        // curl -X POST https://forum.englishes-mooc.org/session? \
-        // --data "login=cycle.four&password=rabid-proofs-underarm-hubcap-cheating-heftiness-gilled" \
-        // -H "Content-Type: multipart/form-data;" \
-        // -H "Api-Key: <key>" \
-        // -H "Api-Username: <usr_name>"
+            // curl -X POST https://forum.englishes-mooc.org/session? \
+            // --data "login=cycle.four&password=rabid-proofs-underarm-hubcap-cheating-heftiness-gilled" \
+            // -H "Content-Type: multipart/form-data;" \
+            // -H "Api-Key: <key>" \
+            // -H "Api-Username: <usr_name>"
 
-        if ($usr !== null) {
-          $usr_key = $usr->key();
-          $url_root = 'https://forum.englishes-mooc.org/';
-          $url = $url_root . 'session?login=' . $usr_name . '&password=' . $usr_pw;
+            if ($usr !== null) {
+                $usr_key = $usr->key();
+                $url_root = 'https://forum.englishes-mooc.org/';
+                $url = $url_root . 'session?login=' . $usr_name . '&password=' . $usr_pw;
 
-          $request = Remote::post($url, [
-            'headers' => [
-              "Content-Type: multipart/form-data;",
-              "Api-Key: $usr_key",
-              "Api-Username: $usr_name"
-			      ]
-          ]);
+                $request = Remote::post($url, [
+                    'headers' => [
+                        "Content-Type: multipart/form-data;",
+                        "Api-Key: $usr_key",
+                        "Api-Username: $usr_name"
+                    ]
+                ]);
 
-          $result = $request->json();
-        } else {
-          $result = ['error' => 'Check your username and / or password'];
+                $result = $request->json();
+            } else {
+                $result = ['error' => 'Check your username and / or password'];
+            }
+
+            return $result;
+
+        } catch (Exception $error) {
+            $result = ['error' => 'Check your username and / or password'];
         }
-
-        return $result;
       }
     ],
     [
