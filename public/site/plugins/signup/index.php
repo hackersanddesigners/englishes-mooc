@@ -45,6 +45,12 @@ Kirby::plugin('mooc/signup', [
             $interests['6bc04ec0a3'] = false;
           };
 
+          if (isset($mc_data['cycle-spring-2021'])) {
+            $interests['faac8a2345'] = true;
+          } else {
+            $interests['faac8a2345'] = false;
+          };
+
           // mc subscribe new user
           $response = $mc->post('lists/' . $mc_listid . '/members', [
             'email_address' => $mc_data['email'],
