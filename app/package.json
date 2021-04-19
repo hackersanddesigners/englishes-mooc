@@ -20,7 +20,6 @@
     ]
   },
   "devDependencies": {
-    "bankai": "^9.15.3",
     "browserify": "^16.5.2",
     "choo-devtools": "^2.5.1",
     "css-extract": "^1.3.1",
