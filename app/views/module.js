@@ -39,7 +39,24 @@ function view (state, emit) {
   console.log(state)
 
   const page = state.page
-  const txt = md.render(page.content.text)
+
+  // replace inline img url to full path kirby-standard img-url
+  // eg from ![](image.jpg) => ![](https://website.net/media/pages/<page>/<hash>/image.jpg)
+
+  // ![xx](yy)
+  // \!\[.*\]\((.+)\)
+  const t = page.content.text.replace(/\!\[.*\]\((.+)\)/g, (match, p1, offset) => {
+    const fn = p1.split('/').slice(-1)[0]
+    const file = Object.values(page.files).find(file => file.filename === fn)
+
+    if (file !== undefined) {
+      return `![](${file.url})`
+    } else {
+      return match
+    }
+  })
+
+  const txt = md.render(t)
 
   // set videos-array upfront so the click-store can toggle directly
   if (state.videos.length !== ov(page.children).length) {
