@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Bnomei;
 
 use Kirby\Exception\InvalidArgumentException;
+use Kirby\Http\Url;
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\F;
+use Kirby\Toolkit\Str;
 use function dirname;
 use function filemtime;
 use function url;
@@ -96,6 +98,10 @@ final class FingerprintFile
                     $url = preg_replace('/\/'. kirby()->language()->code() .'$/', '', kirby()->site()->url());
                 }
                 $url = str_replace($url, '', $this->id());
+
+                $hasLeadingSlash = Str::substr(array_keys($manifest)[0], 0, 1) === '/';
+                $url = Url::path($url, $hasLeadingSlash);
+
                 $filename = basename(A::get(
                     $manifest,
                     $url,
@@ -135,9 +141,11 @@ final class FingerprintFile
         try {
             if ($openssl && extension_loaded('openssl')) {
                 // https://www.srihash.org/
-                exec('openssl dgst -sha384 -binary ' . $root . ' | openssl base64 -A', $output, $return);
-                if (is_array($output) && count($output) >= 1) {
-                    return 'sha384-' . $output[0];
+                $data = file_get_contents($root);
+                $digest_sha384 = openssl_digest($data, "sha384", true);
+                if($digest_sha384){
+                    $output = base64_encode($digest_sha384);
+                    return 'sha384-' . $output;
                 }
             }
 
