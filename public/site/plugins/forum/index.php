@@ -108,7 +108,10 @@ Kirby::plugin('mooc/forum', [
                     ]
                 ]);
 
-                $result = $request->json();
+                if ($request->code() === 200) {
+                    $result = $request->json();
+                }
+
             } else {
                 $result = ['error' => 'Check your username and / or password'];
             }

@@ -127,7 +127,7 @@ function login (state, emit) {
       xhr_call.login(opts, (err, resp, body) => {
         if (err) throw err
 
-        if (body.error || body.errors) {
+        if (resp.statusCode !== 200 || body.error || body.errors) {
           const box = form.querySelector('.error-box')
           box.classList.remove('dn')
           box.classList.add('dib')
