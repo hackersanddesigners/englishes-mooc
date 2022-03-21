@@ -96,8 +96,6 @@ function view (state, emit) {
           </div>
           <div class="pl1 pr1 os h-11">
             <h2 class="fs1 fw-r ft-mn pt1">${module.content.title}</h2>
-            <p class="pb0 fs0-8">Opens ${module.content.opening}</p>
-            <p class="fs0-8">Live classroom ${module.content.liveclass}</p>
             <div class="fs0-8">
               ${raw(txt)}
             </div>
