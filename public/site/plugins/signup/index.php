@@ -51,6 +51,18 @@ Kirby::plugin('mooc/signup', [
             $interests['faac8a2345'] = false;
           };
 
+          if (isset($mc_data['cycle-spring-summer-2022'])) {
+              $interests['67797da770'] = true;
+          } else {
+              $interests['67797da770'] = false;
+          };
+
+          if (isset($mc_data['cycle-autumn-winter-2022-3'])) {
+              $interests['95a5517a94'] = true;
+          } else {
+              $interests['95a5517a94'] = false;
+          };
+
           // mc subscribe new user
           $response = $mc->post('lists/' . $mc_listid . '/members', [
             'email_address' => $mc_data['email'],
