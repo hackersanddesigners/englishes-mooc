@@ -23,17 +23,6 @@ class texteditor extends nc {
 
     return html`
       <div>
-        <div class="file-error-box c12 x xjb pb0-5 dn">
-          <p class="dib pb0 pr1"></p>
-          <button class="tdu curp" onclick=${filemsg_toggle}>close</button>
-        </div>
-        <div class="z3 psa to r0 pt0-25 pr0-5">
-          <form method="post" enctype="multipart/form-data" class="psr oh dib">
-            <button class="butt-upload tdu curp">upload file</button>
-            <input id="upload" type="file" onchange=${upload} class="psa t0 l0 op0 curp">
-          </form>
-        </div>
-
         <div class="txa">
           <textarea for="textinput" id="msg" name="msg" rows="5" class="c12 dib ba-bk b-bk p0-25 fs1 ft-rg"></textarea>
         </div>
@@ -72,12 +61,6 @@ class texteditor extends nc {
       return function () { emit('editor_toggle') }
     }
 
-    function filemsg_toggle (e) {
-      e.preventDefault()
-      document.querySelector('.file-error-box').classList.remove('dib')
-      document.querySelector('.file-error-box').classList.add('dn')
-    }
-
     function editor_cancel (e) {
       e.preventDefault()
       document.querySelector('textarea').value = ''
@@ -96,92 +79,6 @@ class texteditor extends nc {
 
       document.querySelector('.retry').classList.add('dn')
       document.querySelector('.cancel').classList.remove('dn')
-    }
-
-    function upload (e) {
-      e.preventDefault()
-      const form = e.currentTarget
-      const file = form.files[0]
-      const send = form.parentNode.parentNode.parentNode.querySelector('.send')
-
-      let formData = new FormData()
-      formData.append('file', file)
-      formData.append('template', 'assignment')
-
-      const email = ok(api)
-      const password = ov(api)[0]
-      const auth = Buffer.from([email, password].join(':')).toString('base64')
-
-      const box = document.querySelector('.file-error-box')
-
-      let page
-      if (state.route !== '/') {
-        page = ov(state.content).filter(page => page.uri === state.route)[0]
-      } else {
-        page = ov(state.content).filter(page => page.content.status === 'current')[0]
-      }
-
-      box.classList.remove('dn')
-      box.firstChild.innerHTML = 'Uploading...'
-
-      const users = JSON.parse(localStorage.getItem('user_data'))
-
-      let file_opts = {
-        auth: auth,
-        page_id: page.id.replace('/', '+'),
-        form_data: formData,
-        user: JSON.stringify(user)
-      }
-
-      xhr_call.fileUpload(file_opts, (err, resp, body) => {
-        if (err) throw err
-        const bd = JSON.parse(body)
-
-        if (bd.status === 'error') {
-          box.firstChild.innerHTML = bd.message + '.'
-        } else {
-          file_opts['filename'] = bd.data.filename
-          xhr_call.fileTxtUpload(file_opts, (err, resp, body) => {
-            if (err) throw err
-
-            if (resp.statusCode !== 200) {
-              console.log('error: file-txt upload')
-            } else {
-              let msg = `[${bd.data.filename}](${bd.data.url})`
-              // msg = encodeURI(msg)
-
-              const post_opts = {
-                title: '',
-                disc_tab: state.disc_tab,
-                disc_id: state.components.discussion.id,
-                raw: msg,
-                username: user.username,
-                send: send
-              }
-
-              xhr_call.postUpload(post_opts, (err, resp, body) => {
-                if (err) throw err
-
-                console.log(body)
-
-                if (body.errors) {
-                  box.classList.remove('dn')
-                  box.classList.add('dib')
-
-                  box.firstChild.innerHTML = body.errors[0]
-                } else {
-                  emit('msg-posted')
-                  emit('loadmore')
-                  emit('post-pag')
-                }
-              })
-
-              console.log('file text uploaded')
-            }
-          })
-          box.firstChild.innerHTML = 'File uploaded!'
-        }
-      })
     }
 
     function onsubmit (e) {
@@ -220,8 +117,6 @@ class texteditor extends nc {
         username: user.username,
         send: send
       }
-
-      console.log('POST_OPTS', post_opts)
 
       if (body.website !== '') {
         bot.classList.remove('dn')

@@ -61,28 +61,6 @@ function signup (opts, cb) {
   }, cb)
 }
 
-function file_upload (opts, cb) {
-  xhr({
-    method: 'POST',
-    headers: {
-      Authorization: `Basic ${opts.auth}`
-    },
-    uri: `/api/pages/${opts.page_id}/files`,
-    body: opts.form_data
-  }, cb)
-}
-
-function file_txt_upload (opts, cb) {
-  xhr({
-    method: 'PATCH',
-    headers: {
-      Authorization: `Basic ${opts.auth}`
-    },
-    uri: `/api/pages/${opts.page_id}/files/${opts.filename}`,
-    body: opts.user
-  }, cb)
-}
-
 function post_upload (opts, cb) {
   xhr({
     method: 'POST',
@@ -112,8 +90,6 @@ module.exports = {
   login: login,
   logout: logout,
   signup: signup,
-  fileUpload: file_upload,
-  fileTxtUpload: file_txt_upload,
   postUpload: post_upload,
   postDelete: post_delete
 }
