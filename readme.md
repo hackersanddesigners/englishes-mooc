@@ -103,4 +103,4 @@ if you especially forget to set the tag to `discussion`, the frontend website wi
 
 see screenshot below for reference
 
-[discourse topic setup](./discourse-topic-setup.png)
+![discourse topic setup](./discourse-topic-setup.png)
